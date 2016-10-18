@@ -24,39 +24,40 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gabekeyner.nostalgia.DatabaseActivitys.Constants;
 import com.example.gabekeyner.nostalgia.DatabaseActivitys.Post;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public RecyclerView recyclerView;
+//    public RecyclerView recyclerView;
     private Context context;
 
     public static final String TAG = "Nostalgia";
     private StorageReference mStorage;
-    private DatabaseReference mDatabase;
+
     private DatabaseReference mConditionRef;
-    private FirebaseRecyclerAdapter<Post, myViewHolder> mRecyclerViewAdapter;
     private ProgressDialog mProgressDialog;
+    private DatabaseReference mPostReference;
+    private FirebaseRecyclerAdapter mFirebaseAdapter;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerView mRecyclerView;
+//    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
 
 
 
@@ -76,22 +77,19 @@ public class MainActivity extends AppCompatActivity
 
     private Uri mMediaUri;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
-//        mStorage = FirebaseStorage.getInstance().getReference();
-
-        initViews();
+        ButterKnife.bind(this);
+//        initViews();
         fabAnimations();
         fabClickable();
         fabPhoto.startAnimation(stayhidden_fab);
         fabVideo.startAnimation(stayhidden_fab);
+
+        mPostReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_POSTS);
+        setUpFirebaseAdapter();
 
         fab.postDelayed(new Runnable() {
             @Override
@@ -99,8 +97,6 @@ public class MainActivity extends AppCompatActivity
                 clickFab();
             }
         }, 2000);
-
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -116,59 +112,80 @@ public class MainActivity extends AppCompatActivity
 
 
         //Handles the Read and Write to Database
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mConditionRef = mDatabase.child("condition");
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        mConditionRef = mDatabase.child("condition");
 
 
 
     }
-    public static class myViewHolder extends RecyclerView.ViewHolder{
-        private TextView textView;
-        private ImageView imageView;
+    private void setUpFirebaseAdapter() {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Post, FirebaseViewHolder>
+                (Post.class, R.layout.card_view, FirebaseViewHolder.class, mPostReference) {
 
-        public myViewHolder(View itemView) {
-            super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.textView);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView);
-        }
-    }
-    //VIEWS
-    private void initViews() {
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        recyclerView.setLayoutManager(layoutManager);
-
-        FirebaseRecyclerAdapter<Post, myViewHolder> adapter = new FirebaseRecyclerAdapter<Post, myViewHolder>(Post.class, R.layout.card_view, myViewHolder.class, mConditionRef) {
             @Override
-            protected void populateViewHolder(myViewHolder viewHolder, Post model, int position) {
-                viewHolder.textView.setText(model.getTitle());
-//                viewHolder.imageView.setImageURI(Uri.parse(model.getImageURL()));
-                Picasso.with(context)
-                        .load(model.getImageURL())
-                        .resize(800, 500)
-                        .centerCrop()
-                        .into(viewHolder.imageView);
+            protected void populateViewHolder(FirebaseViewHolder viewHolder, Post model, int position) {
+                viewHolder.bindPost(model);
             }
         };
-        recyclerView.setAdapter(adapter);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mFirebaseAdapter);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        mConditionRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    protected void onDestroy() {
+        super.onDestroy();
+        mFirebaseAdapter.cleanup();
     }
+//    public static class myViewHolder extends RecyclerView.ViewHolder{
+//        private TextView textView;
+//        private ImageView imageView;
+//
+//        public myViewHolder(View itemView) {
+//            super(itemView);
+//            textView = (TextView) itemView.findViewById(R.id.textView);
+//            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+//        }
+//    }
+//    //VIEWS
+//    private void initViews() {
+//        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+//        recyclerView.setHasFixedSize(true);
+//        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+//        recyclerView.setLayoutManager(layoutManager);
+//
+//        FirebaseRecyclerAdapter<Post, myViewHolder> adapter = new FirebaseRecyclerAdapter<Post, myViewHolder>(Post.class, R.layout.card_view, myViewHolder.class, mConditionRef) {
+//            @Override
+//            protected void populateViewHolder(myViewHolder viewHolder, Post model, int position) {
+//                viewHolder.textView.setText(model.getTitle());
+////                viewHolder.imageView.setImageURI(Uri.parse(model.getImageURL()));
+//                Picasso.with(context)
+//                        .load(model.getImageURL())
+//                        .resize(800, 500)
+//                        .centerCrop()
+//                        .into(viewHolder.imageView);
+//            }
+//        };
+//        recyclerView.setAdapter(adapter);
+//    }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        mConditionRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -440,12 +457,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.linearViewVertical:
                 LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
                 mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
+                mRecyclerView.setLayoutManager(mLinearLayoutManagerVertical);
                 break;
 
             case R.id.staggeredViewVertical:
                 StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
+                mRecyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
                 break;
 //            noinspection SimplifiableIfStatement
 //            if (id == R.id.action_settings) {
