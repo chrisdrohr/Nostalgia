@@ -1,9 +1,6 @@
 package com.example.gabekeyner.nostalgia.DatabaseActivitys;
-
-/**
- * Created by GabeKeyner on 10/17/2016.
- */
-
+import org.parceler.Parcel;
+@Parcel
 public class Post {
 
     public String imageURL;

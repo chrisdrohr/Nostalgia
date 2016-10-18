@@ -1,5 +1,7 @@
 package com.example.gabekeyner.nostalgia;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,15 +24,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gabekeyner.nostalgia.DatabaseActivitys.Post;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,9 +49,14 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public RecyclerView recyclerView;
+    private Context context;
 
     public static final String TAG = "Nostalgia";
+    private StorageReference mStorage;
     private DatabaseReference mDatabase;
+    private DatabaseReference mConditionRef;
+    private FirebaseRecyclerAdapter<Post, myViewHolder> mRecyclerViewAdapter;
+    private ProgressDialog mProgressDialog;
 
 
 
@@ -58,7 +71,6 @@ public class MainActivity extends AppCompatActivity
     public static final int REQUEST_TAKE_VIDEO = 1;
     public static final int REQUEST_PICK_PHOTO = 2;
     public static final int REQUEST_PICK_VIDEO = 3;
-
     public static final int MEDIA_TYPE_IMAGE = 4;
     public static final int MEDIA_TYPE_VIDEO = 5;
 
@@ -72,10 +84,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
-
-
-
+//        System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
+//        mStorage = FirebaseStorage.getInstance().getReference();
 
         initViews();
         fabAnimations();
@@ -90,7 +100,7 @@ public class MainActivity extends AppCompatActivity
             }
         }, 2000);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -107,29 +117,59 @@ public class MainActivity extends AppCompatActivity
 
         //Handles the Read and Write to Database
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
+        mConditionRef = mDatabase.child("condition");
 
 
-        // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
+
+    }
+    public static class myViewHolder extends RecyclerView.ViewHolder{
+        private TextView textView;
+        private ImageView imageView;
+
+        public myViewHolder(View itemView) {
+            super(itemView);
+            textView = (TextView) itemView.findViewById(R.id.textView);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        }
+    }
+    //VIEWS
+    private void initViews() {
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        recyclerView.setLayoutManager(layoutManager);
+
+        FirebaseRecyclerAdapter<Post, myViewHolder> adapter = new FirebaseRecyclerAdapter<Post, myViewHolder>(Post.class, R.layout.card_view, myViewHolder.class, mConditionRef) {
+            @Override
+            protected void populateViewHolder(myViewHolder viewHolder, Post model, int position) {
+                viewHolder.textView.setText(model.getTitle());
+//                viewHolder.imageView.setImageURI(Uri.parse(model.getImageURL()));
+                Picasso.with(context)
+                        .load(model.getImageURL())
+                        .resize(800, 500)
+                        .centerCrop()
+                        .into(viewHolder.imageView);
+            }
+        };
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mConditionRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
+
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+    }
 
-
-}
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -137,7 +177,18 @@ public class MainActivity extends AppCompatActivity
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_TAKE_PHOTO || requestCode == REQUEST_PICK_PHOTO) {
                 if (data != null) {
+
+//                    mProgressDialog.setMessage("Uploading....");
+//                    mProgressDialog.show();
                     mMediaUri = data.getData();
+
+                    StorageReference filePath = mStorage.child("Photos").child(mMediaUri.getLastPathSegment());
+                    filePath.putFile(mMediaUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(MainActivity.this, "Memory Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 Intent intent = new Intent(this, CameraActivity.class);
                 intent.setData(mMediaUri);
@@ -362,23 +413,6 @@ public class MainActivity extends AppCompatActivity
     private void clickFab(){
         fab.callOnClick();
     }
-
-    //VIEWS
-    private void initViews() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        recyclerView.setLayoutManager(layoutManager);
-
-//        PostListAdapter adapter = new PostListAdapter(postArray,getApplicationContext());
-//        recyclerView.setAdapter(adapter);
-//
-
-//        ArrayList<ImageHelper> imageHelpers = prepareData();
-//        Adapter mAdapter = new Adapter(getApplicationContext(), imageHelpers);
-//        recyclerView.setAdapter(mAdapter);
-    }
-
 
     @Override
     public void onBackPressed() {
