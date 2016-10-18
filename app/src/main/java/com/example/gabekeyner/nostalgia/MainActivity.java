@@ -26,12 +26,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
-import com.example.gabekeyner.nostalgia.DatabaseActivitys.Constants;
 import com.example.gabekeyner.nostalgia.DatabaseActivitys.Post;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -45,7 +43,6 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-//    public RecyclerView recyclerView;
     private Context context;
 
     public static final String TAG = "Nostalgia";
@@ -59,14 +56,11 @@ public class MainActivity extends AppCompatActivity
     RecyclerView mRecyclerView;
 //    @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
 
-
-
     FloatingActionButton fab, fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3;
     Animation hide_fab, show_fab, show_fab2, show_fab3, rotate_anticlockwise, rotate_clockwise, stayhidden_fab;
     boolean isOpen = true;
 
     Post[] postArray;
-
 
     public static final int REQUEST_TAKE_PHOTO = 0;
     public static final int REQUEST_TAKE_VIDEO = 1;
@@ -88,8 +82,8 @@ public class MainActivity extends AppCompatActivity
         fabPhoto.startAnimation(stayhidden_fab);
         fabVideo.startAnimation(stayhidden_fab);
 
-        mPostReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_POSTS);
-        setUpFirebaseAdapter();
+//        mPostReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_POSTS);
+//        setUpFirebaseAdapter();
 
         fab.postDelayed(new Runnable() {
             @Override
@@ -109,14 +103,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-        //Handles the Read and Write to Database
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mConditionRef = mDatabase.child("condition");
-
-
-
     }
     private void setUpFirebaseAdapter() {
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Post, FirebaseViewHolder>
@@ -169,22 +155,6 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        };
 //        recyclerView.setAdapter(adapter);
-//    }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        mConditionRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
 //    }
 
     @Override
@@ -383,8 +353,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-
-
     private Uri getOutputMediaFileUri(int mediaType) {
         //check for external storage
         if (isExternalStorageAvailable()) {
@@ -464,10 +432,6 @@ public class MainActivity extends AppCompatActivity
                 StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                 mRecyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
                 break;
-//            noinspection SimplifiableIfStatement
-//            if (id == R.id.action_settings) {
-//                return true;
-//            }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "889770797099-7hpl45dpeqr7700gjj6hv8ndguan4nb5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gabekeyner.nostalgia",
+            "certificate_hash": "94BCBCA27AB8229D7112D165083A2BDD9463A18D"
+          }
+        },
+        {
           "client_id": "889770797099-012boc6pmb9t4imdgh1bp0elhljjdpi9.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "889770797099-012boc6pmb9t4imdgh1bp0elhljjdpi9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
