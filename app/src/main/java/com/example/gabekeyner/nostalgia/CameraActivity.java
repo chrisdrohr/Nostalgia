@@ -12,8 +12,11 @@ import android.widget.Toast;
 
 import com.example.gabekeyner.nostalgia.DatabaseActivitys.Post;
 import com.facebook.FacebookSdk;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 
@@ -23,6 +26,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     ImageView imageView;
     private Button postBtn;
     private DatabaseReference databaseReference;
+    private StorageReference storageReference;
+    private Uri mMediaUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +70,20 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         Picasso.with(this).load(imageUri).into(imageView);
     }
     private void postInformation(){
-//        String imageURL = imageView.getContext().toString();
+        String imageURL = imageView.getContext().toString();
         String title = mTitle.getText().toString().trim();
 
-        Post post = new Post(null, title);
+//        mMediaUri
+
+        Post post = new Post(imageURL, title);
         databaseReference.child(post.getTitle().toString()).setValue(post);
+        StorageReference filePath = storageReference.child("Photos").child(mMediaUri.getLastPathSegment());
+        filePath.putFile(mMediaUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(CameraActivity.this, "Memory Uploaded", Toast.LENGTH_SHORT).show();
+            }
+        });
 //        databaseReference.child(post.getImageURL()).setValue(post);
 
         Toast.makeText(this, "Upload Successful", Toast.LENGTH_SHORT).show();

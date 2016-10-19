@@ -28,6 +28,7 @@ public class FirebaseViewHolder extends RecyclerView.ViewHolder implements View.
     View mView;
     Context mContext;
 
+
     public FirebaseViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
