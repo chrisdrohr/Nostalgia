@@ -14,6 +14,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static com.example.gabekeyner.nostalgia.R.id.imageView;
+
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private ArrayList<ImageHelper> images;
@@ -72,6 +74,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return images.size();
@@ -97,8 +100,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 }
             });
             mTextView = (TextView) itemView.findViewById(R.id.textView);
-            mImageView = (ImageView) itemView.findViewById(R.id.imageView);
+            mImageView = (ImageView) itemView.findViewById(imageView);
         }
 
     }
+//    public void sharedElementTransition(View view) {
+//        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.class, , "detailTransition");
+//        Intent intent = new Intent(MainActivity.this,DetailActivity.class);
+//        startActivity(intent, options.toBundle());
+//    }
 }

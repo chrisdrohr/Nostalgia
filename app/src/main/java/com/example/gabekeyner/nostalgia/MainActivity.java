@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final String TAG = "Nostalgia";
     private DatabaseReference mDatabase;
-    public ImageView mImageView;
+    private ImageView imageView;
     private StorageReference mStorage;
 
     FloatingActionButton fab, fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3;
@@ -52,53 +52,10 @@ public class MainActivity extends AppCompatActivity
     Post[] postArray;
 
     private final String image_names[] = {
-            "City",
-            "ADI",
-            "Friends",
-            "Family",
-            "Birthday",
-            "Adventure",
-            "Hanging Out",
-            "Board Walk",
-            "Wall-E",
-            "Grid",
-            "Washington",
-            "City Bridge",
-            "Nature Tunnel",
-            "City at Dusk",
-            "Eiffel Tower",
-            "Nebula",
-            "Beachin It",
-            "Autumn",
-            "The Warf",
-            "River Sunset",
-            "Winter",
-            "So Green",
-            "Metropolis",
-            "Cherry Blossom",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image",
-            "Image"
+            "City", "ADI", "Friends", "Family", "Birthday", "Adventure", "Hanging Out", "Board Walk", "Wall-E", "Grid", "Washington", "City Bridge", "Nature Tunnel", "City at Dusk",
+            "Eiffel Tower", "Nebula", "Beachin It", "Autumn", "The Warf", "River Sunset", "Winter", "So Green", "Metropolis", "Cherry Blossom", "Image", "Image", "Image",
+            "Image", "Image", "Image", "Image",
+            "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image"
     };
 
     private final String image_urls[] = {
@@ -156,6 +113,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        imageView = (ImageView) findViewById(R.id.imageView);
 
         System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
         initViews();
@@ -211,7 +169,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
-
 
     private void fabAnimations() {
         //ANIMATION LAYOUTS

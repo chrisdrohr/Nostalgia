@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 
 public class DetailActivity extends AppCompatActivity {
 
-   private ArrayAdapter<String>adapter;
+    private ArrayAdapter<String> adapter;
     private EditText typeComment;
     private ArrayList<String> itemList;
 
@@ -28,21 +29,24 @@ public class DetailActivity extends AppCompatActivity {
     TextView titleTxt;
 
     ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_view);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //TODO adding comment section (using arraylist)
-
-        String[] items={"Apple","Banana","Clementine"};
-        itemList=new ArrayList<String>(Arrays.asList(items));
-       adapter = new ArrayAdapter<>(
-               this,
-               R.layout.comment_item,
-               R.id.comment_txt_item,itemList);
+        String[] items = {"Apple", "Banana", "Clementine"};
+        itemList = new ArrayList<String>(Arrays.asList(items));
+        adapter = new ArrayAdapter<>(
+                this,
+                R.layout.comment_item,
+                R.id.comment_txt_item, itemList);
 
         ListView LV = (ListView) findViewById(R.id.postedComments);
         LV.setAdapter(adapter);
@@ -65,8 +69,8 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        titleTxt = (TextView)findViewById(R.id.detailTitle);
-        imageView = (ImageView)findViewById(R.id.detialView);
+        titleTxt = (TextView) findViewById(R.id.detailTitle);
+        imageView = (ImageView) findViewById(R.id.detialView);
         fab.startAnimation(fade_in);
         titleTxt.startAnimation(fade_in);
 
@@ -79,9 +83,19 @@ public class DetailActivity extends AppCompatActivity {
         //Bind Data
 
         titleTxt.setText(title);
-        PicassoClient.downloadImage(this,imageUrl,imageView);
+        PicassoClient.downloadImage(this, imageUrl, imageView);
 
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finishAfterTransition();
+        return true;
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAfterTransition();
+    }
 }
