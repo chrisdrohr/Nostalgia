@@ -31,5 +31,6 @@
         completions."
     </string>
     <string name="sign_in">Sign In</string>
+    <string name="fresh_config">Fresh Configuration</string>
 
 </resources>

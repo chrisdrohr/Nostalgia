@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.gabekeyner.nostalgia.FirebaseClasses.Post;
@@ -32,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
@@ -51,10 +53,12 @@ public class MainActivity extends AppCompatActivity
     private String mUsername;
     private String mPhotoUrl;
     private GoogleApiClient mGoogleApiClient;
+    private EditText mEditText;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     FloatingActionButton fab, fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3;
     Animation hide_fab, show_fab, show_fab2, show_fab3, rotate_anticlockwise, rotate_clockwise, stayhidden_fab;
@@ -140,6 +144,27 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+//        // Initialize Firebase Remote Config.
+//        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+//
+//// Define Firebase Remote Config Settings.
+//        FirebaseRemoteConfigSettings firebaseRemoteConfigSettings =
+//                new FirebaseRemoteConfigSettings.Builder()
+//                        .setDeveloperModeEnabled(true)
+//                        .build();
+//
+//// Define default config values. Defaults are used when fetched config values are not
+//// available. Eg: if an error occurred fetching values from the server.
+//        Map<String, Object> defaultConfigMap = new HashMap<>();
+//        defaultConfigMap.put("friendly_msg_length", 10L);
+//
+//// Apply config settings and default values.
+//        mFirebaseRemoteConfig.setConfigSettings(firebaseRemoteConfigSettings);
+//        mFirebaseRemoteConfig.setDefaults(defaultConfigMap);
+//
+//// Fetch remote config.
+//        fetchConfig();
+
         imageView = (ImageView) findViewById(R.id.imageView);
 
         System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
@@ -196,6 +221,49 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+//    // Fetch the config to determine the allowed length of messages.
+//    public void fetchConfig() {
+//        long cacheExpiration = 3600; // 1 hour in seconds
+//        // If developer mode is enabled reduce cacheExpiration to 0 so that
+//        // each fetch goes to the server. This should not be used in release
+//        // builds.
+//        if (mFirebaseRemoteConfig.getInfo().getConfigSettings()
+//                .isDeveloperModeEnabled()) {
+//            cacheExpiration = 0;
+//        }
+//        mFirebaseRemoteConfig.fetch(cacheExpiration)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        // Make the fetched config available via
+//                        // FirebaseRemoteConfig get<type> calls.
+//                        mFirebaseRemoteConfig.activateFetched();
+//                        applyRetrievedLengthLimit();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        // There has been an error fetching the config
+//                        Log.w(TAG, "Error fetching config: " +
+//                                e.getMessage());
+//                        applyRetrievedLengthLimit();
+//                    }
+//                });
+//    }
+    /**
+     * Apply retrieved length limit to edit text field.
+     * This result may be fresh from the server or it may be from cached
+     * values.
+     */
+//    mEditText = (EditText) findViewById(R.id.commentEditText);
+//    private void applyRetrievedLengthLimit() {
+//        Long friendly_msg_length =
+//                mFirebaseRemoteConfig.getLong("friendly_msg_length");
+//        mEditText.setFilters(new InputFilter[]{new
+//                InputFilter.LengthFilter(friendly_msg_length.intValue())});
+//        Log.d(TAG, "FML is: " + friendly_msg_length);
+//    }
 
     private void fabAnimations() {
         //ANIMATION LAYOUTS
@@ -389,6 +457,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         //LAYOUTS & ORIENTATIONS
         switch (id) {
+//            case R.id.fresh_config_menu:
+//                fetchConfig();
+//                return true;
             case R.id.sign_out_menu:
                 mFirebaseAuth.signOut();
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
