@@ -1,4 +1,4 @@
-package com.example.gabekeyner.nostalgia.FirebaseClasses;
+package com.example.gabekeyner.nostalgia;
 
 import android.util.Log;
 
