@@ -1,22 +1,41 @@
 package com.example.gabekeyner.nostalgia.DatabaseActivitys;
 
-/**
- * Created by GabeKeyner on 10/17/2016.
- */
-
 public class Comment {
 
-        public String groupName;
-        public String userName;
-        public String comment;
+        private String text;
+        private String name;
+        private String photoUrl;
 
+        public Comment() {
+        }
 
-        @Override
-        public String toString() {
-                return "Comment{" +
-                        "groupName='" + groupName + '\'' +
-                        ", userName='" + userName + '\'' +
-                        ", comment='" + comment + '\'' +
-                        '}';
+        public Comment(String text, String name, String photoUrl) {
+                this.text = text;
+                this.name = name;
+                this.photoUrl = photoUrl;
+        }
+
+        public String getText() {
+                return text;
+        }
+
+        public void setText(String text) {
+                this.text = text;
+        }
+
+        public String getName() {
+                return name;
+        }
+
+        public void setName(String name) {
+                this.name = name;
+        }
+
+        public String getPhotoUrl() {
+                return photoUrl;
+        }
+
+        public void setPhotoUrl(String photoUrl) {
+                this.photoUrl = photoUrl;
         }
 }

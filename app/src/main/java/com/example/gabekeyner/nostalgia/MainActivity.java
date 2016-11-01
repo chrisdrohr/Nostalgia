@@ -22,6 +22,10 @@ import android.widget.ImageView;
 
 import com.example.gabekeyner.nostalgia.DatabaseActivitys.Post;
 import com.facebook.CallbackManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +46,15 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference mDatabase;
     private ImageView imageView;
     private StorageReference mStorage;
+
+    public static final String ANONYMOUS = "anonymous";
+    private String mUsername;
+    private String mPhotoUrl;
+    private GoogleApiClient mGoogleApiClient;
+
+    // Firebase instance variables
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     FloatingActionButton fab, fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3;
     Animation hide_fab, show_fab, show_fab2, show_fab3, rotate_anticlockwise, rotate_clockwise, stayhidden_fab;
@@ -111,6 +124,21 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, SignInActivity.class));
+            finish();
+            return;
+        } else {
+            mUsername = mFirebaseUser.getDisplayName();
+            if (mFirebaseUser.getPhotoUrl() != null) {
+                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+            }
+        }
 
         imageView = (ImageView) findViewById(R.id.imageView);
 
@@ -361,6 +389,12 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         //LAYOUTS & ORIENTATIONS
         switch (id) {
+            case R.id.sign_out_menu:
+                mFirebaseAuth.signOut();
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                mUsername = ANONYMOUS;
+                startActivity(new Intent(this, SignInActivity.class));
+                return true;
             case R.id.linearViewVertical:
                 LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
                 mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
@@ -371,6 +405,7 @@ public class MainActivity extends AppCompatActivity
                 StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
                 break;
+            default:
         }
         return super.onOptionsItemSelected(item);
     }
