@@ -13,20 +13,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.gabekeyner.nostalgia.FirebaseClasses.Post;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
@@ -48,10 +52,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     private static final String TAG = CameraActivity.class.getCanonicalName();
 
+    //FireBase
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+
 
     private String filepath;
     private EditText mTitle;
-    private FloatingActionButton postBtn;
+    private FloatingActionButton mUploadFab;
+    private ProgressBar progressBar;
     private ImageView mImageView;
     private Uri mMediaUri;
 
@@ -60,8 +68,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     private DatabaseReference databaseReference;
     private StorageReference storageReference;
-    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference listRef = mRootRef.child("post");
+    private DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference listRef = mRootRef.child("post");
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,32 +78,29 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_camera);
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+//        databaseReference = FirebaseDatabase.getInstance().getReference();
 
 
         mTitle = (EditText) findViewById(R.id.editText);
         mImageView = (ImageView) findViewById(R.id.cameraImageView);
+
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+        mUploadFab = (FloatingActionButton) findViewById(R.id.uploadFab);
+        mUploadFab.setOnClickListener(this);
 //        mVideoView = (VideoView) findViewById(R.id.cameraVideoView);
 
-        postBtn = (FloatingActionButton) findViewById(R.id.post_button);
-        postBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //TODO Handles the post message to the Realtime Database[in process]
-                Post message = new Post(imageURL, title);
-                FireBaseReadWrite fb = new FireBaseReadWrite().writeFirebase(mTitle.getText().toString(), "");
-
-
-            }
-        });
-
-
-//        public void onResume() {
-//            super.onResume();  // Always call the superclass method first
+//        postBtn = (FloatingActionButton) findViewById(R.id.post_button);
+//        postBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Post message = new Post(imageURL, title);
+//                FireBaseReadWrite fb = new FireBaseReadWrite().writeFirebase(mTitle.getText().toString(), "");
 //
 //
-//        }
+//            }
+//        });
 
         //check flag variable
         Bundle extras = getIntent().getExtras();
@@ -130,7 +135,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
     }
-
 
     public Uri getOutputMediaFileUri(int mediaType) {
         //check for external storage
@@ -174,7 +178,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -188,13 +191,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     mImageView.setImageBitmap(bitmap);
                 }
-//                    StorageReference filePath = mStorage.child("Photos").child(mMediaUri.getLastPathSegment());
-//                    filePath.putFile(mMediaUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            Toast.makeText(CameraActivity.this, "Memory Uploaded", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
+
             } else if (requestCode == REQUEST_PICK_PHOTO) {
                 if (data != null) {
                     mMediaUri = data.getData();
@@ -225,32 +222,85 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void postInformation() {
-        String imageURL = mImageView.getContext().toString();
-        String title = mTitle.getText().toString().trim();
-
-//        mMediaUri
-
-        Post post = new Post(imageURL, title);
-        databaseReference.child(post.getTitle().toString()).setValue(post);
-
-        StorageReference filePath = storageReference.child("Photos").child(mMediaUri.getLastPathSegment());
-        filePath.putFile(mMediaUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(CameraActivity.this, "Memory Uploaded", Toast.LENGTH_SHORT).show();
-            }
-        });
-//        databaseReference.child(post.getImageURL()).setValue(post);
-
-        Toast.makeText(this, "Upload Successful", Toast.LENGTH_SHORT).show();
-    }
+//    private class UploadOnClickListener implements View.OnClickListener {
+//        @Override
+//        public void onClick(View v) {
+//            mImageView.setDrawingCacheEnabled(true);
+//            mImageView.buildDrawingCache();
+//            Bitmap bitmap = mImageView.getDrawingCache();
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//            mImageView.setDrawingCacheEnabled(false);
+//            byte[] data = baos.toByteArray();
+//
+//            String path = "posts/" + UUID.randomUUID() + ".jpg";
+//            StorageReference photoRef = storage.getReference(path);
+//            StorageMetadata metadata = new StorageMetadata.Builder()
+//                    .setCustomMetadata("text", mTitle.getText().toString())
+//                    .build();
+//
+//            progressBar.setVisibility(View.VISIBLE);
+//            mUploadFab.setEnabled(false);
+//
+//            UploadTask uploadTask = photoRef.putBytes(data, metadata);
+//            uploadTask.addOnSuccessListener(CameraActivity.this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    progressBar.setVisibility(View.GONE);
+//                    mUploadFab.setEnabled(true);
+//
+//                    Uri url = taskSnapshot.getDownloadUrl();
+//                }
+//            });
+//        }
+//    }
 
     @Override
     public void onClick(View v) {
-        postInformation();
-    }
+        mImageView.setDrawingCacheEnabled(true);
+        mImageView.buildDrawingCache();
+        Bitmap bitmap = mImageView.getDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        mImageView.setDrawingCacheEnabled(false);
+        byte[] data = baos.toByteArray();
 
+        String path = "posts/" + UUID.randomUUID() + ".jpg";
+        StorageReference photoRef = storage.getReference(path);
+        StorageMetadata metadata = new StorageMetadata.Builder()
+                .setCustomMetadata("text", mTitle.getText().toString())
+                .build();
+
+        progressBar.setVisibility(View.VISIBLE);
+        mUploadFab.setEnabled(false);
+
+        UploadTask uploadTask = photoRef.putBytes(data, metadata);
+        uploadTask.addOnSuccessListener(CameraActivity.this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                progressBar.setVisibility(View.GONE);
+                mUploadFab.setEnabled(true);
+
+                Uri url = taskSnapshot.getDownloadUrl();
+            }
+        });
+    }
+//    private void postInformation() {
+//        String imageURL = mImageView.getContext().toString();
+//        String title = mTitle.getText().toString().trim();
+//        Post post = new Post(imageURL, title);
+//        databaseReference.child(post.getTitle().toString()).setValue(post);
+//        StorageReference filePath = storageReference.child("Photos").child(mMediaUri.getLastPathSegment());
+//
+//        filePath.putFile(mMediaUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                Toast.makeText(CameraActivity.this, "Memory Uploaded", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        Toast.makeText(this, "Upload Successful", Toast.LENGTH_SHORT).show();
+//    }
 }
 
 

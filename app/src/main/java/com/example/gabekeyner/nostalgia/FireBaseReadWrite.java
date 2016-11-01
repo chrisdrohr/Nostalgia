@@ -9,9 +9,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-/**
- * Created by GabeKeyner on 10/17/2016.
- */
 
 public class FireBaseReadWrite {
 
