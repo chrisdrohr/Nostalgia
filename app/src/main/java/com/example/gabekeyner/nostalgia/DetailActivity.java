@@ -3,7 +3,6 @@ package com.example.gabekeyner.nostalgia;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,12 +46,17 @@ public class DetailActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private RecyclerView mCommentRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
+    private FloatingActionButton mSendFab;
+
+    private String mUsername;
+    private String mPhotoUrl;
+    private EditText mEditText;
 
     // Firebase instance variables
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseRecyclerAdapter<Comment, MessageViewHolder>mFirebaseAdapter;
 
-    private EditText typeComment;
+
     private ArrayList<String> itemList;
 
     Animation fade_in;
@@ -139,23 +143,23 @@ public class DetailActivity extends AppCompatActivity {
 
         fade_in = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_detail);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.addBtn);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Comment Posted", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
-                String newItem = typeComment.getText().toString();
-                // Add new comment to ArrayList TODO need to add comment to database
-                itemList.add(newItem);
-//                adapter.notifyDataSetChanged();
-
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.sendFab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Comment Posted", Snackbar.LENGTH_SHORT)
+//                        .setAction("Action", null).show();
+//                String newItem = typeComment.getText().toString();
+//                // Add new comment to ArrayList TODO need to add comment to database
+//                itemList.add(newItem);
+////                adapter.notifyDataSetChanged();
+//
+//            }
+//        });
 
         titleTxt = (TextView) findViewById(R.id.detailTitle);
         imageView = (ImageView) findViewById(R.id.detialView);
-        fab.startAnimation(fade_in);
+//        sendFab.startAnimation(fade_in);
         titleTxt.startAnimation(fade_in);
 
 
@@ -168,6 +172,22 @@ public class DetailActivity extends AppCompatActivity {
 
         titleTxt.setText(title);
         PicassoClient.downloadImage(this, imageUrl, imageView);
+
+        // Send function to comment
+        mEditText = (EditText) findViewById(R.id.commentEditText);
+        mSendFab = (FloatingActionButton) findViewById(R.id.sendFab);
+        mSendFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Comment comment = new
+                        Comment(mEditText.getText().toString(),
+                        mUsername,
+                        mPhotoUrl);
+                mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                        .push().setValue(comment);
+                mEditText.setText("");
+            }
+        });
 
     }
 
