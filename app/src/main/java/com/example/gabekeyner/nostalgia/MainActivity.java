@@ -20,7 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.example.gabekeyner.nostalgia.DatabaseActivitys.Post;
+import com.example.gabekeyner.nostalgia.FirebaseClasses.Post;
 import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;

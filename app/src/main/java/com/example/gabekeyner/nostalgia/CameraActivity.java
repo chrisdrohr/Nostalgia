@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.gabekeyner.nostalgia.DatabaseActivitys.Post;
+import com.example.gabekeyner.nostalgia.FirebaseClasses.Post;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;

@@ -2,7 +2,7 @@ package com.example.gabekeyner.nostalgia;
 
 import android.util.Log;
 
-import com.example.gabekeyner.nostalgia.DatabaseActivitys.Post;
+import com.example.gabekeyner.nostalgia.FirebaseClasses.Post;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

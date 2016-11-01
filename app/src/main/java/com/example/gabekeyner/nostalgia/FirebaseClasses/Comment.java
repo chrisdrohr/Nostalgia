@@ -1,4 +1,4 @@
-package com.example.gabekeyner.nostalgia.DatabaseActivitys;
+package com.example.gabekeyner.nostalgia.FirebaseClasses;
 
 public class Comment {
 

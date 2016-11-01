@@ -1,4 +1,4 @@
-package com.example.gabekeyner.nostalgia.DatabaseActivitys;
+package com.example.gabekeyner.nostalgia.FirebaseClasses;
 
 /**
  * Created by GabeKeyner on 10/17/2016.
