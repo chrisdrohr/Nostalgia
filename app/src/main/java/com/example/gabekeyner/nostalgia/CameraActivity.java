@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -59,11 +60,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private ProgressBar progressBar;
     private ImageView mImageView;
     private Uri mMediaUri;
+    private DatabaseReference databaseReference;
 
 //    private String imageURL;
 //    private String title;
-//
-//    private DatabaseReference databaseReference;
 //    private StorageReference storageReference;
 //    private DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
 //    private DatabaseReference listRef = mRootRef.child("post");

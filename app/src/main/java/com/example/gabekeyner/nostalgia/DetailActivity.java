@@ -22,9 +22,9 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.example.gabekeyner.nostalgia.R.id.sendFab;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -41,7 +41,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    public static final String MESSAGES_CHILD = "comments";
+    public static final String COMMENTS_CHILD = "posts/comments";
     private ProgressBar mProgressBar;
     private RecyclerView mCommentRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
@@ -57,7 +57,7 @@ public class DetailActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<Comment, MessageViewHolder>mFirebaseAdapter;
 
 
-    private ArrayList<String> itemList;
+//    private ArrayList<String> itemList;
 
     Animation fade_in;
     TextView titleTxt;
@@ -81,13 +81,13 @@ public class DetailActivity extends AppCompatActivity {
         mLinearLayoutManager.setStackFromEnd(true);
         mCommentRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-// New child entries
+        // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
                 Comment.class,
                 R.layout.item_comment,
                 MessageViewHolder.class,
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)) {
+                mFirebaseDatabaseReference.child(COMMENTS_CHILD)) {
 
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, int position) {
@@ -128,34 +128,7 @@ public class DetailActivity extends AppCompatActivity {
         mCommentRecyclerView.setLayoutManager(mLinearLayoutManager);
         mCommentRecyclerView.setAdapter(mFirebaseAdapter);
 
-//        //TODO adding comment section (using arraylist)
-//        String[] items = {"Apple", "Banana", "Clementine"};
-//        itemList = new ArrayList<String>(Arrays.asList(items));
-//        adapter = new ArrayAdapter<>(
-//                this,
-//                R.layout.comment_item,
-//                R.id.comment_txt_item, itemList);
-//
-//        ListView LV = (ListView) findViewById(R.id.postedComments);
-//        LV.setAdapter(adapter);
-//        typeComment = (EditText) findViewById(R.id.comment);
-
-
         fade_in = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_detail);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.sendFab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Comment Posted", Snackbar.LENGTH_SHORT)
-//                        .setAction("Action", null).show();
-//                String newItem = typeComment.getText().toString();
-//                // Add new comment to ArrayList TODO need to add comment to database
-//                itemList.add(newItem);
-////                adapter.notifyDataSetChanged();
-//
-//            }
-//        });
 
         titleTxt = (TextView) findViewById(R.id.detailTitle);
         imageView = (ImageView) findViewById(R.id.detialView);
@@ -169,13 +142,11 @@ public class DetailActivity extends AppCompatActivity {
         String imageUrl = intent.getExtras().getString("imageUrl");
 
         //Bind Data
-
         titleTxt.setText(title);
-//        PicassoClient.downloadImage(this, imageUrl, imageView);
 
         // Send function to comment
         mEditText = (EditText) findViewById(R.id.commentEditText);
-        mSendFab = (FloatingActionButton) findViewById(R.id.sendFab);
+        mSendFab = (FloatingActionButton) findViewById(sendFab);
         mSendFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,7 +156,7 @@ public class DetailActivity extends AppCompatActivity {
                         mPhotoUrl,
                         mTimestamp
                         );
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD)
+                mFirebaseDatabaseReference.child(COMMENTS_CHILD)
                         .push().setValue(comment);
                 mEditText.setText("");
             }

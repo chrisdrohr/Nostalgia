@@ -35,6 +35,5 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         AnimationUtil.setScaleAnimation(viewHolder.mImageView);
         AnimationUtil.setFadeAnimation(viewHolder.mTitle);
         AnimationUtil.setAnimation(viewHolder.mImageView, lastPosition);
-
     }
 }
