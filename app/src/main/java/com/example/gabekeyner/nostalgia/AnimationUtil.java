@@ -5,6 +5,7 @@ package com.example.gabekeyner.nostalgia;
         import android.animation.ObjectAnimator;
         import android.support.v7.widget.RecyclerView;
         import android.view.View;
+        import android.view.animation.AccelerateDecelerateInterpolator;
         import android.view.animation.AlphaAnimation;
         import android.view.animation.Animation;
         import android.view.animation.ScaleAnimation;
@@ -18,8 +19,11 @@ public class AnimationUtil {
     public static void animate(RecyclerView.ViewHolder holder, boolean goesDown){
         AnimatorSet animatorSet = new AnimatorSet();
         ObjectAnimator animatorTranslateY = ObjectAnimator.ofFloat(holder.itemView, "translationY", goesDown==true ? 800 : -800, 0);
-        animatorTranslateY.setDuration(800);
-        animatorSet.playTogether(animatorTranslateY);
+        ObjectAnimator animatorTranslateX = ObjectAnimator.ofFloat(holder.itemView, "translationX", 1000, 0);
+        animatorTranslateY.setDuration(600);
+        animatorTranslateX.setDuration(500);
+        animatorSet.playTogether(animatorTranslateY, animatorTranslateX);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
         animatorSet.start();
     }
     public static void setScaleAnimation(View view) {
