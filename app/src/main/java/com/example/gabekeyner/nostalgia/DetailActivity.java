@@ -49,6 +49,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private String mUsername;
     private String mPhotoUrl;
+    private String mTimestamp;
     private EditText mEditText;
 
     // Firebase instance variables
@@ -92,7 +93,7 @@ public class DetailActivity extends AppCompatActivity {
             protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, int position) {
 //                mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 viewHolder.commentTextView.setText(model.getText());
-                viewHolder.commentNameTextView.setText(model.getName());
+                viewHolder.commentNameTextView.setText(model.getUser());
                 if (model.getPhotoUrl() == null) {
                     viewHolder.commentImageView
                             .setImageDrawable(ContextCompat
@@ -181,7 +182,9 @@ public class DetailActivity extends AppCompatActivity {
                 Comment comment = new
                         Comment(mEditText.getText().toString(),
                         mUsername,
-                        mPhotoUrl);
+                        mPhotoUrl,
+                        mTimestamp
+                        );
                 mFirebaseDatabaseReference.child(MESSAGES_CHILD)
                         .push().setValue(comment);
                 mEditText.setText("");

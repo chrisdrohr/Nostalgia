@@ -49,6 +49,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private static final String TAG = CameraActivity.class.getCanonicalName();
 
     //FireBase
+
     private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     private String filepath;
