@@ -18,7 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.gabekeyner.nostalgia.FirebaseClasses.Comment;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -171,7 +170,7 @@ public class DetailActivity extends AppCompatActivity {
         //Bind Data
 
         titleTxt.setText(title);
-        PicassoClient.downloadImage(this, imageUrl, imageView);
+//        PicassoClient.downloadImage(this, imageUrl, imageView);
 
         // Send function to comment
         mEditText = (EditText) findViewById(R.id.commentEditText);

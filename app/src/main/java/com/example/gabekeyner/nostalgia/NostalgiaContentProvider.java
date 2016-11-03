@@ -6,10 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-/**
- * Created by GabeKeyner on 10/17/2016.
- */
-
 public class NostalgiaContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {

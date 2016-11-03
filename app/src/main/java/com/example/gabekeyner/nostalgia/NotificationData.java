@@ -1,4 +1,4 @@
-package com.example.gabekeyner.nostalgia.FirebaseClasses;
+package com.example.gabekeyner.nostalgia;
 
 /**
  * Created by GabeKeyner on 10/14/2016.

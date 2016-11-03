@@ -3,7 +3,6 @@ package com.example.gabekeyner.nostalgia;
 import android.content.Context;
 
 import com.bumptech.glide.Glide;
-import com.example.gabekeyner.nostalgia.FirebaseClasses.Post;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.Query;
 
