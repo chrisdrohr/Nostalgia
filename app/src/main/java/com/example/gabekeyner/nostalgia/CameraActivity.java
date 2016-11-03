@@ -16,10 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.facebook.FacebookSdk;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -31,7 +28,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
-
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,31 +51,27 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     //FireBase
     private FirebaseStorage storage = FirebaseStorage.getInstance();
 
-
     private String filepath;
+//    private String mMediaUri;
     private EditText mTitle;
     private FloatingActionButton mUploadFab;
     private ProgressBar progressBar;
     private ImageView mImageView;
     private Uri mMediaUri;
 
-    private String imageURL;
-    private String title;
-
-    private DatabaseReference databaseReference;
-    private StorageReference storageReference;
-    private DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-    private DatabaseReference listRef = mRootRef.child("post");
+//    private String imageURL;
+//    private String title;
+//
+//    private DatabaseReference databaseReference;
+//    private StorageReference storageReference;
+//    private DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+//    private DatabaseReference listRef = mRootRef.child("post");
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_camera);
-
-
-//        databaseReference = FirebaseDatabase.getInstance().getReference();
-
 
         mTitle = (EditText) findViewById(R.id.editText);
         mImageView = (ImageView) findViewById(R.id.cameraImageView);
@@ -88,19 +80,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         progressBar.setVisibility(View.GONE);
         mUploadFab = (FloatingActionButton) findViewById(R.id.uploadFab);
         mUploadFab.setOnClickListener(this);
-//        mVideoView = (VideoView) findViewById(R.id.cameraVideoView);
-
-//        postBtn = (FloatingActionButton) findViewById(R.id.post_button);
-//        postBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Post message = new Post(imageURL, title);
-//                FireBaseReadWrite fb = new FireBaseReadWrite().writeFirebase(mTitle.getText().toString(), "");
-//
-//
-//            }
-//        });
 
         //check flag variable
         Bundle extras = getIntent().getExtras();
@@ -184,7 +163,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_TAKE_PHOTO) {
-
                 //CREATES FILE FOR THE IMAGE
                 File file = new File(filepath);
                 if (file.exists()) {
@@ -219,41 +197,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         {
             Toast.makeText(this, "Sorry, there was an error!", Toast.LENGTH_LONG).show();
         }
-
     }
-
-//    private class UploadOnClickListener implements View.OnClickListener {
-//        @Override
-//        public void onClick(View v) {
-//            mImageView.setDrawingCacheEnabled(true);
-//            mImageView.buildDrawingCache();
-//            Bitmap bitmap = mImageView.getDrawingCache();
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//            mImageView.setDrawingCacheEnabled(false);
-//            byte[] data = baos.toByteArray();
-//
-//            String path = "posts/" + UUID.randomUUID() + ".jpg";
-//            StorageReference photoRef = storage.getReference(path);
-//            StorageMetadata metadata = new StorageMetadata.Builder()
-//                    .setCustomMetadata("text", mTitle.getText().toString())
-//                    .build();
-//
-//            progressBar.setVisibility(View.VISIBLE);
-//            mUploadFab.setEnabled(false);
-//
-//            UploadTask uploadTask = photoRef.putBytes(data, metadata);
-//            uploadTask.addOnSuccessListener(CameraActivity.this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    progressBar.setVisibility(View.GONE);
-//                    mUploadFab.setEnabled(true);
-//
-//                    Uri url = taskSnapshot.getDownloadUrl();
-//                }
-//            });
-//        }
-//    }
 
     @Override
     public void onClick(View v) {
@@ -268,7 +212,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         String path = "posts/" + UUID.randomUUID() + ".jpg";
         StorageReference photoRef = storage.getReference(path);
         StorageMetadata metadata = new StorageMetadata.Builder()
-                .setCustomMetadata("text", mTitle.getText().toString())
+                .setCustomMetadata("title", mTitle.getText().toString())
                 .build();
 
         progressBar.setVisibility(View.VISIBLE);
@@ -280,27 +224,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressBar.setVisibility(View.GONE);
                 mUploadFab.setEnabled(true);
+                Toast.makeText(CameraActivity.this, "Memory Uploaded!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(CameraActivity.this, MainActivity.class));
 
                 Uri url = taskSnapshot.getDownloadUrl();
             }
         });
     }
-//    private void postInformation() {
-//        String imageURL = mImageView.getContext().toString();
-//        String title = mTitle.getText().toString().trim();
-//        Post post = new Post(imageURL, title);
-//        databaseReference.child(post.getTitle().toString()).setValue(post);
-//        StorageReference filePath = storageReference.child("Photos").child(mMediaUri.getLastPathSegment());
-//
-//        filePath.putFile(mMediaUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Toast.makeText(CameraActivity.this, "Memory Uploaded", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        Toast.makeText(this, "Upload Successful", Toast.LENGTH_SHORT).show();
-//    }
 }
 
 

@@ -19,9 +19,7 @@
     <EditText
         android:id="@+id/editText"
         android:layout_width="0dp"
-        android:layout_height="64dp"
-        android:hint="   Write a caption..."
-        android:textColor="@android:color/white"
+        android:hint="Caption your memory.."
         android:elevation="2dp"
         android:background="@color/DarkColor"
         android:isScrollContainer="true"
@@ -31,7 +29,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="50dp"
+        style="@android:style/Widget.Holo.Light.EditText"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:typeface="monospace"
+        android:textSize="14sp"
+        android:textStyle="normal|italic" />
 
     <ImageView
         android:layout_width="0dp"
@@ -50,7 +55,7 @@
         android:text="Post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fabSize="normal"
+        app:fabSize="mini"
         app:backgroundTint="@color/colorAccent"
         android:tint="@color/MainColor"
         app:pressedTranslationZ="12dp"

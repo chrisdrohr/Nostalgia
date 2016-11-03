@@ -18,8 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.example.gabekeyner.nostalgia.FirebaseClasses.Post;
 import com.facebook.CallbackManager;
@@ -36,93 +34,33 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     public RecyclerView recyclerView;
     CallbackManager callbackManager;
+//    public static final String TAG = "Nostalgia";
 
-    public static final String TAG = "Nostalgia";
     private DatabaseReference mDatabase;
-    private ImageView imageView;
+    private DatabaseReference mChildRef;
     private StorageReference mStorage;
+    private PostAdapter mPostAdapter;
 
     public static final String ANONYMOUS = "anonymous";
     private String mUsername;
     private String mPhotoUrl;
     private GoogleApiClient mGoogleApiClient;
-    private EditText mEditText;
+//    private EditText mEditText;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
-
     FloatingActionButton fab, fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3;
     Animation hide_fab, show_fab, show_fab2, show_fab3, rotate_anticlockwise, rotate_clockwise, stayhidden_fab;
     boolean isOpen = true;
-
-    //Handles the the array for the database
-    Post[] postArray;
-
-    private final String image_names[] = {
-            "City", "ADI", "Friends", "Family", "Birthday", "Adventure", "Hanging Out", "Board Walk", "Wall-E", "Grid", "Washington", "City Bridge", "Nature Tunnel", "City at Dusk",
-            "Eiffel Tower", "Nebula", "Beachin It", "Autumn", "The Warf", "River Sunset", "Winter", "So Green", "Metropolis", "Cherry Blossom", "Image", "Image", "Image",
-            "Image", "Image", "Image", "Image",
-            "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image", "Image"
-    };
-
-    private final String image_urls[] = {
-            "http://www.hiltonhotels.de/assets/img/destinations/China/china-3.jpg",
-            "http://wallpapersonthe.net/wallpapers/b/1920x1080/1920x1080-london_subways_light_trails_yellow_selective_coloring_city_long_exposure_metro-3752.png",
-            "http://plusquotes.com/images/quotes-img/hd-wallpaper-2.jpg",
-            "http://www.planwallpaper.com/static/images/Nature-Beach-Scenery-Wallpaper-HD.jpg",
-            "http://www.hdbloggers.net/wp-content/uploads/2015/12/HD-Wallpaper-40.jpg",
-            "http://24.media.tumblr.com/812633100cc8a167f4875cf39099e743/tumblr_mexa6oloEB1qzyjdbo1_1280.jpg",
-            "http://67.media.tumblr.com/dd42b18d499fb9db2c9772c6efb34650/tumblr_mrhogsZc2S1qzyjdbo1_1280.jpg",
-            "https://images.freecreatives.com/wp-content/uploads/2015/05/Vintage-Photography-46-HD-Wallpaper.jpg",
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5uSKFBAiwMgdiGvEre3qWwRCfAQOfWxPvUY8_DH0GBbGJs7zQ",
-            "http://lh5.ggpht.com/_Gq1jO6iuU2U/TTtbe7YWMAI/AAAAAAAAHfE/wq8EJ6fc4Yk/s9000/Abstract%2BTunnel%2BVision%2BHD%2BWallpaper.jpg",
-            "http://cdn.wallpapersafari.com/4/13/4n5qmQ.jpg",
-            "http://www.rajeshagrawal.com/wp-content/uploads/2015/02/london-at-night-desktop-wallpaper-beautiful-london-city-wallpapers-with-hd-gallery2.jpg",
-            "https://images5.alphacoders.com/306/306940.jpg",
-            "http://i2.cdn.turner.com/cnnnext/dam/assets/150306145109-beautiful-japan-kawachi-wisteria-super-169.jpg",
-            "http://netupd8.com/walls/WallPaperHD039.resized.jpg",
-            "http://wallpaperspro.net/wp-content/uploads/2016/08/Beautiful-Images-free-1134x750.jpg",
-            "http://freephotos.atguru.in/hdphotos/beautiful-wallpapers/beautiful-wallpapers-6.jpg",
-            "http://funnyneel.com/image/files/i/01-2014/beautiful-trees-v.jpg",
-            "http://cdn.thecoolist.com/wp-content/uploads/2016/05/Japanese-Cherry-beautiful-tree-960x540.jpg",
-            "http://www.technocrazed.com/wp-content/uploads/2015/12/beautiful-wallpaper-download-13.jpg",
-            "https://iso.500px.com/wp-content/uploads/2016/04/stock-photo-150595123-1500x1000.jpg",
-            "http://wallpaperwarrior.com/beautiful-wallpapers/beautiful-wallpapers-17/",
-            "http://www.technocrazed.com/wp-content/uploads/2015/12/beautiful-wallpaper-download-11.jpg",
-            "https://static.pexels.com/photos/17682/pexels-photo.jpg",
-            "http://1.bp.blogspot.com/_Zw41kxI2akg/TJ9vsPZ76NI/AAAAAAAACvs/pk94qBVMJrM/s1600/natura_iarna_wallpaper.jpg",
-            "http://www.hiltonhotels.de/assets/img/destinations/China/china-3.jpg",
-            "http://kingofwallpapers.com/city-pictures/city-pictures-001.jpg",
-            "https://newevolutiondesigns.com/images/freebies/city-wallpaper-11.jpg",
-            "http://kingofwallpapers.com/city-pictures/city-pictures-021.jpg",
-            "http://photos.mandarinoriental.com/is/image/MandarinOriental/excelsior-exterior-home?$HomepageHeroImage$",
-            "http://best-wallpaper.net/wallpaper/1920x1200/1109/Beautiful-abstract-flight-line_1920x1200.jpg",
-            "http://lh5.ggpht.com/_Gq1jO6iuU2U/TTtbe7YWMAI/AAAAAAAAHfE/wq8EJ6fc4Yk/s9000/Abstract%2BTunnel%2BVision%2BHD%2BWallpaper.jpg",
-            "http://cdn.wallpapersafari.com/4/13/4n5qmQ.jpg",
-            "http://www.rajeshagrawal.com/wp-content/uploads/2015/02/london-at-night-desktop-wallpaper-beautiful-london-city-wallpapers-with-hd-gallery2.jpg",
-            "https://images5.alphacoders.com/306/306940.jpg",
-            "http://i2.cdn.turner.com/cnnnext/dam/assets/150306145109-beautiful-japan-kawachi-wisteria-super-169.jpg",
-            "http://netupd8.com/walls/WallPaperHD039.resized.jpg",
-            "http://wallpaperspro.net/wp-content/uploads/2016/08/Beautiful-Images-free-1134x750.jpg",
-            "http://freephotos.atguru.in/hdphotos/beautiful-wallpapers/beautiful-wallpapers-6.jpg",
-            "http://funnyneel.com/image/files/i/01-2014/beautiful-trees-v.jpg",
-            "http://cdn.thecoolist.com/wp-content/uploads/2016/05/Japanese-Cherry-beautiful-tree-960x540.jpg",
-            "http://www.technocrazed.com/wp-content/uploads/2015/12/beautiful-wallpaper-download-13.jpg",
-            "https://iso.500px.com/wp-content/uploads/2016/04/stock-photo-150595123-1500x1000.jpg",
-            "http://wallpaperwarrior.com/beautiful-wallpapers/beautiful-wallpapers-17/",
-            "http://www.technocrazed.com/wp-content/uploads/2015/12/beautiful-wallpaper-download-11.jpg",
-            "https://static.pexels.com/photos/17682/pexels-photo.jpg",
-            "http://1.bp.blogspot.com/_Zw41kxI2akg/TJ9vsPZ76NI/AAAAAAAACvs/pk94qBVMJrM/s1600/natura_iarna_wallpaper.jpg"
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 //// Fetch remote config.
 //        fetchConfig();
 
-        imageView = (ImageView) findViewById(R.id.imageView);
+//        imageView = (ImageView) findViewById(imageView);
 
         System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
         initViews();
@@ -412,26 +350,13 @@ public class MainActivity extends AppCompatActivity
     private void initViews() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-//        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new GridItemDecoration());
-        ArrayList<ImageHelper> imageHelpers = prepareData();
-        Adapter mAdapter = new Adapter(getApplicationContext(), imageHelpers);
-        recyclerView.setAdapter(mAdapter);
-    }
-
-    private ArrayList<ImageHelper> prepareData() {
-        ArrayList<ImageHelper> imageHelpers = new ArrayList<>();
-        for (int i = 0; i < image_names.length; i++) {
-            ImageHelper imageHelper = new ImageHelper();
-            imageHelper.setImageHelper_name(image_names[i]);
-            imageHelper.setImageHelper_url(image_urls[i]);
-            imageHelpers.add(imageHelper);
-
-        }
-        return imageHelpers;
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mChildRef = mDatabase.child("posts");
+        mPostAdapter = new PostAdapter(Post.class, R.layout.card_view, Viewholder.class, mChildRef, getApplicationContext());
+        recyclerView.setAdapter(mPostAdapter);
     }
 
     @Override
