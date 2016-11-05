@@ -2,34 +2,21 @@ package com.example.gabekeyner.nostalgia;
 
 public class Post {
 
-    private String imageURL;
-    private String thumbURL;
-    private String title;
-    private String user;
-    private String timestamp;
+    public String thumbURL;
+    public String imageURL;
+    public String title;
+    public String user;
+    public String timestamp;
 
-    public Post() {
-
-    }
-
-    public Post(String imageURL, String title) {
+    public Post(String thumbURL, String imageURL, String title, String user, String timestamp) {
+        this.thumbURL = thumbURL;
         this.imageURL = imageURL;
         this.title = title;
-    }
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
         this.user = user;
+        this.timestamp = timestamp;
     }
 
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public Post() {
     }
 
     public String getThumbURL() {
@@ -40,12 +27,28 @@ public class Post {
         this.thumbURL = thumbURL;
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getTimestamp() {
@@ -55,4 +58,5 @@ public class Post {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
 }

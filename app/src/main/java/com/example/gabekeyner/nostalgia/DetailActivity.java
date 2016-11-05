@@ -40,7 +40,7 @@ public class DetailActivity extends AppCompatActivity {
             commentImageView = (CircleImageView) itemView.findViewById(R.id.commentImageView);
         }
     }
-
+    public static final String TITLE = "title";
     public static final String COMMENTS_CHILD = "posts/comments";
     private ProgressBar mProgressBar;
     private RecyclerView mCommentRecyclerView;
@@ -56,13 +56,10 @@ public class DetailActivity extends AppCompatActivity {
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseRecyclerAdapter<Comment, MessageViewHolder>mFirebaseAdapter;
 
-
-//    private ArrayList<String> itemList;
-
-    Animation fade_in;
-    TextView titleTxt;
-
-    ImageView imageView;
+    private Animation fade_in;
+    private TextView titleTxt;
+    private ImageView imageView;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +72,6 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Initialize ProgressBar and RecyclerView.
-//        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mCommentRecyclerView = (RecyclerView) findViewById(R.id.commentRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
@@ -137,12 +133,20 @@ public class DetailActivity extends AppCompatActivity {
 
 
         //Receive Data
-        Intent intent = this.getIntent();
-        String title = intent.getExtras().getString("title");
-        String imageUrl = intent.getExtras().getString("imageUrl");
+        Intent intent = getIntent();
+        title = intent.getStringExtra("title");
+        titleTxt.setText(title);
+
+//        Object object = Bee.with(this).been(Post.class).pull(true);
+//        if (object != null) {
+//            Post model = (Post) object;
+//            titleTxt.setText(((Post) object).getTitle());
+//            titleTxt.setText(model.getReferencesname());
+//            Glide.with(this).load(model.getReferencesname()).into(imageView);
+//        }
 
         //Bind Data
-        titleTxt.setText(title);
+
 
         // Send function to comment
         mEditText = (EditText) findViewById(R.id.commentEditText);

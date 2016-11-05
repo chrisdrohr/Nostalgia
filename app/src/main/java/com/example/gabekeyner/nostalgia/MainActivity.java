@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity
     public RecyclerView recyclerView;
     CallbackManager callbackManager;
 //    public static final String TAG = "Nostalgia";
+//    public static final String TITLE = "title";
+//    public static final String IMAGE = "image";
+//    public static final int REQUEST = 0;
 
     private DatabaseReference mDatabase;
     private DatabaseReference mChildRef;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity
     private String mPhotoUrl;
     private GoogleApiClient mGoogleApiClient;
     private Context context;
+    private Post model;
 //    private EditText mEditText;
 
     // Firebase instance variables
@@ -361,6 +365,14 @@ public class MainActivity extends AppCompatActivity
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(context, recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                Intent intent = new Intent (MainActivity.this, DetailActivity.class);
+//                intent.putExtra();
+                startActivity(intent);
+//                Post model = new Post();
+//                model.title = "title";
+//                model.imageURL = "image";
+//                Bee.with(MainActivity.this).been(model).pushAndStart(DetailActivity.class);
+
                 Toast.makeText(MainActivity.this, "touched at position" + position, Toast.LENGTH_SHORT).show();
             }
 

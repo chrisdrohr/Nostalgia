@@ -8,14 +8,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Viewholder extends RecyclerView.ViewHolder {
+public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private static final String TAG = RecyclerView.ViewHolder.class.getSimpleName();
+
+    public static final String TITLE = "title";
+    public static final String IMAGE = "image";
+    public static final int REQUEST = 0;
 
     public TextView mTitle;
     public ImageView mImageView;
     public CardView mCardView;
-    private Context mContext;
+    public Context mContext;
 
     public Viewholder(View itemView) {
         super(itemView);
@@ -25,12 +29,10 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mContext = itemView.getContext();
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        int itemPosition = getLayoutPosition();
+    @Override
+    public void onClick(View v) {
 //        Intent intent = new Intent(mContext, DetailActivity.class);
-//        Bundle bundle = new Bundle();
-//        Toast.makeText(mContext, "click position" + itemPosition, Toast.LENGTH_SHORT).show();
-//    }
-
+//        intent.putExtra(MainActivity.TITLE, getAdapterPosition());
+//        ((Activity)mContext).startActivityForResult(intent, MainActivity.REQUEST);
+    }
 }

@@ -20,6 +20,9 @@ android {
 }
 repositories {
     maven { url 'https://github.com/500px/greedo-layout-for-android/raw/master/releases/' }
+    maven {
+        url "https://jitpack.io"
+    }
     mavenCentral()
 }
 
@@ -43,7 +46,7 @@ dependencies {
     compile 'com.github.traex.rippleeffect:library:1.3'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     compile 'com.fivehundredpx:greedo-layout:1.0.0'
-
+    compile 'com.github.ihsanbal:ObjectBee:1.1.0'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     // Google
