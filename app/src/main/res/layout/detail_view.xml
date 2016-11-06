@@ -13,7 +13,6 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:id="@+id/cardView3"
-        android:background="#000000"
         android:layout_height="303dp"
         app:layout_constraintBottom_toTopOf="@+id/commentEditText"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +31,6 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:background="#000000"
             android:layout_height="302dp">
 
             <ImageView
@@ -50,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:elevation="10dp"
                 android:paddingLeft="10dp"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:transitionName="bring_picture"
                 android:backgroundTint="@color/colorPrimary"
                 android:textColor="@android:color/white"

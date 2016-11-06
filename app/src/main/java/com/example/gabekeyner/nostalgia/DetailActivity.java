@@ -138,7 +138,7 @@ public class DetailActivity extends AppCompatActivity {
         //Bind Data
         titleTxt.setText(title);
         Glide.with(this).load(imageUrl).into(imageView);
-        Glide.with(this).load(imageUrl).crossFade().into(backgroundImageView);
+        Glide.with(this).load(imageUrl).fitCenter().into(backgroundImageView);
 
         // Send function to comment
         mEditText = (EditText) findViewById(R.id.commentEditText);
