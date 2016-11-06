@@ -24,8 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.example.gabekeyner.nostalgia.R.id.sendFab;
-
 public class DetailActivity extends AppCompatActivity {
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
@@ -58,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private Animation fade_in;
     private TextView titleTxt;
-    private ImageView imageView;
+    private ImageView imageView, backgroundImageView;
     private String title;
 
     @Override
@@ -128,7 +126,7 @@ public class DetailActivity extends AppCompatActivity {
 
         titleTxt = (TextView) findViewById(R.id.detailTitle);
         imageView = (ImageView) findViewById(R.id.detialView);
-//        sendFab.startAnimation(fade_in);
+        backgroundImageView = (ImageView) findViewById(R.id.backgroundImageView);
         titleTxt.startAnimation(fade_in);
 
 
@@ -140,10 +138,12 @@ public class DetailActivity extends AppCompatActivity {
         //Bind Data
         titleTxt.setText(title);
         Glide.with(this).load(imageUrl).into(imageView);
+        Glide.with(this).load(imageUrl).crossFade().into(backgroundImageView);
 
         // Send function to comment
         mEditText = (EditText) findViewById(R.id.commentEditText);
-        mSendFab = (FloatingActionButton) findViewById(sendFab);
+        mSendFab = (FloatingActionButton) findViewById(R.id.sendFab);
+        mSendFab.startAnimation(fade_in);
         mSendFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
