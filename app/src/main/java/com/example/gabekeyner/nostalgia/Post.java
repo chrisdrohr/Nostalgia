@@ -1,30 +1,38 @@
 package com.example.gabekeyner.nostalgia;
 
-public class Post {
+import ihsan.bal.library.base.BeeModel;
 
-    public String thumbURL;
+public class Post extends BeeModel {
+
     public String imageURL;
     public String title;
     public String user;
     public String timestamp;
 
-    public Post(String thumbURL, String imageURL, String title, String user, String timestamp) {
-        this.thumbURL = thumbURL;
+    public Post() {
+    }
+
+    public Post(String tag) {
+        super(tag);
+    }
+
+//    public Post(String tagPref) {
+//        super(tagPref);
+//    }
+
+    public Post(String referencesname, String imageURL, String title, String user, String timestamp) {
+        super(referencesname);
         this.imageURL = imageURL;
         this.title = title;
         this.user = user;
         this.timestamp = timestamp;
     }
 
-    public Post() {
-    }
-
-    public String getThumbURL() {
-        return thumbURL;
-    }
-
-    public void setThumbURL(String thumbURL) {
-        this.thumbURL = thumbURL;
+    public Post(String imageURL, String title, String user, String timestamp) {
+        this.imageURL = imageURL;
+        this.title = title;
+        this.user = user;
+        this.timestamp = timestamp;
     }
 
     public String getImageURL() {

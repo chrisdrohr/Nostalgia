@@ -1,6 +1,9 @@
 package com.example.gabekeyner.nostalgia;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -11,6 +14,9 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     private static final String TAG = PostAdapter.class.getSimpleName();
     private Context context;
     int previousPosition = 0;
+    private String title, imageURL;
+    public ImageView detailImage;
+
 
     public PostAdapter(Class<Post> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
@@ -18,8 +24,11 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     }
 
     @Override
-    protected void populateViewHolder(Viewholder viewHolder, Post model, int position) {
-    viewHolder.mTitle.setText(model.getTitle());
+    public void populateViewHolder(final Viewholder viewHolder, final Post model, int position) {
+        //        final Post post =getItem(position);
+
+
+        viewHolder.mTitle.setText(model.getTitle());
         Glide.with(context).load(model.getImageURL()).thumbnail(0.1f).into(viewHolder.mImageView);
 
         //FOR ANIMATION
@@ -32,8 +41,26 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         previousPosition = position;
         int lastPosition = -1;
 
+
         AnimationUtil.setScaleAnimation(viewHolder.mImageView);
         AnimationUtil.setFadeAnimation(viewHolder.mTitle);
         AnimationUtil.setAnimation(viewHolder.mImageView, lastPosition);
+
+        viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDetail(model.getTitle(), model.getImageURL());
+
+            }
+        });
     }
+        private void openDetail(String title, String imageURL) {
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("imageURL", imageURL);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+
 }

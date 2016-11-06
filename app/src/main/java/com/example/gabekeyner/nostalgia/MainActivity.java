@@ -34,7 +34,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.StorageReference;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -357,6 +357,8 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setHasFixedSize(true);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
+//        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         recyclerView.addItemDecoration(new GridItemDecoration());
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mChildRef = mDatabase.child("posts");
@@ -365,16 +367,26 @@ public class MainActivity extends AppCompatActivity
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(context, recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Intent intent = new Intent (MainActivity.this, DetailActivity.class);
-//                intent.putExtra();
-                startActivity(intent);
+
 //                Post model = new Post();
+//                model.title = model.getTitle();
 //                model.title = "title";
-//                model.imageURL = "image";
+//                model.title = ;
+//                model.title = mPostAdapter.toString();
+//                model.imageURL = "imageURL";
 //                Bee.with(MainActivity.this).been(model).pushAndStart(DetailActivity.class);
 
                 Toast.makeText(MainActivity.this, "touched at position" + position, Toast.LENGTH_SHORT).show();
             }
+//            private void openDetailActivity(String title, String imageURL) {
+//                Intent intent = new Intent(context, DetailActivity.class);
+//                intent.putExtra("title", title);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+//                Post model = new Post();
+//                model.title = title;
+//                Bee.with(MainActivity.this).been(model).pushAndStart(DetailActivity.class);
+//            }
 
             @Override
             public void onLongClick(View view, int position) {
@@ -475,6 +487,8 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.staggeredViewVertical:
                 StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                mStaggeredVerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+
                 recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
                 break;
             default:

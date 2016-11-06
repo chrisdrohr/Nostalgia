@@ -133,20 +133,13 @@ public class DetailActivity extends AppCompatActivity {
 
 
         //Receive Data
-        Intent intent = getIntent();
-        title = intent.getStringExtra("title");
-        titleTxt.setText(title);
-
-//        Object object = Bee.with(this).been(Post.class).pull(true);
-//        if (object != null) {
-//            Post model = (Post) object;
-//            titleTxt.setText(((Post) object).getTitle());
-//            titleTxt.setText(model.getReferencesname());
-//            Glide.with(this).load(model.getReferencesname()).into(imageView);
-//        }
+        Intent intent = this.getIntent();
+        String title = intent.getExtras().getString("title");
+        String imageUrl = intent.getExtras().getString("imageURL");
 
         //Bind Data
-
+        titleTxt.setText(title);
+        Glide.with(this).load(imageUrl).into(imageView);
 
         // Send function to comment
         mEditText = (EditText) findViewById(R.id.commentEditText);
