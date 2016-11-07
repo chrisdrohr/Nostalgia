@@ -126,7 +126,7 @@ public class DetailActivity extends AppCompatActivity {
 
         titleTxt = (TextView) findViewById(R.id.detailTitle);
         imageView = (ImageView) findViewById(R.id.detialView);
-        backgroundImageView = (ImageView) findViewById(R.id.backgroundImageView);
+//        backgroundImageView = (ImageView) findViewById(R.id.backgroundImageView);
         titleTxt.startAnimation(fade_in);
 
 
@@ -137,8 +137,8 @@ public class DetailActivity extends AppCompatActivity {
 
         //Bind Data
         titleTxt.setText(title);
-        Glide.with(this).load(imageUrl).into(imageView);
-        Glide.with(this).load(imageUrl).fitCenter().into(backgroundImageView);
+        Glide.with(this).load(imageUrl).centerCrop().into(imageView);
+//        Glide.with(this).load(imageUrl).centerCrop().into(backgroundImageView);
 
         // Send function to comment
         mEditText = (EditText) findViewById(R.id.commentEditText);

@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/commentImageView"
+            android:layout_marginStart="10dp"
+            app:border_overlay="true"
+            app:border_color="@color/LightColor"
+            app:border_width="4dp"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/ic_account_circle_black_36dp"/>
 
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/commentImageView"
+        android:gravity="center_vertical"
+        app:cardBackgroundColor="@color/LightColor2"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="10dp"
+        android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -27,18 +38,22 @@
                 android:id="@+id/commentTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/cardview_light_background"
                 android:layout_weight="0"
                 android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-            <TextView
-                android:id="@+id/commentNameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
         </LinearLayout>
 
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
+                <TextView
+                    android:id="@+id/commentNameTextView"
+                    android:hint="Chris Rohr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/commentImageView"
+                    android:padding="@dimen/cardview_default_radius"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
 
-</LinearLayout>
+</RelativeLayout>

@@ -24,14 +24,15 @@
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintBottom_creator="1">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/backgroundImageView"/>
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/backgroundImageView"-->
+            <!--android:scaleType="center" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="302dp">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/detialView"
@@ -44,20 +45,22 @@
             <TextView
                 android:id="@+id/detailTitle"
                 android:fontFamily="cursive"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="10dp"
-                android:paddingLeft="10dp"
-                android:paddingBottom="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@color/colorPrimary"
+                android:paddingBottom="0dp"
                 android:transitionName="bring_picture"
-                android:backgroundTint="@color/colorPrimary"
                 android:textColor="@android:color/white"
                 android:textAllCaps="false"
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="24dp"/>
+                android:layout_marginBottom="5dp"
+                android:backgroundTintMode="screen" />
 
         </RelativeLayout>
 
@@ -68,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:fabSize="mini"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/cardview_light_background"
         android:tint="@color/MainColor"
         app:pressedTranslationZ="12dp"
         app:srcCompat="@android:drawable/ic_menu_send"
@@ -78,7 +81,7 @@
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="@+id/commentEditText"
         app:layout_constraintTop_toBottomOf="@+id/commentEditText"
-        app:elevation="24dp" />
+        app:elevation="10dp" />
 
 
     <EditText
