@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -19,6 +21,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -53,6 +57,8 @@ public class DetailActivity extends AppCompatActivity {
     // Firebase instance variables
     private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseRecyclerAdapter<Comment, MessageViewHolder>mFirebaseAdapter;
+    private FirebaseUser mFirebaseUser;
+    private FirebaseAuth mFirebaseAuth;
 
     private Animation fade_in;
     private TextView titleTxt;
@@ -75,6 +81,11 @@ public class DetailActivity extends AppCompatActivity {
         mLinearLayoutManager.setStackFromEnd(true);
         mCommentRecyclerView.setLayoutManager(mLinearLayoutManager);
 
+        //Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
@@ -85,7 +96,6 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, int position) {
-//                mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 viewHolder.commentTextView.setText(model.getText());
                 viewHolder.commentNameTextView.setText(model.getUser());
                 if (model.getPhotoUrl() == null) {
@@ -95,7 +105,7 @@ public class DetailActivity extends AppCompatActivity {
                                             R.drawable.ic_account_circle_black_36dp));
                 } else {
                     Glide.with(DetailActivity.this)
-                            .load(model.getPhotoUrl())
+                            .load(mPhotoUrl)
                             .into(viewHolder.commentImageView);
                 }
             }
@@ -158,6 +168,28 @@ public class DetailActivity extends AppCompatActivity {
                 mEditText.setText("");
             }
         });
+
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() > 0) {
+                    mSendFab.setEnabled(true);
+                } else {
+                    mSendFab.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
     }
 

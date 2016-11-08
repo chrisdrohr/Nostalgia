@@ -16,6 +16,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     int previousPosition = 0;
     private String title, imageURL;
     public ImageView detailImage;
+    private ImageView imageTransition;
 
 
     public PostAdapter(Class<Post> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {

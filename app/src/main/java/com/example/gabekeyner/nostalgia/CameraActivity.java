@@ -18,17 +18,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -50,37 +48,31 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private static final String TAG = CameraActivity.class.getCanonicalName();
 
     //FireBase
-
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference mStorageReference;
+    private DatabaseReference mDatabaseReference;
+    private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
+    private DatabaseReference mPhotosReference = FirebaseDatabase.getInstance().getReference().child("posts");
 
     private String filepath;
-//    private String mMediaUri;
     private EditText mTitle;
     private FloatingActionButton mUploadFab;
     private ProgressBar progressBar;
     private ImageView mImageView;
     private Uri mMediaUri;
-    private DatabaseReference databaseReference;
-
-//    private String imageURL;
-//    private String title;
-//    private StorageReference storageReference;
-//    private DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
-//    private DatabaseReference listRef = mRootRef.child("post");
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_camera);
 
         mTitle = (EditText) findViewById(R.id.editText);
         mImageView = (ImageView) findViewById(R.id.cameraImageView);
-
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
         mUploadFab = (FloatingActionButton) findViewById(R.id.uploadFab);
         mUploadFab.setOnClickListener(this);
+
+        mStorageReference = mFirebaseStorage.getReference().child("posts");
 
         //check flag variable
         Bundle extras = getIntent().getExtras();
@@ -89,20 +81,20 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             //TAKE PHOTO
             if (extras.getString(ACTIVITY_INTENTION).equals(TAKE_PHOTO)) {
                 Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+//                mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
                 takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
                 startActivityForResult(takePhotoIntent, REQUEST_TAKE_PHOTO);
 
                 //PICK FROM GALLERY
             } else if (extras.getString(ACTIVITY_INTENTION).equals(GALLERY_PICKER)) {
                 Intent pickPhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                pickPhotoIntent.setType("image/*");
+                pickPhotoIntent.setType("image/jpeg");
                 startActivityForResult(pickPhotoIntent, REQUEST_PICK_PHOTO);
 
                 //TAKE VIDEO
             } else if (extras.getString(ACTIVITY_INTENTION).equals(VIDEO_SHOOTER)) {
                 Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
+//                mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
                 takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
                 takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15);
                 startActivityForResult(takeVideoIntent, REQUEST_TAKE_VIDEO);
@@ -165,11 +157,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_TAKE_PHOTO) {
                 //CREATES FILE FOR THE IMAGE
-                File file = new File(filepath);
-                if (file.exists()) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    mImageView.setImageBitmap(bitmap);
-                }
+//                File file = new File(filepath);
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+//                if (file.exists()) {
+//                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    mImageView.setImageBitmap(imageBitmap);
+//                }
 
             } else if (requestCode == REQUEST_PICK_PHOTO) {
                 if (data != null) {
@@ -202,33 +196,21 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        mImageView.setDrawingCacheEnabled(true);
-        mImageView.buildDrawingCache();
-        Bitmap bitmap = mImageView.getDrawingCache();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        mImageView.setDrawingCacheEnabled(false);
-        byte[] data = baos.toByteArray();
-
-        String path = "posts/" + UUID.randomUUID() + ".jpg";
-        StorageReference photoRef = storage.getReference(path);
-        StorageMetadata metadata = new StorageMetadata.Builder()
-                .setCustomMetadata("title", mTitle.getText().toString())
-                .build();
-
         progressBar.setVisibility(View.VISIBLE);
         mUploadFab.setEnabled(false);
+        StorageReference photoRef = mStorageReference.child(mMediaUri.getLastPathSegment());
 
-        UploadTask uploadTask = photoRef.putBytes(data, metadata);
-        uploadTask.addOnSuccessListener(CameraActivity.this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        photoRef.putFile(mMediaUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
+                Post post = new Post(taskSnapshot.getDownloadUrl().toString(), mTitle.getText().toString());
+                mPhotosReference.push().setValue(post);
                 progressBar.setVisibility(View.GONE);
                 mUploadFab.setEnabled(true);
                 Toast.makeText(CameraActivity.this, "Memory Uploaded!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(CameraActivity.this, MainActivity.class));
-
-                Uri url = taskSnapshot.getDownloadUrl();
             }
         });
     }

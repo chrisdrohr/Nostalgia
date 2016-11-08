@@ -48,6 +48,8 @@ dependencies {
     compile 'com.fivehundredpx:greedo-layout:1.0.0'
     compile 'com.github.ihsanbal:ObjectBee:1.1.0'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'com.dmallcott:progressfab:1.0.0'
+    compile 'com.ramotion.foldingcell:folding-cell:1.0.1'
 
     // Google
     compile 'com.google.android.gms:play-services-auth:9.6.1'

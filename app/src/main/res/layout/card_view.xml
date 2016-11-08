@@ -13,13 +13,14 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:background="#000000"
+        android:onClick="transition"
         android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/imageView"
         android:background="@drawable/custom_bg"
         android:clickable="true"
-        android:transitionName="detailTransition"
+        android:transitionName="imageTransition"
         android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

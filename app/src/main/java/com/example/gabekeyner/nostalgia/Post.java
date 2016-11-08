@@ -1,31 +1,19 @@
 package com.example.gabekeyner.nostalgia;
 
-import ihsan.bal.library.base.BeeModel;
+import android.net.Uri;
 
-public class Post extends BeeModel {
+import com.google.firebase.storage.StorageMetadata;
+
+public class Post {
 
     public String imageURL;
     public String title;
     public String user;
     public String timestamp;
 
+
+
     public Post() {
-    }
-
-    public Post(String tag) {
-        super(tag);
-    }
-
-//    public Post(String tagPref) {
-//        super(tagPref);
-//    }
-
-    public Post(String referencesname, String imageURL, String title, String user, String timestamp) {
-        super(referencesname);
-        this.imageURL = imageURL;
-        this.title = title;
-        this.user = user;
-        this.timestamp = timestamp;
     }
 
     public Post(String imageURL, String title, String user, String timestamp) {
@@ -33,6 +21,16 @@ public class Post extends BeeModel {
         this.title = title;
         this.user = user;
         this.timestamp = timestamp;
+    }
+
+    public Post(Uri url, StorageMetadata metadata) {
+
+    }
+
+    public Post(String s, String s1) {
+        this.imageURL = s;
+        this.title = s1;
+
     }
 
     public String getImageURL() {
@@ -66,5 +64,4 @@ public class Post extends BeeModel {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
-
 }

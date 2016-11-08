@@ -1,5 +1,6 @@
 package com.example.gabekeyner.nostalgia;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
     private Context context;
     private Post model;
+    private ImageView imageTransition, userImageView;
+    private TextView userTextView;
 //    private EditText mEditText;
 
     // Firebase instance variables
@@ -78,6 +84,7 @@ public class MainActivity extends AppCompatActivity
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
         }
+
 
 //        // Initialize Firebase Remote Config.
 //        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
@@ -131,6 +138,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //User Info display
+        final View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        userImageView = (ImageView)headerLayout.findViewById(R.id.drawerImageView);
+        userTextView = (TextView) headerLayout.findViewById(R.id.drawerNameTextView);
+        userTextView.setText(mUsername);
+        Glide.with(this).load(mPhotoUrl).centerCrop().into(userImageView);
 
 //        //Handles the Read and Write to Database
 //        mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -339,11 +352,10 @@ public class MainActivity extends AppCompatActivity
     //VIEWS
     private void initViews() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-        recyclerView.addItemDecoration(new GridItemDecoration());
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mChildRef = mDatabase.child("posts");
         mPostAdapter = new PostAdapter(Post.class, R.layout.card_view, Viewholder.class, mChildRef, getApplicationContext());
@@ -391,7 +403,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.staggeredViewVertical:
                 StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                 mStaggeredVerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-
                 recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
                 break;
             default:
@@ -422,5 +433,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void transition (View view) {
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, imageTransition, "imageTransition");
+        Intent i = new Intent(MainActivity.this, DetailActivity.class);
+        startActivity(i, options.toBundle());
     }
 }

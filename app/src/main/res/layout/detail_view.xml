@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-
 
     <android.support.v7.widget.CardView
         android:layout_width="411dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:id="@+id/cardView3"
-        android:layout_height="303dp"
+        android:layout_height="0dp"
+        app:cardElevation="@dimen/cardview_default_radius"
         app:layout_constraintBottom_toTopOf="@+id/commentEditText"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.19"
@@ -36,7 +38,7 @@
 
             <ImageView
                 android:id="@+id/detialView"
-                android:transitionName="detailTransition"
+                android:transitionName="imageTransition"
                 android:adjustViewBounds="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -51,7 +53,6 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:background="@color/colorPrimary"
-                android:paddingBottom="0dp"
                 android:transitionName="bring_picture"
                 android:textColor="@android:color/white"
                 android:textAllCaps="false"
@@ -59,12 +60,12 @@
                 android:textStyle="bold"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="5dp"
                 android:backgroundTintMode="screen" />
 
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/sendFab"
@@ -87,13 +88,13 @@
     <EditText
         android:ems="10"
         android:id="@+id/commentEditText"
+        android:elevation="@dimen/cardview_default_radius"
         android:hint="    Write a comment..."
         android:textColorHint="#FFFFFF"
         android:background="@color/LightColor2"
         android:layout_width="0dp"
         android:layout_alignParentBottom="false"
         android:layout_alignParentStart="false"
-        android:layout_height="0dp"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
@@ -105,7 +106,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="0.44" />
+        app:layout_constraintVertical_bias="0.44"
+        android:layout_height="35dp"
+        style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
+        android:inputType="textCapSentences" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="0dp"
