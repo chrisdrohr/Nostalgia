@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:attv="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_image_viewer"
+    android:background="#000000"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.gabekeyner.nostalgia.ImageViewerActivity">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_camera_black_24dp"
+        android:id="@+id/imageViewer"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <com.dragankrstic.autotypetextview.AutoTypeTextView
+        android:id="@+id/autoTypeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageViewer"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorAccent"
+        android:fontFamily="cursive"
+        attv:typingSpeed="300"
+        android:textSize="30dp"
+        android:translationZ="20dp" />
+</RelativeLayout>

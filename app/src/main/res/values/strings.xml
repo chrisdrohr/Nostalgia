@@ -32,5 +32,7 @@
     </string>
     <string name="sign_in">Sign In</string>
     <string name="fresh_config">Fresh Configuration</string>
+    <string name="title_activity_image_viewer">ImageViewerActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

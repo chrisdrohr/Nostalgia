@@ -16,7 +16,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     int previousPosition = 0;
     private String title, imageURL;
     public ImageView detailImage;
-    private ImageView imageTransition;
+    private ImageView imageTransition, viewerImageView;
 
 
     public PostAdapter(Class<Post> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
@@ -50,12 +50,20 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                openImageViewer(model.getTitle(), model.getImageURL());
                 openDetail(model.getTitle(), model.getImageURL());
-
             }
         });
     }
-        private void openDetail(String title, String imageURL) {
+//
+//        public void openImageViewer(String title, String imageURL) {
+//        Intent intent = new Intent(context, ImageViewerActivity.class);
+//        intent.putExtra("title", title);
+//        intent.putExtra("imageURL", imageURL);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(intent);
+//    }
+    public void openDetail(String title, String imageURL) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("imageURL", imageURL);

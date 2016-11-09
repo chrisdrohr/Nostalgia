@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -106,6 +107,7 @@ public class DetailActivity extends AppCompatActivity {
                 } else {
                     Glide.with(DetailActivity.this)
                             .load(mPhotoUrl)
+                            .priority(Priority.NORMAL)
                             .into(viewHolder.commentImageView);
                 }
             }
@@ -136,7 +138,6 @@ public class DetailActivity extends AppCompatActivity {
 
         titleTxt = (TextView) findViewById(R.id.detailTitle);
         imageView = (ImageView) findViewById(R.id.detialView);
-//        backgroundImageView = (ImageView) findViewById(R.id.backgroundImageView);
         titleTxt.startAnimation(fade_in);
 
 
@@ -147,8 +148,7 @@ public class DetailActivity extends AppCompatActivity {
 
         //Bind Data
         titleTxt.setText(title);
-        Glide.with(this).load(imageUrl).centerCrop().into(imageView);
-//        Glide.with(this).load(imageUrl).centerCrop().into(backgroundImageView);
+        Glide.with(this).load(imageUrl).thumbnail(0.1f).centerCrop().priority(Priority.IMMEDIATE).into(imageView);
 
         // Send function to comment
         mEditText = (EditText) findViewById(R.id.commentEditText);
@@ -189,8 +189,6 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     @Override
