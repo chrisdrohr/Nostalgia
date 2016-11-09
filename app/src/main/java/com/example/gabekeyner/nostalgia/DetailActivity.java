@@ -62,8 +62,8 @@ public class DetailActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
 
     private Animation fade_in;
-    private TextView titleTxt;
-    private ImageView imageView, backgroundImageView;
+    private TextView titleTxt, imageViewText;
+    private ImageView imageView, imageViewer;
     private String title;
 
     @Override
@@ -139,6 +139,7 @@ public class DetailActivity extends AppCompatActivity {
         titleTxt = (TextView) findViewById(R.id.detailTitle);
         imageView = (ImageView) findViewById(R.id.detialView);
         titleTxt.startAnimation(fade_in);
+
 
 
         //Receive Data

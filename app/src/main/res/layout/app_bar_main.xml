@@ -75,6 +75,7 @@
         tools:layout_constraintLeft_creator="1"
         android:tint="@color/colorAccent"
         android:adjustViewBounds="true"
+        app:elevation="12dp"
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_camera_black_24dp" />
 
@@ -94,6 +95,7 @@
         android:hapticFeedbackEnabled="true"
         android:tint="@color/colorAccent"
         android:adjustViewBounds="true"
+        android:elevation="12dp"
         app:backgroundTint="@color/colorPrimary" />
 
     <android.support.design.widget.FloatingActionButton
@@ -109,6 +111,7 @@
         app:backgroundTint="@color/colorPrimary"
         android:tint="@color/colorAccent"
         android:adjustViewBounds="true"
+        android:elevation="12dp"
         android:layout_width="70dp"
         android:layout_height="70dp" />
 
@@ -126,6 +129,7 @@
         tools:layout_constraintLeft_creator="1"
         android:tint="@color/colorAccent"
         android:adjustViewBounds="true"
+        app:elevation="12dp"
         app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_image_black_24dp"
         android:focusable="false" />
@@ -143,6 +147,7 @@
         app:backgroundTint="@color/colorPrimary"
         android:tint="@color/colorAccent"
         android:adjustViewBounds="true"
+        app:elevation="12dp"
         android:layout_width="70dp"
         android:layout_height="70dp" />
 

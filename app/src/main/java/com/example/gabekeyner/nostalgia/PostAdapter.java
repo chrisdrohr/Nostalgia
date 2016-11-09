@@ -26,9 +26,6 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
 
     @Override
     public void populateViewHolder(final Viewholder viewHolder, final Post model, int position) {
-        //        final Post post =getItem(position);
-
-
         viewHolder.mTitle.setText(model.getTitle());
         Glide.with(context).load(model.getImageURL()).thumbnail(0.1f).into(viewHolder.mImageView);
 

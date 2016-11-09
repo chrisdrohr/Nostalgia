@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getSimpleName();
 
     public RecyclerView recyclerView;
-    CallbackManager callbackManager;
 
     private DatabaseReference mDatabase;
     private DatabaseReference mChildRef;
@@ -84,8 +82,6 @@ public class MainActivity extends AppCompatActivity
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
         }
-
-
 //        // Initialize Firebase Remote Config.
 //        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 //
@@ -106,7 +102,6 @@ public class MainActivity extends AppCompatActivity
 //
 //// Fetch remote config.
 //        fetchConfig();
-
 
         System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
         initViews();
@@ -145,28 +140,6 @@ public class MainActivity extends AppCompatActivity
         userTextView.setText(mUsername);
         Glide.with(this).load(mPhotoUrl).centerCrop().into(userImageView);
 
-//        //Handles the Read and Write to Database
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef = database.getReference("message");
-//
-//
-//        // Read from the database
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                String value = dataSnapshot.getValue(String.class);
-//                Log.d(TAG, "Value is: " + value);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-//                Log.w(TAG, "Failed to read value.", error.toException());
-//            }
-//        });
     }
 //    // Fetch the config to determine the allowed length of messages.
 //    public void fetchConfig() {
