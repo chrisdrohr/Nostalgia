@@ -13,6 +13,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
+        app:titleTextColor="@color/BlueAccent"
         android:layout_height="56dp"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay"
@@ -22,8 +23,9 @@
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:elevation="24dp"
-        app:logo="@mipmap/ic_launcher" />
+        android:titleTextColor="@color/BlueAccent"
+        android:elevation="30dp"
+         />
 
 
     <include
@@ -56,7 +58,7 @@
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1"
         app:backgroundTint="@color/cardview_shadow_start_color"
-        android:tint="@color/colorAccent"
+        android:tint="@color/BlueAccent"
         android:adjustViewBounds="true" />
 
     <!--<include layout="@layout/fab_layout"/>-->
@@ -73,7 +75,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1"
-        android:tint="@color/colorAccent"
+        android:tint="@color/BlueAccent"
         android:adjustViewBounds="true"
         app:elevation="12dp"
         app:backgroundTint="@color/colorPrimary"
@@ -93,7 +95,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton1"
         app:layout_constraintTop_toBottomOf="@+id/floatingActionButton1"
         android:hapticFeedbackEnabled="true"
-        android:tint="@color/colorAccent"
+        android:tint="@color/BlueAccent"
         android:adjustViewBounds="true"
         android:elevation="12dp"
         app:backgroundTint="@color/colorPrimary" />
@@ -109,7 +111,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton1"
         app:layout_constraintTop_toBottomOf="@+id/floatingActionButton1"
         app:backgroundTint="@color/colorPrimary"
-        android:tint="@color/colorAccent"
+        android:tint="@color/BlueAccent"
         android:adjustViewBounds="true"
         android:elevation="12dp"
         android:layout_width="70dp"
@@ -127,7 +129,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1"
-        android:tint="@color/colorAccent"
+        android:tint="@color/BlueAccent"
         android:adjustViewBounds="true"
         app:elevation="12dp"
         app:backgroundTint="@color/colorPrimary"
@@ -145,7 +147,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton1"
         app:layout_constraintTop_toBottomOf="@+id/floatingActionButton1"
         app:backgroundTint="@color/colorPrimary"
-        android:tint="@color/colorAccent"
+        android:tint="@color/BlueAccent"
         android:adjustViewBounds="true"
         app:elevation="12dp"
         android:layout_width="70dp"

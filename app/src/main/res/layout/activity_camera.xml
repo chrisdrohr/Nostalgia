@@ -18,10 +18,12 @@
 
     <EditText
         android:id="@+id/editText"
+        android:ems="10"
         android:layout_width="0dp"
-        android:hint="Caption your memory.."
+        android:textColorHint="#FFFFFF"
+        android:hint="Caption your memory..."
         android:elevation="2dp"
-        android:background="@color/DarkColor"
+        android:background="@color/LightColor2"
         android:isScrollContainer="true"
         android:soundEffectsEnabled="true"
         tools:layout_constraintRight_creator="1"
@@ -31,12 +33,10 @@
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_height="50dp"
-        style="@android:style/Widget.Holo.Light.EditText"
+        android:inputType="textCapSentences"
+        style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
         android:singleLine="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:typeface="monospace"
-        android:textSize="14sp"
-        android:textStyle="normal|italic" />
+        android:textSize="14sp"/>
 
     <ImageView
         android:layout_width="0dp"
@@ -55,19 +55,21 @@
         android:text="Post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         app:fabSize="mini"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/cardview_light_background"
         android:tint="@color/MainColor"
         app:pressedTranslationZ="12dp"
         app:srcCompat="@android:drawable/ic_menu_send"
-        app:elevation="15dp"
+        app:elevation="10dp"
         android:id="@+id/uploadFab"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="@+id/cameraImageView"
         app:layout_constraintRight_toRightOf="@+id/cameraImageView"
-        app:layout_constraintTop_toBottomOf="@+id/cameraImageView"/>
+        app:layout_constraintTop_toBottomOf="@+id/cameraImageView"
+        android:visibility="visible" />
 
     <ProgressBar
         android:layout_width="wrap_content"

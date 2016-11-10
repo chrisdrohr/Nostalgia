@@ -86,6 +86,7 @@ public class DetailActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+        mUsername = mFirebaseUser.getDisplayName();
 
         // New child entries
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -98,7 +99,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, int position) {
                 viewHolder.commentTextView.setText(model.getText());
-                viewHolder.commentNameTextView.setText(model.getUser());
+                viewHolder.commentNameTextView.setText(mUsername);
                 if (model.getPhotoUrl() == null) {
                     viewHolder.commentImageView
                             .setImageDrawable(ContextCompat

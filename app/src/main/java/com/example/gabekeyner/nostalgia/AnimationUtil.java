@@ -18,7 +18,7 @@ public class AnimationUtil {
 
     public static void animate(RecyclerView.ViewHolder holder, boolean goesDown){
         AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator animatorTranslateY = ObjectAnimator.ofFloat(holder.itemView, "translationY", goesDown==true ? 800 : -800, 0);
+        ObjectAnimator animatorTranslateY = ObjectAnimator.ofFloat(holder.itemView, "translationY", goesDown==true ? 800 : -10, 0);
 //        ObjectAnimator animatorTranslateX = ObjectAnimator.ofFloat(holder.itemView, "translationX", 1000, 0);
         animatorTranslateY.setDuration(600);
 //        animatorTranslateX.setDuration(500);

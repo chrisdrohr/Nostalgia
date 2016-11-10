@@ -13,7 +13,8 @@
     <color name="colorAccent">#e1bee7</color>
 
     <color name="black_overlay">#66000000</color>
-    <color name="Accent">#571371</color>
+    <color name="Accent">#9c27b0</color>
     <color name="DarkColor2">#a853b7</color>
+    <color name="BlueAccent">#81d4fa</color>
 
 </resources>
