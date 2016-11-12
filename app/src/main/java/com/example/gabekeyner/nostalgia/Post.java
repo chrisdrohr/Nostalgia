@@ -10,17 +10,19 @@ public class Post {
     public String title;
     public String user;
     public String timestamp;
+    public String id;
 
 
 
     public Post() {
     }
 
-    public Post(String imageURL, String title, String user, String timestamp) {
+    public Post(String imageURL, String title, String user, String timestamp,String id) {
         this.imageURL = imageURL;
         this.title = title;
         this.user = user;
         this.timestamp = timestamp;
+        this.id = id;
     }
 
     public Post(Uri url, StorageMetadata metadata) {

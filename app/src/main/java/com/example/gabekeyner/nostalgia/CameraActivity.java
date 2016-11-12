@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,9 +53,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private FloatingActionButton mUploadFab;
     private ProgressBar progressBar;
     private ImageView mImageView;
+    private Date date;
     private Uri mMediaUri;
     private String mUsername;
-    private String mTimestamp;
+    private long mTimestamp;
 
     //FireBase
     private StorageReference mStorageReference;
@@ -197,6 +199,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         mUploadFab.setEnabled(false);
         final StorageReference photoRef = mStorageReference.child(mMediaUri.getLastPathSegment());
         mUsername = FirebaseUtil.getUser().getUserName();
+        SimpleDateFormat time = new SimpleDateFormat("ddMMyyyy");
+        final String mTimestamp = time.format(new Date());
         photoRef.putFile(mMediaUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -204,7 +208,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         taskSnapshot.getDownloadUrl().toString(),
                         mTitle.getText().toString(),
                         mUsername,
-                       null);
+                        mTimestamp,
+                        UUID.randomUUID().toString());
                 mPhotosReference.push().setValue(post);
                 progressBar.setVisibility(View.GONE);
                 mUploadFab.setEnabled(true);

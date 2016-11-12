@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:textColorHint="#FFFFFF"
         android:hint="Caption your memory..."
-        android:elevation="2dp"
+        android:elevation="-10dp"
         android:background="@color/MainColor"
         android:isScrollContainer="true"
         android:soundEffectsEnabled="true"
