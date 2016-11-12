@@ -27,6 +27,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     @Override
     public void populateViewHolder(final Viewholder viewHolder, final Post model, int position) {
         viewHolder.mTitle.setText(model.getTitle());
+        viewHolder.mUsername.setText("-" + model.getUser());
         Glide.with(context).load(model.getImageURL()).thumbnail(0.1f).into(viewHolder.mImageView);
 
         //FOR ANIMATION

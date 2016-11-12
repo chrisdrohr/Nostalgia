@@ -14,6 +14,7 @@ public class Viewholder extends RecyclerView.ViewHolder {
 
     public TextView mTitle;
     public ImageView mImageView;
+    public TextView mUsername;
     public CardView mCardView;
     public Context mContext;
     public ImageView detailImageView;
@@ -22,6 +23,7 @@ public class Viewholder extends RecyclerView.ViewHolder {
     public Viewholder(View itemView) {
         super(itemView);
         mTitle = (TextView) itemView.findViewById(R.id.textView);
+        mUsername = (TextView) itemView.findViewById(R.id.usernameTextView);
         mImageView = (ImageView) itemView.findViewById(R.id.imageView);
         mCardView = (CardView) itemView.findViewById(R.id.cardView);
         mContext = itemView.getContext();

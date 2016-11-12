@@ -39,6 +39,16 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/usernameTextView"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_alignEnd="@+id/imageView"
+            android:fontFamily="monospace"
+            android:textColor="@color/AccentLighter"
+            android:textSize="5dp" />
+
     </RelativeLayout>
 
 
