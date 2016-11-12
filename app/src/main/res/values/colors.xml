@@ -3,18 +3,16 @@
 
     <color name="colorPrimary">#71501460</color>
     <color name="colorPrimaryDark">#74567c</color>
-    <color name="MainColor">#49035b</color>
-    <color name="DarkColor">#a87cb4</color>
     <color name="ColorDark">#691d7d</color>
     <color name="LightColor">#6f3e7d</color>
     <!--Main Colors Are Below-->
     <color name="ColorDark2">#bea42e</color>
     <color name="LightColor2">#9c30af</color>
-    <color name="colorAccent">#e1bee7</color>
-
     <color name="black_overlay">#66000000</color>
-    <color name="Accent">#9c27b0</color>
-    <color name="DarkColor2">#a853b7</color>
-    <color name="BlueAccent">#81d4fa</color>
+
+    <color name="MainColor">#8C489F</color>
+    <color name="DarkColor">#9c27b0</color>
+    <color name="AccentLight">#C3C3E5</color>
+    <color name="AccentLighter">#F1F0FF</color>
 
 </resources>

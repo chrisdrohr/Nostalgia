@@ -27,11 +27,13 @@ public class Post {
 
     }
 
-    public Post(String s, String s1) {
-        this.imageURL = s;
-        this.title = s1;
-
-    }
+//    public Post(String s, String s1, String s3, String timestamp) {
+//        this.imageURL = s;
+//        this.title = s1;
+//        this.user = user;
+//        this.timestamp = timestamp;
+//
+//    }
 
     public String getImageURL() {
         return imageURL;
@@ -65,3 +67,4 @@ public class Post {
         this.timestamp = timestamp;
     }
 }
+

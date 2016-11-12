@@ -4,14 +4,15 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <!--<item name="android:windowContentTransitions">true</item>-->
-        <item name="colorPrimary">@color/Accent</item>
-        <item name="colorPrimaryDark">@color/DarkColor2</item>
-        <item name="colorAccent">@color/Accent</item>
+        <item name="colorPrimary">@color/MainColor</item>
+        <item name="colorPrimaryDark">@color/DarkColor</item>
+        <item name="colorAccent">@color/AccentLight</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:colorBackground">@color/background_material_light</item>
-        <item name="android:navigationBarColor">@color/Accent</item>
-        <item name="android:statusBarColor">@color/BlueAccent</item>
+        <item name="android:navigationBarColor">@color/MainColor</item>
+        <item name="android:statusBarColor">@color/AccentLight</item>
         <item name="android:colorForeground">@color/foreground_material_light</item>
+        <item name="android:textColorPrimary">@color/AccentLight</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

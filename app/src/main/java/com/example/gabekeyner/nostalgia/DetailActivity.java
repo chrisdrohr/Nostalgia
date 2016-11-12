@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,7 +26,6 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -44,7 +44,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
     public static final String TITLE = "title";
-    public static final String COMMENTS_CHILD = "posts/comments";
+    public static final String COMMENTS_CHILD = "comments";
     private ProgressBar mProgressBar;
     private RecyclerView mCommentRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
@@ -56,15 +56,17 @@ public class DetailActivity extends AppCompatActivity {
     private EditText mEditText;
 
     // Firebase instance variables
-    private DatabaseReference mFirebaseDatabaseReference;
     private FirebaseRecyclerAdapter<Comment, MessageViewHolder>mFirebaseAdapter;
     private FirebaseUser mFirebaseUser;
     private FirebaseAuth mFirebaseAuth;
+    private DatabaseReference mDatabaseLike;
 
     private Animation fade_in;
     private TextView titleTxt, imageViewText;
     private ImageView imageView, imageViewer;
     private String title;
+
+    private Boolean mProcessLike = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,18 +85,23 @@ public class DetailActivity extends AppCompatActivity {
         mCommentRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         //Initialize Firebase Auth
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-        mUsername = mFirebaseUser.getDisplayName();
+//        mFirebaseAuth = FirebaseAuth.getInstance();
+//        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
+        mUsername = FirebaseUtil.getUser().getUserName();
+        mDatabaseLike = FirebaseUtil.getLikesRef();
+
+        mDatabaseLike.keepSynced(true);
+
+
 
         // New child entries
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+//        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
                 Comment.class,
                 R.layout.item_comment,
                 MessageViewHolder.class,
-                mFirebaseDatabaseReference.child(COMMENTS_CHILD)) {
+                FirebaseUtil.getBaseRef().child(COMMENTS_CHILD)) {
 
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, int position) {
@@ -146,11 +153,35 @@ public class DetailActivity extends AppCompatActivity {
         //Receive Data
         Intent intent = this.getIntent();
         String title = intent.getExtras().getString("title");
-        String imageUrl = intent.getExtras().getString("imageURL");
+        final String imageUrl = intent.getExtras().getString("imageURL");
 
         //Bind Data
         titleTxt.setText(title);
         Glide.with(this).load(imageUrl).thumbnail(0.1f).centerCrop().priority(Priority.IMMEDIATE).into(imageView);
+        ImageButton mLikeButton;
+        mLikeButton = (ImageButton) findViewById(R.id.likeButton);
+//        mLikeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mProcessLike = true;
+//
+//                if (mProcessLike) {
+//                    mDatabaseLike.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            if (dataSnapshot.child(post_key).hasChild(FirebaseUtil.getUser().getUid)){
+//
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(DatabaseError databaseError) {
+//
+//                        }
+//                    })
+//                }
+//            }
+//        });
 
         // Send function to comment
         mEditText = (EditText) findViewById(R.id.commentEditText);
@@ -165,7 +196,7 @@ public class DetailActivity extends AppCompatActivity {
                         mPhotoUrl,
                         mTimestamp
                         );
-                mFirebaseDatabaseReference.child(COMMENTS_CHILD)
+                FirebaseUtil.getBaseRef().child(COMMENTS_CHILD)
                         .push().setValue(comment);
                 mEditText.setText("");
             }

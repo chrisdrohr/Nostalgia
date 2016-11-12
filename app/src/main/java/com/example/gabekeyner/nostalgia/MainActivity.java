@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity
             finish();
             return;
         } else {
-            mUsername = mFirebaseUser.getDisplayName();
+            mUsername = FirebaseUtil.getUser().getUserName();
             if (mFirebaseUser.getPhotoUrl() != null) {
-                mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+                mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
             }
         }
 //        // Initialize Firebase Remote Config.

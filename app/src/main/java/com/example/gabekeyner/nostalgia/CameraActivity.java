@@ -47,19 +47,20 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     private static final String TAG = CameraActivity.class.getCanonicalName();
 
-    //FireBase
-    private StorageReference mStorageReference;
-    private DatabaseReference mDatabaseReference;
-    private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
-    private DatabaseReference mPhotosReference = FirebaseDatabase.getInstance().getReference().child("posts");
-
     private String filepath;
     private EditText mTitle;
     private FloatingActionButton mUploadFab;
     private ProgressBar progressBar;
     private ImageView mImageView;
     private Uri mMediaUri;
+    private String mUsername;
+    private String mTimestamp;
 
+    //FireBase
+    private StorageReference mStorageReference;
+    private DatabaseReference mDatabaseReference;
+    private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
+    private DatabaseReference mPhotosReference = FirebaseDatabase.getInstance().getReference().child("posts");
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,13 +158,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_TAKE_PHOTO) {
                 //CREATES FILE FOR THE IMAGE
-//                File file = new File(filepath);
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                if (file.exists()) {
-//                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     mImageView.setImageBitmap(imageBitmap);
-//                }
 
             } else if (requestCode == REQUEST_PICK_PHOTO) {
                 if (data != null) {
@@ -198,14 +195,16 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         progressBar.setVisibility(View.VISIBLE);
         mUploadFab.setEnabled(false);
-        StorageReference photoRef = mStorageReference.child(mMediaUri.getLastPathSegment());
-
+        final StorageReference photoRef = mStorageReference.child(mMediaUri.getLastPathSegment());
+        mUsername = FirebaseUtil.getUser().getUserName();
         photoRef.putFile(mMediaUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-
-                Post post = new Post(taskSnapshot.getDownloadUrl().toString(), mTitle.getText().toString());
+                Post post = new Post(
+                        taskSnapshot.getDownloadUrl().toString(),
+                        mTitle.getText().toString(),
+                        mUsername,
+                       null);
                 mPhotosReference.push().setValue(post);
                 progressBar.setVisibility(View.GONE);
                 mUploadFab.setEnabled(true);
