@@ -22,10 +22,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,12 +39,15 @@ public class DetailActivity extends AppCompatActivity {
         public TextView commentTextView;
         public TextView commentNameTextView;
         public CircleImageView commentImageView;
+        public AutoTypeTextView commentAutoTypeTextView;
+
 
         public MessageViewHolder(View v) {
             super(v);
             commentTextView = (TextView) itemView.findViewById(R.id.commentTextView);
             commentNameTextView = (TextView) itemView.findViewById(R.id.commentNameTextView);
             commentImageView = (CircleImageView) itemView.findViewById(R.id.commentImageView);
+            commentAutoTypeTextView = (AutoTypeTextView) itemView.findViewById(R.id.dateAutoText);
         }
     }
     public static final String TITLE = "title";
@@ -90,8 +97,12 @@ public class DetailActivity extends AppCompatActivity {
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
         mDatabaseLike = FirebaseUtil.getLikesRef();
+        SimpleDateFormat time = new SimpleDateFormat("dd/MM/yyyy-hh:mm");
+        final String mTimestamp = time.format(new Date());
+
 
         mDatabaseLike.keepSynced(true);
+
 
 
 
@@ -107,6 +118,9 @@ public class DetailActivity extends AppCompatActivity {
             protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, int position) {
                 viewHolder.commentTextView.setText(model.getText());
                 viewHolder.commentNameTextView.setText(mUsername);
+                viewHolder.commentAutoTypeTextView.setTextAutoTyping(mTimestamp);
+                viewHolder.commentAutoTypeTextView.setTypingSpeed(100);
+
                 if (model.getPhotoUrl() == null) {
                     viewHolder.commentImageView
                             .setImageDrawable(ContextCompat
@@ -184,6 +198,7 @@ public class DetailActivity extends AppCompatActivity {
 //        });
 
         // Send function to comment
+
         mEditText = (EditText) findViewById(R.id.commentEditText);
         mSendFab = (FloatingActionButton) findViewById(R.id.sendFab);
         mSendFab.startAnimation(fade_in);

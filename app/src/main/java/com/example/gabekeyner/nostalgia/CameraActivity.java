@@ -186,9 +186,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     mImageView.setImageURI(mMediaUri);
                 }
             }
-        } else if (resultCode != RESULT_CANCELED)
-
-        {
+        } else if (resultCode != RESULT_CANCELED) {
+            Intent intent = new Intent(this, MainActivity.class);
             Toast.makeText(this, "Sorry, there was an error!", Toast.LENGTH_LONG).show();
         }
     }
