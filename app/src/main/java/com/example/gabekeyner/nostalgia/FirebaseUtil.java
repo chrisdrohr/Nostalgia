@@ -18,4 +18,8 @@ public class FirebaseUtil {
     public static DatabaseReference getLikesRef() {
         return getBaseRef().child("likes");
     }
+
+    public static String getUid () {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
 }

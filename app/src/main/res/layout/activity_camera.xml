@@ -55,10 +55,9 @@
         android:text="Post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         app:fabSize="mini"
         app:backgroundTint="@color/cardview_light_background"
-        android:tint="@color/MainColor"
+        android:tint="@color/AccentLight"
         app:pressedTranslationZ="12dp"
         app:srcCompat="@android:drawable/ic_menu_send"
         app:elevation="10dp"

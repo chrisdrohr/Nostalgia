@@ -39,15 +39,15 @@ public class DetailActivity extends AppCompatActivity {
         public TextView commentTextView;
         public TextView commentNameTextView;
         public CircleImageView commentImageView;
-        public AutoTypeTextView commentAutoTypeTextView;
+        public AutoTypeTextView commentAutoTypeTextView, commentTimestampAutoTextView;
 
 
         public MessageViewHolder(View v) {
             super(v);
             commentTextView = (TextView) itemView.findViewById(R.id.commentTextView);
-            commentNameTextView = (TextView) itemView.findViewById(R.id.commentNameTextView);
+            commentAutoTypeTextView = (AutoTypeTextView) itemView.findViewById(R.id.userAutoText);
             commentImageView = (CircleImageView) itemView.findViewById(R.id.commentImageView);
-            commentAutoTypeTextView = (AutoTypeTextView) itemView.findViewById(R.id.dateAutoText);
+            commentTimestampAutoTextView = (AutoTypeTextView) itemView.findViewById(R.id.dateAutoText);
         }
     }
     public static final String TITLE = "title";
@@ -97,8 +97,8 @@ public class DetailActivity extends AppCompatActivity {
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
         mDatabaseLike = FirebaseUtil.getLikesRef();
-        SimpleDateFormat time = new SimpleDateFormat("dd/MM/yyyy-hh:mm");
-        final String mTimestamp = time.format(new Date());
+        SimpleDateFormat time = new SimpleDateFormat("dd/MM-hh:mm");
+        final String mCurrentTimestamp = time.format(new Date());
 
 
         mDatabaseLike.keepSynced(true);
@@ -117,9 +117,10 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, int position) {
                 viewHolder.commentTextView.setText(model.getText());
-                viewHolder.commentNameTextView.setText(mUsername);
-                viewHolder.commentAutoTypeTextView.setTextAutoTyping(mTimestamp);
-                viewHolder.commentAutoTypeTextView.setTypingSpeed(100);
+                viewHolder.commentAutoTypeTextView.setTextAutoTyping(mUsername);
+                viewHolder.commentTimestampAutoTextView.setTextAutoTyping(mCurrentTimestamp);
+                viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
+                viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
 
                 if (model.getPhotoUrl() == null) {
                     viewHolder.commentImageView
@@ -209,7 +210,7 @@ public class DetailActivity extends AppCompatActivity {
                         Comment(mEditText.getText().toString(),
                         mUsername,
                         mPhotoUrl,
-                        mTimestamp
+                        mCurrentTimestamp
                         );
                 FirebaseUtil.getBaseRef().child(COMMENTS_CHILD)
                         .push().setValue(comment);
