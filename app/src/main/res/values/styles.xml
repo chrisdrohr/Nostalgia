@@ -10,7 +10,7 @@
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:colorBackground">@color/background_material_light</item>
         <item name="android:navigationBarColor">@color/MainColor</item>
-        <item name="android:statusBarColor">@color/AccentLight</item>
+        <item name="android:statusBarColor">@color/DarkColor</item>
         <item name="android:colorForeground">@color/foreground_material_light</item>
         <item name="android:textColorPrimary">@color/AccentLight</item>
     </style>

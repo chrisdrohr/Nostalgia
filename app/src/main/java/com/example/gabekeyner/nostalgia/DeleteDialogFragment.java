@@ -52,7 +52,6 @@ public class DeleteDialogFragment extends DialogFragment {
 
         Glide.with(DeleteDialogFragment.this)
                 .load(mPhotoUrl)
-                .thumbnail(0.1f)
                 .priority(Priority.IMMEDIATE)
                 .into(userImageView);
         textView.setText(mUsername);

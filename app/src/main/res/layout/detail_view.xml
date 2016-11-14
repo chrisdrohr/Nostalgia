@@ -64,13 +64,13 @@
                 tools:layout_editor_absoluteY="8dp"
                 tools:layout_editor_absoluteX="8dp" />
 
-            <ImageButton
-                android:id="@+id/likeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/detialView"
-                android:layout_alignRight="@+id/detialView"
-                app:srcCompat="@android:drawable/checkbox_on_background" />
+            <!--<ImageButton-->
+                <!--android:id="@+id/likeButton"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignBottom="@+id/detialView"-->
+                <!--android:layout_alignRight="@+id/detialView"-->
+                <!--app:srcCompat="@android:drawable/checkbox_on_background" />-->
 
         </RelativeLayout>
 

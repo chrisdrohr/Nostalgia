@@ -211,7 +211,7 @@ public class DetailActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             mDeleteCardView.setVisibility(View.VISIBLE);
-                            Toast.makeText(DetailActivity.this, "yo", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(DetailActivity.this, "yo", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -219,7 +219,7 @@ public class DetailActivity extends AppCompatActivity {
                 //Bind Data
                 titleTxt.setText(post_title);
                 Glide.with(DetailActivity.this).load(post_image).thumbnail(0.1f).centerCrop().priority(Priority.IMMEDIATE).into(imageView);
-                Toast.makeText(DetailActivity.this, post_uid, Toast.LENGTH_LONG).show();
+//                Toast.makeText(DetailActivity.this, post_uid, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -246,34 +246,34 @@ public class DetailActivity extends AppCompatActivity {
 //            }
 //        });
 
-        mLikeButton = (ImageButton) findViewById(R.id.likeButton);
-        mLikeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProcessLike = true;
-                    mDatabaseLike.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            if (mProcessLike) {
-
-                                if (dataSnapshot.child(mPost_key).hasChild(mUid)) {
-                                    mDatabaseLike.child(mPost_key).child(mUid).removeValue();
-                                    mProcessLike = false;
-
-                                } else {
-                                    mDatabaseLike.child(mPost_key).child(mUid).setValue("like");
-                                    mProcessLike = false;
-                                }
-                            }
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-        });
+//        mLikeButton = (ImageButton) findViewById(R.id.likeButton);
+//        mLikeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mProcessLike = true;
+//                    mDatabaseLike.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                            if (mProcessLike) {
+//
+//                                if (dataSnapshot.child(mPost_key).hasChild(mUid)) {
+//                                    mDatabaseLike.child(mPost_key).child(mUid).removeValue();
+//                                    mProcessLike = false;
+//
+//                                } else {
+//                                    mDatabaseLike.child(mPost_key).child(mUid).setValue("like");
+//                                    mProcessLike = false;
+//                                }
+//                            }
+//                        }
+//                        @Override
+//                        public void onCancelled(DatabaseError databaseError) {
+//
+//                        }
+//                    });
+//                }
+//        });
         // Send function to comment
 
         mEditText = (EditText) findViewById(R.id.commentEditText);
