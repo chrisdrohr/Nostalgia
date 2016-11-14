@@ -1,0 +1,70 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/MainColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.gabekeyner.nostalgia.DeleteDialogFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/dialogUserImageView"
+        app:border_width="1dp"
+        app:border_color="@color/AccentLighter"
+        app:border_overlay="true"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.CardView
+        android:background="@color/AccentLight"
+        app:cardBackgroundColor="@color/AccentLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardView2"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="136dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dialogTextView"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                tools:layout_editor_absoluteX="47dp"
+                tools:layout_editor_absoluteY="16dp"
+                android:layout_width="match_parent" />
+
+            <com.dragankrstic.autotypetextview.AutoTypeTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/dialogTextView"
+                android:id="@+id/deleteAutoText"
+                tools:layout_editor_absoluteY="106dp"
+                tools:layout_editor_absoluteX="20dp"
+                android:textAlignment="center" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</android.support.constraint.ConstraintLayout>
+

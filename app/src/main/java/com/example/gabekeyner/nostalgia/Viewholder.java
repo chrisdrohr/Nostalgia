@@ -31,4 +31,5 @@ public class Viewholder extends RecyclerView.ViewHolder {
         detailTitle = (TextView) itemView.findViewById(R.id.detailTitle);
     }
 
+
 }

@@ -26,6 +26,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
 
     @Override
     public void populateViewHolder(final Viewholder viewHolder, final Post model, int position) {
+        final String post_key = getRef(position).getKey();
         viewHolder.mTitle.setText(model.getTitle());
         viewHolder.mUsername.setText("-" + model.getUser());
         Glide.with(context).load(model.getImageURL()).thumbnail(0.1f).into(viewHolder.mImageView);
@@ -48,8 +49,9 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                openImageViewer(model.getTitle(), model.getImageURL());
-                openDetail(model.getTitle(), model.getImageURL());
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("uid", post_key);
+                context.startActivity(intent);
             }
         });
     }
@@ -61,13 +63,13 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        context.startActivity(intent);
 //    }
-    public void openDetail(String title, String imageURL) {
-        Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra("title", title);
-        intent.putExtra("imageURL", imageURL);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
+//    public void openDetail(String title, String imageURL) {
+//        Intent intent = new Intent(context, DetailActivity.class);
+//        intent.putExtra("title", title);
+//        intent.putExtra("imageURL", imageURL);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        context.startActivity(intent);
+//    }
 
 
 }

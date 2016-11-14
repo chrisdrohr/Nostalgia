@@ -3,13 +3,17 @@ package com.example.gabekeyner.nostalgia;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -19,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -26,7 +31,10 @@ import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,20 +68,25 @@ public class DetailActivity extends AppCompatActivity {
     private String mUsername;
     private String mPhotoUrl;
     private String mTimestamp;
+    private String mUid;
     private EditText mEditText;
 
     // Firebase instance variables
     private FirebaseRecyclerAdapter<Comment, MessageViewHolder>mFirebaseAdapter;
     private FirebaseUser mFirebaseUser;
     private FirebaseAuth mFirebaseAuth;
-    private DatabaseReference mDatabaseLike;
+    private DatabaseReference mDatabaseLike, mDatabaseIntent;
 
     private Animation fade_in;
     private TextView titleTxt, imageViewText;
-    private ImageView imageView, imageViewer;
+    private ImageView imageView, imageViewer, deleteImageView;
     private String title;
-
+    private String mPost_key = null;
+    private CardView mDeleteCardView;
+    private ImageButton mDeleteButton, mLikeButton;
     private Boolean mProcessLike = false;
+    private GestureDetector.OnDoubleTapListener mGestureDetector;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,19 +105,34 @@ public class DetailActivity extends AppCompatActivity {
         mCommentRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         //Initialize Firebase Auth
-//        mFirebaseAuth = FirebaseAuth.getInstance();
-//        mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
         mDatabaseLike = FirebaseUtil.getLikesRef();
+        mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mGestureDetector = new GestureDetector.OnDoubleTapListener() {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                mLikeButton.callOnClick();
+                Toast.makeText(DetailActivity.this, "double tap", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onDoubleTapEvent(MotionEvent e) {
+
+                return false;
+            }
+        };
+
         SimpleDateFormat time = new SimpleDateFormat("dd/MM-hh:mm");
         final String mCurrentTimestamp = time.format(new Date());
 
-
         mDatabaseLike.keepSynced(true);
-
-
-
 
         // New child entries
 //        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -161,43 +189,91 @@ public class DetailActivity extends AppCompatActivity {
 
         titleTxt = (TextView) findViewById(R.id.detailTitle);
         imageView = (ImageView) findViewById(R.id.detialView);
+//        deleteImageView = (ImageView) findViewById(R.id.detialViewDelete);
+//        mDeleteCardView = (CardView) findViewById(R.id.cardViewDelete);
+//        mDeleteButton = (ImageButton) findViewById(R.id.deleteButton);
         titleTxt.startAnimation(fade_in);
 
 
 
         //Receive Data
-        Intent intent = this.getIntent();
-        String title = intent.getExtras().getString("title");
-        final String imageUrl = intent.getExtras().getString("imageURL");
+        mDatabaseIntent = FirebaseUtil.getBaseRef().child("posts");
+        mPost_key = getIntent().getExtras().getString("uid");
+        mDatabaseIntent.child(mPost_key).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String post_title = (String) dataSnapshot.child("title").getValue();
+                final String post_image = (String) dataSnapshot.child("imageURL").getValue();
+                String post_uid = (String) dataSnapshot.child("uid").getValue();
 
-        //Bind Data
-        titleTxt.setText(title);
-        Glide.with(this).load(imageUrl).thumbnail(0.1f).centerCrop().priority(Priority.IMMEDIATE).into(imageView);
-        ImageButton mLikeButton;
-        mLikeButton = (ImageButton) findViewById(R.id.likeButton);
-//        mLikeButton.setOnClickListener(new View.OnClickListener() {
+                if (mUid.equals(post_uid)) {
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDeleteCardView.setVisibility(View.VISIBLE);
+                            Toast.makeText(DetailActivity.this, "yo", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                //Bind Data
+                titleTxt.setText(post_title);
+                Glide.with(DetailActivity.this).load(post_image).thumbnail(0.1f).centerCrop().priority(Priority.IMMEDIATE).into(imageView);
+                Toast.makeText(DetailActivity.this, post_uid, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //Open Dialog Fragment
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showDeleteDialog();
+                return false;
+            }
+        });
+
+//        mDeleteButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                mProcessLike = true;
-//
-//                if (mProcessLike) {
-//                    mDatabaseLike.addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                            if (dataSnapshot.child(post_key).hasChild(FirebaseUtil.getUser().getUid)){
-//
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(DatabaseError databaseError) {
-//
-//                        }
-//                    })
-//                }
+//                FirebaseUtil.getBaseRef().child(mPost_key).removeValue();
+//                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+//                startActivity(intent);
 //            }
 //        });
 
+        mLikeButton = (ImageButton) findViewById(R.id.likeButton);
+        mLikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProcessLike = true;
+                    mDatabaseLike.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if (mProcessLike) {
+
+                                if (dataSnapshot.child(mPost_key).hasChild(mUid)) {
+                                    mDatabaseLike.child(mPost_key).child(mUid).removeValue();
+                                    mProcessLike = false;
+
+                                } else {
+                                    mDatabaseLike.child(mPost_key).child(mUid).setValue("like");
+                                    mProcessLike = false;
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+        });
         // Send function to comment
 
         mEditText = (EditText) findViewById(R.id.commentEditText);
@@ -238,6 +314,21 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+    }
+    public void setLikeBtn(String mPost_key){
+
+    }
+
+    void showDeleteDialog() {
+        DeleteDialogFragment deleteDialogFragment = new DeleteDialogFragment();
+        deleteDialogFragment.show(fragmentManager, "Delete Dialog Fragment");
+    }
+
+    public void doPositiveClick() {
+        FirebaseUtil.getBaseRef().child(mPost_key).removeValue();
+                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+                startActivity(intent);
+        Toast.makeText(this, "Post Removed", Toast.LENGTH_SHORT).show();
     }
 
     @Override
