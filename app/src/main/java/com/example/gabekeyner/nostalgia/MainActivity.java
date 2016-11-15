@@ -374,7 +374,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.staggeredViewVertical:
-                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
                 mStaggeredVerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
                 recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
                 break;
@@ -389,12 +389,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+//        if (id == R.id.nav_camera) {
+//            // Handle the camera action
+//        } else if (id == R.id.nav_gallery) {
             // Handle the pulling from gallery action
 
-        } else if (id == R.id.nav_create_group) {
+         if (id == R.id.nav_create_group) {
             // Handle the New Grouup action  action
         } else if (id == R.id.nav_first_label) {
             // Handle the added Group Label action

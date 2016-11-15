@@ -91,7 +91,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 //PICK FROM GALLERY
             } else if (extras.getString(ACTIVITY_INTENTION).equals(GALLERY_PICKER)) {
                 Intent pickPhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                pickPhotoIntent.setType("image/jpeg");
+                pickPhotoIntent.setType("image/*");
                 startActivityForResult(pickPhotoIntent, REQUEST_PICK_PHOTO);
 
                 //TAKE VIDEO
@@ -121,7 +121,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
             if (mediaType == MEDIA_TYPE_IMAGE) {
-                fileName = "IMG_" + timeStamp;
+                fileName = "IMG_" + FirebaseUtil.getUser().getUserName() + timeStamp;
                 fileType = ".jpg";
             } else if (mediaType == MEDIA_TYPE_VIDEO) {
                 fileName = "VID_" + timeStamp;
@@ -189,6 +189,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         } else if (resultCode != RESULT_CANCELED) {
             Intent intent = new Intent(this, MainActivity.class);
             Toast.makeText(this, "Sorry, there was an error!", Toast.LENGTH_LONG).show();
+
+        }else if (data == null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
     }
 

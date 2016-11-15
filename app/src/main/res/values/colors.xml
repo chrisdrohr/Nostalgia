@@ -13,6 +13,6 @@
     <color name="MainColor">#8C489F</color>
     <color name="DarkColor">#9c27b0</color>
     <color name="AccentLight">#C3C3E5</color>
-    <color name="AccentLighter">#F1F0FF</color>
+    <color name="AccentLighter">#f1f0ff</color>
 
 </resources>

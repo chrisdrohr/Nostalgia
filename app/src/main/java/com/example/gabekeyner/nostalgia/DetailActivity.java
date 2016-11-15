@@ -10,8 +10,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,7 +61,7 @@ public class DetailActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private RecyclerView mCommentRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
-    private FloatingActionButton mSendFab;
+    private FloatingActionButton mSendFab, mCommentFab;
 
     private String mUsername;
     private String mPhotoUrl;
@@ -79,10 +77,10 @@ public class DetailActivity extends AppCompatActivity {
 
     private Animation fade_in;
     private TextView titleTxt, imageViewText;
-    private ImageView imageView, imageViewer, deleteImageView;
+    private ImageView imageView, commentImageView, deleteImageView;
     private String title;
     private String mPost_key = null;
-    private CardView mDeleteCardView;
+    private CardView mDeleteCardView, imageCardView, commentImageCardView;
     private ImageButton mDeleteButton, mLikeButton;
     private Boolean mProcessLike = false;
     private GestureDetector.OnDoubleTapListener mGestureDetector;
@@ -187,8 +185,13 @@ public class DetailActivity extends AppCompatActivity {
 
         fade_in = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_detail);
 
-        titleTxt = (TextView) findViewById(R.id.detailTitle);
+        titleTxt = (TextView) findViewById(R.id.commentDetailTitle);
         imageView = (ImageView) findViewById(R.id.detialView);
+        imageCardView = (CardView) findViewById(R.id.cardViewDetail);
+        mCommentRecyclerView = (RecyclerView) findViewById(R.id.commentRecyclerView);
+        commentImageCardView = (CardView) findViewById(R.id.commentCardViewDetail);
+        commentImageView = (ImageView) findViewById(R.id.commentDetialView);
+        mCommentFab = (FloatingActionButton) findViewById(R.id.fabComment);
 //        deleteImageView = (ImageView) findViewById(R.id.detialViewDelete);
 //        mDeleteCardView = (CardView) findViewById(R.id.cardViewDelete);
 //        mDeleteButton = (ImageButton) findViewById(R.id.deleteButton);
@@ -206,19 +209,43 @@ public class DetailActivity extends AppCompatActivity {
                 final String post_image = (String) dataSnapshot.child("imageURL").getValue();
                 String post_uid = (String) dataSnapshot.child("uid").getValue();
 
-                if (mUid.equals(post_uid)) {
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mDeleteCardView.setVisibility(View.VISIBLE);
+//                if (mUid.equals(post_uid)) {
+//                    imageView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//
 //                            Toast.makeText(DetailActivity.this, "yo", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+//                        }
+//                    });
+//                }
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                            imageCardView.setVisibility(View.INVISIBLE);
+                            commentImageCardView.setVisibility(View.VISIBLE);
+//                            mCommentFab.startAnimation(fade_in);
+                        mCommentFab.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mCommentFab.setVisibility(View.VISIBLE);
+                                AnimationUtil.setScaleAnimation(mCommentFab);
+                            }
+                        },1000);
+                    }
+                });
+                commentImageCardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imageCardView.setVisibility(View.VISIBLE);
+                        commentImageCardView.setVisibility(View.INVISIBLE);
+                        mCommentFab.setVisibility(View.INVISIBLE);
+                    }
+                });
 
                 //Bind Data
                 titleTxt.setText(post_title);
-                Glide.with(DetailActivity.this).load(post_image).thumbnail(0.1f).centerCrop().priority(Priority.IMMEDIATE).into(imageView);
+                Glide.with(DetailActivity.this).load(post_image).thumbnail(0.1f).priority(Priority.IMMEDIATE).into(imageView);
+                Glide.with(DetailActivity.this).load(post_image).thumbnail(0.1f).centerCrop().priority(Priority.LOW).into(commentImageView);
 //                Toast.makeText(DetailActivity.this, post_uid, Toast.LENGTH_LONG).show();
             }
 
@@ -276,44 +303,44 @@ public class DetailActivity extends AppCompatActivity {
 //        });
         // Send function to comment
 
-        mEditText = (EditText) findViewById(R.id.commentEditText);
-        mSendFab = (FloatingActionButton) findViewById(R.id.sendFab);
-        mSendFab.startAnimation(fade_in);
-        mSendFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Comment comment = new
-                        Comment(mEditText.getText().toString(),
-                        mUsername,
-                        mPhotoUrl,
-                        mCurrentTimestamp
-                        );
-                FirebaseUtil.getBaseRef().child(COMMENTS_CHILD)
-                        .push().setValue(comment);
-                mEditText.setText("");
-            }
-        });
-
-        mEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().trim().length() > 0) {
-                    mSendFab.setEnabled(true);
-                } else {
-                    mSendFab.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        mEditText = (EditText) findViewById(R.id.commentEditText);
+//        mSendFab = (FloatingActionButton) findViewById(R.id.sendFab);
+//        mSendFab.startAnimation(fade_in);
+//        mSendFab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Comment comment = new
+//                        Comment(mEditText.getText().toString(),
+//                        mUsername,
+//                        mPhotoUrl,
+//                        mCurrentTimestamp
+//                        );
+//                FirebaseUtil.getBaseRef().child(COMMENTS_CHILD)
+//                        .push().setValue(comment);
+//                mEditText.setText("");
+//            }
+//        });
+//
+//        mEditText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (s.toString().trim().length() > 0) {
+//                    mSendFab.setEnabled(true);
+//                } else {
+//                    mSendFab.setEnabled(false);
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
     }
     public void setLikeBtn(String mPost_key){
 

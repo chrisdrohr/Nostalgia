@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/MainColor"/>-->
+
+        <!--<Space-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:background="@color/MainColor"/>-->
+
+    <!--</RelativeLayout>-->
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_centerHorizontal="true"
+        app:border_color="@color/MainColor"
+        app:border_overlay="true"
+        app:border_width="1dp"
         android:id="@+id/drawerImageView"
         android:layout_width="80dp"
         android:layout_height="80dp"/>
 
     <TextView
         android:id="@+id/drawerNameTextView"
+        android:textColor="@color/MainColor"
         android:layout_below="@+id/drawerImageView"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
@@ -25,5 +44,6 @@
         android:layout_below="@+id/drawerNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
 
 </RelativeLayout>
