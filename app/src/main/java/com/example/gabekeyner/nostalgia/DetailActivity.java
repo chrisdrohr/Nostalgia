@@ -132,8 +132,6 @@ public class DetailActivity extends AppCompatActivity {
 
         mDatabaseLike.keepSynced(true);
 
-        // New child entries
-//        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
                 Comment.class,
                 R.layout.item_comment,
@@ -192,12 +190,7 @@ public class DetailActivity extends AppCompatActivity {
         commentImageCardView = (CardView) findViewById(R.id.commentCardViewDetail);
         commentImageView = (ImageView) findViewById(R.id.commentDetialView);
         mCommentFab = (FloatingActionButton) findViewById(R.id.fabComment);
-//        deleteImageView = (ImageView) findViewById(R.id.detialViewDelete);
-//        mDeleteCardView = (CardView) findViewById(R.id.cardViewDelete);
-//        mDeleteButton = (ImageButton) findViewById(R.id.deleteButton);
-        titleTxt.startAnimation(fade_in);
-
-
+//        titleTxt.startAnimation(fade_in);
 
         //Receive Data
         mDatabaseIntent = FirebaseUtil.getBaseRef().child("posts");
@@ -263,6 +256,20 @@ public class DetailActivity extends AppCompatActivity {
                 return false;
             }
         });
+        commentImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showDeleteDialog();
+                return false;
+            }
+        });
+        //Open Comment Fragment
+        mCommentFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCommentDialog();
+            }
+        });
 
 //        mDeleteButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -301,11 +308,10 @@ public class DetailActivity extends AppCompatActivity {
 //                    });
 //                }
 //        });
-        // Send function to comment
-
+//        // Send function to comment
 //        mEditText = (EditText) findViewById(R.id.commentEditText);
 //        mSendFab = (FloatingActionButton) findViewById(R.id.sendFab);
-//        mSendFab.startAnimation(fade_in);
+////        mSendFab.startAnimation(fade_in);
 //        mSendFab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -349,6 +355,15 @@ public class DetailActivity extends AppCompatActivity {
     void showDeleteDialog() {
         DeleteDialogFragment deleteDialogFragment = new DeleteDialogFragment();
         deleteDialogFragment.show(fragmentManager, "Delete Dialog Fragment");
+    }
+
+    void showCommentDialog() {
+        CommentsFragment commentsFragment = new CommentsFragment();
+        commentsFragment.show(fragmentManager, "Comments Fragment");
+    }
+
+    public void postComment() {
+        Toast.makeText(this, "Comment posted", Toast.LENGTH_SHORT).show();
     }
 
     public void doPositiveClick() {

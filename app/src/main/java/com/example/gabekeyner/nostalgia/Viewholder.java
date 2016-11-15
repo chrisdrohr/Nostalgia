@@ -28,7 +28,7 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mCardView = (CardView) itemView.findViewById(R.id.cardView);
         mContext = itemView.getContext();
         detailImageView = (ImageView) itemView.findViewById(R.id.detialView);
-        detailTitle = (TextView) itemView.findViewById(R.id.detailTitle);
+        detailTitle = (TextView) itemView.findViewById(R.id.commentDetailTitle);
     }
 
 
