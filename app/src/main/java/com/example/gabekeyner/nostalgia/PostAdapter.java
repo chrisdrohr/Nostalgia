@@ -19,14 +19,10 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     public ImageView detailImage;
     private ImageView imageTransition, viewerImageView;
 
-
     public PostAdapter(Class<Post> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         this.context = context;
     }
-
-
-
     @Override
     public void populateViewHolder(final Viewholder viewHolder, final Post model, int position) {
         final String post_key = getRef(position).getKey();
@@ -39,8 +35,6 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(viewHolder.mImageView);
 
-
-
         //FOR ANIMATION
         if (position > previousPosition) {
             //We are scrolling down
@@ -50,7 +44,6 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         }
         previousPosition = position;
         int lastPosition = -1;
-
 
         AnimationUtil.setScaleAnimation(viewHolder.mImageView);
         AnimationUtil.setFadeAnimation(viewHolder.mTitle);

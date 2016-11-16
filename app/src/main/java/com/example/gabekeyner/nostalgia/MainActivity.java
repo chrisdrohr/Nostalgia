@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity
     private Post model;
     private ImageView imageTransition, userImageView;
     private TextView userTextView;
-//    private EditText mEditText;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -138,7 +138,13 @@ public class MainActivity extends AppCompatActivity
         userImageView = (ImageView)headerLayout.findViewById(R.id.drawerImageView);
         userTextView = (TextView) headerLayout.findViewById(R.id.drawerNameTextView);
         userTextView.setText(mUsername);
-        Glide.with(this).load(mPhotoUrl).centerCrop().into(userImageView);
+        Glide.with(this)
+                .load(mPhotoUrl)
+                .centerCrop()
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(userImageView);
 
     }
 //    // Fetch the config to determine the allowed length of messages.
@@ -324,14 +330,28 @@ public class MainActivity extends AppCompatActivity
     }
     //VIEWS
     private void initViews() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(false);
-        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+        final StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        manager.getGapStrategy();
+//        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mChildRef = mDatabase.child("posts");
         mPostAdapter = new PostAdapter(Post.class, R.layout.card_view, Viewholder.class, mChildRef, getApplicationContext());
+//        mPostAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+//            @Override
+//            public void onItemRangeChanged(int positionStart, int itemCount) {
+//                super.onItemRangeChanged(positionStart, itemCount);
+//                int viewCount = mPostAdapter.getItemCount();
+//                int lastVisiblePosition = manager.findLastCompletelyVisibleItemPositions(null)[0];
+//                recyclerView.scrollToPosition(positionStart);
+//                if (lastVisiblePosition == -1) ||
+//                (positionStart >= (viewCount - 1) && lastVisiblePosition == (positionStart - 1))) {
+//                    recyclerView.scrollToPosition(positionStart);
+//                }
+//            }
+//        });
         recyclerView.setAdapter(mPostAdapter);
     }
 
