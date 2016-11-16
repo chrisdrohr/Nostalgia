@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -216,29 +217,44 @@ public class DetailActivity extends AppCompatActivity {
                     public void onClick(View v) {
                             imageCardView.setVisibility(View.INVISIBLE);
                             commentImageCardView.setVisibility(View.VISIBLE);
-//                            mCommentFab.startAnimation(fade_in);
+//                        Toast.makeText(DetailActivity.this, "it", Toast.LENGTH_SHORT).show();
                         mCommentFab.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 mCommentFab.setVisibility(View.VISIBLE);
                                 AnimationUtil.setScaleAnimation(mCommentFab);
                             }
-                        },1000);
+                        },800);
                     }
                 });
-                commentImageCardView.setOnClickListener(new View.OnClickListener() {
+                commentImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         imageCardView.setVisibility(View.VISIBLE);
                         commentImageCardView.setVisibility(View.INVISIBLE);
+//                        Toast.makeText(DetailActivity.this, "blah", Toast.LENGTH_SHORT).show();
                         mCommentFab.setVisibility(View.INVISIBLE);
                     }
                 });
 
                 //Bind Data
                 titleTxt.setText(post_title);
-                Glide.with(DetailActivity.this).load(post_image).thumbnail(0.1f).priority(Priority.IMMEDIATE).into(imageView);
-                Glide.with(DetailActivity.this).load(post_image).thumbnail(0.1f).centerCrop().priority(Priority.LOW).into(commentImageView);
+                Glide.with(DetailActivity.this)
+                        .load(post_image)
+                        .thumbnail(0.5f)
+                        .crossFade()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .priority(Priority.IMMEDIATE)
+                        .into(imageView);
+
+                Glide.with(DetailActivity.this)
+                        .load(post_image)
+                        .thumbnail(0.5f)
+                        .crossFade()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .centerCrop()
+                        .priority(Priority.HIGH)
+                        .into(commentImageView);
 //                Toast.makeText(DetailActivity.this, post_uid, Toast.LENGTH_LONG).show();
             }
 

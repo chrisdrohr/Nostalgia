@@ -11,39 +11,15 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:focusableInTouchMode="false"
         android:id="@+id/cardViewDetail"
         android:layout_height="match_parent"
-        app:cardElevation="@dimen/cardview_default_radius"
+        app:cardElevation="5dp"
         app:cardBackgroundColor="@color/AccentLighter">
-
-        <!--<ImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/backgroundImageView"-->
-            <!--android:scaleType="center" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <!--<TextView-->
-                <!--android:id="@+id/detailTitle"-->
-                <!--android:fontFamily="cursive"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:elevation="10dp"-->
-                <!--android:paddingStart="10dp"-->
-                <!--android:paddingEnd="10dp"-->
-                <!--android:transitionName="bring_picture"-->
-                <!--android:textColor="@color/AccentLight"-->
-                <!--android:textAllCaps="false"-->
-                <!--android:textSize="18sp"-->
-                <!--android:textStyle="bold"-->
-                <!--android:layout_alignBottom="@+id/detialView"-->
-                <!--android:layout_alignStart="@+id/detialView"-->
-                <!--android:backgroundTintMode="screen" />-->
 
             <ImageView
                 android:id="@+id/detialView"
@@ -56,73 +32,19 @@
                 tools:layout_editor_absoluteY="8dp"
                 tools:layout_editor_absoluteX="8dp" />
 
-            <!--<ImageButton-->
-                <!--android:id="@+id/likeButton"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignBottom="@+id/detialView"-->
-                <!--android:layout_alignRight="@+id/detialView"-->
-                <!--app:srcCompat="@android:drawable/checkbox_on_background" />-->
 
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/sendFab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:fabSize="mini"-->
-        <!--app:backgroundTint="@color/cardview_light_background"-->
-        <!--android:tint="@color/AccentLight"-->
-        <!--app:pressedTranslationZ="12dp"-->
-        <!--app:srcCompat="@android:drawable/ic_menu_send"-->
-        <!--app:elevation="10dp" />-->
-
-
-    <!--<EditText-->
-        <!--android:ems="10"-->
-        <!--android:id="@+id/commentEditText"-->
-        <!--android:elevation="@dimen/cardview_default_radius"-->
-        <!--android:hint="    Write a comment..."-->
-        <!--android:textColorHint="#FFFFFF"-->
-        <!--android:background="@color/MainColor"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_alignParentBottom="false"-->
-        <!--android:layout_alignParentStart="false"-->
-        <!--tools:layout_constraintTop_creator="1"-->
-        <!--tools:layout_constraintRight_creator="1"-->
-        <!--tools:layout_constraintBottom_creator="1"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintRight_toRightOf="parent"-->
-        <!--android:layout_marginTop="311dp"-->
-        <!--tools:layout_constraintLeft_creator="1"-->
-        <!--android:layout_marginBottom="311dp"-->
-        <!--app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="1.0"-->
-        <!--app:layout_constraintVertical_bias="0.44"-->
-        <!--android:layout_height="0dp"-->
-        <!--style="@style/Widget.AppCompat.Light.AutoCompleteTextView"-->
-        <!--android:inputType="textCapSentences" />-->
-
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:id="@+id/commentCardViewDetail"
-        android:layout_height="300dp"
+        android:layout_height="370dp"
         android:layout_alignParentTop="true"
+        app:cardElevation="5dp"
         android:visibility="invisible"
-        app:cardElevation="@dimen/cardview_default_radius"
         app:cardBackgroundColor="@color/AccentLighter">
-
-        <!--<ImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/backgroundImageView"-->
-        <!--android:scaleType="center" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -155,14 +77,6 @@
                 tools:layout_editor_absoluteY="8dp"
                 tools:layout_editor_absoluteX="8dp" />
 
-            <!--<ImageButton-->
-            <!--android:id="@+id/likeButton"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignBottom="@+id/detialView"-->
-            <!--android:layout_alignRight="@+id/detialView"-->
-            <!--app:srcCompat="@android:drawable/checkbox_on_background" />-->
-
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
@@ -171,8 +85,8 @@
         android:layout_width="match_parent"
         android:id="@+id/commentRecyclerView"
         android:background="@color/AccentLighter"
-        android:layout_height="match_parent"
-        android:paddingBottom="20dp" />
+        android:layout_below="@+id/commentCardViewDetail"
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_alignParentBottom="true"
