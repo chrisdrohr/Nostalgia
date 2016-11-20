@@ -81,13 +81,14 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:padding="10dp"
                 android:id="@+id/likeButton"
                 tools:layout_editor_absoluteY="0dp"
                 tools:layout_editor_absoluteX="0dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/heart_outline" />
+                android:src="@drawable/heart_outline"
+                android:background="@android:color/transparent" />
 
         </RelativeLayout>
 
@@ -108,8 +109,9 @@
         android:clickable="true"
         app:srcCompat="@android:drawable/stat_notify_chat"
         android:id="@+id/fabComment"
-        app:backgroundTint="@color/MainColor"
+        app:backgroundTint="@color/DarkColor"
         android:tint="@color/AccentLighter"
+        android:alpha=".8"
         android:adjustViewBounds="true"
         app:elevation="12dp"
         android:layout_width="70dp"
