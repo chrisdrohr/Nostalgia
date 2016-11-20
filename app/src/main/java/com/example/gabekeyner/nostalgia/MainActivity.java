@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity
     private Post model;
     private ImageView imageTransition, userImageView;
     private TextView userTextView;
+    private ConstraintLayout constraintLayout;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -82,6 +84,8 @@ public class MainActivity extends AppCompatActivity
                 mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
             }
         }
+
+        constraintLayout = (ConstraintLayout) findViewById(R.id.mainActivityLayout);
 //        // Initialize Firebase Remote Config.
 //        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 //
@@ -332,10 +336,10 @@ public class MainActivity extends AppCompatActivity
     private void initViews() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(false);
-        final StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+        final StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         manager.getGapStrategy();
-//        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mChildRef = mDatabase.child("posts");
         mPostAdapter = new PostAdapter(Post.class, R.layout.card_view, Viewholder.class, mChildRef, getApplicationContext());
@@ -394,7 +398,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.staggeredViewVertical:
-                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                 mStaggeredVerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
                 recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
                 break;

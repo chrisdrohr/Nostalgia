@@ -33,10 +33,6 @@ public class DeleteDialogFragment extends DialogFragment {
 //        frag.setArguments(args);
 //        return frag;
 //    }
-
-
-
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

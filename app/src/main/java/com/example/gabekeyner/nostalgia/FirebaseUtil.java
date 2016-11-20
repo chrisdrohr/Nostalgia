@@ -19,6 +19,10 @@ public class FirebaseUtil {
         return getBaseRef().child("likes");
     }
 
+    public static DatabaseReference getDeletePostRef() {
+        return FirebaseDatabase.getInstance().getReference().child("posts");
+    }
+
     public static String getUid () {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
