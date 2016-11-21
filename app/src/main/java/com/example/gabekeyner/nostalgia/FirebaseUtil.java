@@ -26,4 +26,8 @@ public class FirebaseUtil {
     public static String getUid () {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
+
+    public static DatabaseReference getCommentsRef() {
+        return getBaseRef().child("comments");
+    }
 }

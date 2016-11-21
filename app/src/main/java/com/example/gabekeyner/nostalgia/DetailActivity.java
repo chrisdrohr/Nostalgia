@@ -12,17 +12,16 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.GestureDetector;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -72,12 +71,7 @@ public class DetailActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private ConstraintLayout constraintLayout;
     private Snackbar snackbar;
-
-    private String mUsername;
-    private String mPhotoUrl;
-    private String mTimestamp;
-    private String mUid;
-    private EditText mEditText;
+    private String mUsername, mPhotoUrl, mUid;
 
     // Firebase instance variables
     private FirebaseRecyclerAdapter<Comment, MessageViewHolder>mFirebaseAdapter;
@@ -87,13 +81,12 @@ public class DetailActivity extends AppCompatActivity {
 
     private Animation fade_in;
     private TextView titleTxt, imageViewText;
-    private ImageView imageView, commentImageView, deleteImageView;
-    private String title;
-    private String mPost_key = null;
-    private CardView mDeleteCardView, imageCardView, commentImageCardView;
-    private ImageButton mDeleteButton, mLikeButton;
+    private ImageView imageView, commentImageView;
+    private String mPostKey = null;
+    private CardView imageCardView, commentImageCardView;
+    private ImageButton mLikeButton;
     private Boolean mProcessLike = false;
-    private GestureDetector.OnDoubleTapListener mGestureDetector;
+    private Boolean mProcessComment = false;
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
@@ -117,59 +110,69 @@ public class DetailActivity extends AppCompatActivity {
         mUsername = FirebaseUtil.getUser().getUserName();
         mDatabaseLike = FirebaseUtil.getLikesRef();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        mGestureDetector = new GestureDetector.OnDoubleTapListener() {
-//            @Override
-//            public boolean onSingleTapConfirmed(MotionEvent e) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onDoubleTap(MotionEvent e) {
-//                mLikeButton.callOnClick();
-//                Toast.makeText(DetailActivity.this, "double tap", Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onDoubleTapEvent(MotionEvent e) {
-//
-//                return false;
-//            }
-//        };
+        mDatabaseIntent = FirebaseUtil.getBaseRef().child("posts");
+        mPostKey = getIntent().getExtras().getString("post_key");
+
 
         SimpleDateFormat time = new SimpleDateFormat("dd/MM-hh:mm");
         final String mCurrentTimestamp = time.format(new Date());
 
         mDatabaseLike.keepSynced(true);
+//        Toast.makeText(this, mCommentKey, Toast.LENGTH_SHORT).show();
+
+//        if (mProcessComment == true) {
+            Toast.makeText(DetailActivity.this, "true", Toast.LENGTH_SHORT).show();
+            mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
+                    Comment.class,
+                    layout.item_comment,
+                    MessageViewHolder.class,
+                    FirebaseUtil.getCommentsRef()) {
+
+                @Override
+                protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, final int position) {
+                    viewHolder.commentTextView.setText(model.getText());
+                    viewHolder.commentAutoTypeTextView.setTextAutoTyping(mUsername);
+                    viewHolder.commentTimestampAutoTextView.setTextAutoTyping(mCurrentTimestamp);
+                    viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
+                    viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
+
+                    if (model.getPhotoUrl() == null) {
+                        viewHolder.commentImageView
+                                .setImageDrawable(ContextCompat
+                                        .getDrawable(DetailActivity.this,
+                                                drawable.ic_account_circle_black_36dp));
+                    } else {
+                        Glide.with(DetailActivity.this)
+                                .load(mPhotoUrl)
+                                .priority(Priority.NORMAL)
+                                .into(viewHolder.commentImageView);
+                    }
 
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
-                Comment.class,
-                layout.item_comment,
-                MessageViewHolder.class,
-                FirebaseUtil.getBaseRef().child(COMMENTS_CHILD)) {
-
-            @Override
-            protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, int position) {
-                viewHolder.commentTextView.setText(model.getText());
-                viewHolder.commentAutoTypeTextView.setTextAutoTyping(mUsername);
-                viewHolder.commentTimestampAutoTextView.setTextAutoTyping(mCurrentTimestamp);
-                viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
-                viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
-
-                if (model.getPhotoUrl() == null) {
-                    viewHolder.commentImageView
-                            .setImageDrawable(ContextCompat
-                                    .getDrawable(DetailActivity.this,
-                                            drawable.ic_account_circle_black_36dp));
-                } else {
-                    Glide.with(DetailActivity.this)
-                            .load(mPhotoUrl)
-                            .priority(Priority.NORMAL)
-                            .into(viewHolder.commentImageView);
                 }
-            }
-        };
+            };
+//        }
+//            FirebaseUtil.getCommentsRef().addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+////                    if (mProcessComment) {
+//                        //Comments id matches post
+//                        if (dataSnapshot.child(mPostKey).getKey().equals(mPostKey)) {
+//                            Toast.makeText(DetailActivity.this, "do match", Toast.LENGTH_SHORT).show();
+//                            mProcessComment = true;
+//                            //Comments id don't match post
+//                        } else {
+//                            Toast.makeText(DetailActivity.this, "don't match", Toast.LENGTH_SHORT).show();
+//                            mProcessComment = false;
+//                        }
+//                    }
+////                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
 
         mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -194,6 +197,7 @@ public class DetailActivity extends AppCompatActivity {
         fade_in = AnimationUtils.loadAnimation(getApplicationContext(), anim.fade_in_detail);
 
         titleTxt = (TextView) findViewById(id.commentDetailTitle);
+        imageViewText = (TextView) findViewById(id.titleTextView);
         imageView = (ImageView) findViewById(id.detialView);
         imageCardView = (CardView) findViewById(id.cardViewDetail);
         mCommentRecyclerView = (RecyclerView) findViewById(id.commentRecyclerView);
@@ -201,15 +205,13 @@ public class DetailActivity extends AppCompatActivity {
         commentImageView = (ImageView) findViewById(id.commentDetialView);
         mCommentFab = (FloatingActionButton) findViewById(id.fabComment);
         mLikeButton = (ImageButton) findViewById(id.likeButton);
-
         relativeLayout = (RelativeLayout) findViewById(id.detailLayout);
         constraintLayout = (ConstraintLayout) findViewById(id.mainActivityLayout);
 //        titleTxt.startAnimation(fade_in);
 
         //Receive Data
-        mDatabaseIntent = FirebaseUtil.getBaseRef().child("posts");
-        mPost_key = getIntent().getExtras().getString("uid");
-        mDatabaseIntent.child(mPost_key).addValueEventListener(new ValueEventListener() {
+
+        mDatabaseIntent.child(mPostKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String post_title = (String) dataSnapshot.child("title").getValue();
@@ -257,7 +259,8 @@ public class DetailActivity extends AppCompatActivity {
                 });
 
                 //Bind Data
-                titleTxt.setText(post_title);
+//                titleTxt.setText(post_title);
+                imageViewText.setText(post_title);
                 Glide.with(DetailActivity.this)
                         .load(post_image)
                         .thumbnail(0.5f)
@@ -279,7 +282,7 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //Liked
-                        if (dataSnapshot.child(mPost_key).hasChild(FirebaseUtil.getUid())){
+                        if (dataSnapshot.child(mPostKey).hasChild(FirebaseUtil.getUid())){
                             mLikeButton.setImageResource(drawable.heart);
 
                         }else {
@@ -319,8 +322,8 @@ public class DetailActivity extends AppCompatActivity {
 
                             if (mProcessLike) {
                                     //Unliked
-                                if (dataSnapshot.child(mPost_key).hasChild(mUid)) {
-                                    FirebaseUtil.getLikesRef().child(mPost_key).child(mUid).removeValue();
+                                if (dataSnapshot.child(mPostKey).hasChild(mUid)) {
+                                    FirebaseUtil.getLikesRef().child(mPostKey).child(mUid).removeValue();
                                     mProcessLike = false;
                                     snackbar = Snackbar.make(relativeLayout, "Unliked", Snackbar.LENGTH_SHORT);
                                     View snackBarView = snackbar.getView();
@@ -328,7 +331,7 @@ public class DetailActivity extends AppCompatActivity {
                                     snackbar.show();
                                     //Liked
                                 } else {
-                                    FirebaseUtil.getLikesRef().child(mPost_key).child(mUid).setValue("like");
+                                    FirebaseUtil.getLikesRef().child(mPostKey).child(mUid).setValue("like");
                                     mProcessLike = false;
                                     snackbar = Snackbar.make(relativeLayout, "Liked!", Snackbar.LENGTH_SHORT);
                                     View snackBarView = snackbar.getView();
@@ -353,6 +356,9 @@ public class DetailActivity extends AppCompatActivity {
 
     void showCommentDialog() {
         CommentsFragment commentsFragment = new CommentsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("postKey", getIntent().getExtras().getString("uid"));
+        commentsFragment.setArguments(bundle);
         commentsFragment.show(fragmentManager, "Comments Fragment");
     }
 
@@ -365,7 +371,7 @@ public class DetailActivity extends AppCompatActivity {
 }
 
     public void doPositiveClick() {
-        FirebaseUtil.getDeletePostRef().child(mPost_key).removeValue();
+        FirebaseUtil.getDeletePostRef().child(mPostKey).removeValue();
                 Intent intent = new Intent(DetailActivity.this, MainActivity.class);
                 startActivity(intent);
     }

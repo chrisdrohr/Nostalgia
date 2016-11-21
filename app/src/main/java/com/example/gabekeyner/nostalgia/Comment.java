@@ -5,12 +5,14 @@ public class Comment {
         private String text;
         private String user;
         private String photoUrl;
+        private String postKey;
         private String timestamp;
 
-    public Comment(String text, String user, String photoUrl, String timestamp) {
+    public Comment(String text, String user, String photoUrl, String postKey, String timestamp) {
         this.text = text;
         this.user = user;
         this.photoUrl = photoUrl;
+        this.postKey = postKey;
         this.timestamp = timestamp;
     }
 
@@ -39,6 +41,14 @@ public class Comment {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getPostKey() {
+        return postKey;
+    }
+
+    public void setPostKey(String postKey) {
+        this.postKey = postKey;
     }
 
     public String getTimestamp() {

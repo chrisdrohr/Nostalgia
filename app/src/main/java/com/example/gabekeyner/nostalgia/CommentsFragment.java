@@ -16,22 +16,21 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.example.gabekeyner.nostalgia.DetailActivity.COMMENTS_CHILD;
-
 public class CommentsFragment extends DialogFragment{
 
     private CircleImageView userImageView;
-    private String mPhotoUrl, mUsername;
+    private String mPhotoUrl, mUsername, mUid, commentPath;
     private TextView textView;
     private AutoTypeTextView autoTypeTextView;
     private EditText mEditText;
-    private String mPost_key = null;
+    public static final String mPost_key = null;
     private FloatingActionButton mSendFab;
 
     @Override
@@ -47,6 +46,11 @@ public class CommentsFragment extends DialogFragment{
 
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
+        mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+        Bundle bundle = getArguments();
+        final String mPostKey = bundle.getString("postKey","");
 
         // Send function to comment
         SimpleDateFormat time = new SimpleDateFormat("dd/MM-hh:mm");
@@ -60,9 +64,10 @@ public class CommentsFragment extends DialogFragment{
                         Comment(mEditText.getText().toString(),
                         mUsername,
                         mPhotoUrl,
+                        mPostKey,
                         mCurrentTimestamp
                 );
-                FirebaseUtil.getBaseRef().child(COMMENTS_CHILD)
+                FirebaseUtil.getCommentsRef()
                         .push().setValue(comment);
                 mEditText.setText("");
             }

@@ -53,7 +53,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("uid", post_key);
+                intent.putExtra("post_key", post_key);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
