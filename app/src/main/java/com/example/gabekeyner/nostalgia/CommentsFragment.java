@@ -48,9 +48,10 @@ public class CommentsFragment extends DialogFragment{
         mUsername = FirebaseUtil.getUser().getUserName();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-
         Bundle bundle = getArguments();
         final String mPostKey = bundle.getString("postKey","");
+
+        commentPath = FirebaseUtil.getBaseRef().child("posts").getKey();
 
         // Send function to comment
         SimpleDateFormat time = new SimpleDateFormat("dd/MM-hh:mm");
@@ -67,7 +68,7 @@ public class CommentsFragment extends DialogFragment{
                         mPostKey,
                         mCurrentTimestamp
                 );
-                FirebaseUtil.getCommentsRef()
+                FirebaseUtil.getCommentsRef().child(mPostKey)
                         .push().setValue(comment);
                 mEditText.setText("");
             }

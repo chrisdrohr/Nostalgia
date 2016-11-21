@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -71,7 +70,7 @@ public class DetailActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private ConstraintLayout constraintLayout;
     private Snackbar snackbar;
-    private String mUsername, mPhotoUrl, mUid;
+    private String mUsername, mPhotoUrl, mUid, commentPath;
 
     // Firebase instance variables
     private FirebaseRecyclerAdapter<Comment, MessageViewHolder>mFirebaseAdapter;
@@ -113,20 +112,16 @@ public class DetailActivity extends AppCompatActivity {
         mDatabaseIntent = FirebaseUtil.getBaseRef().child("posts");
         mPostKey = getIntent().getExtras().getString("post_key");
 
-
         SimpleDateFormat time = new SimpleDateFormat("dd/MM-hh:mm");
         final String mCurrentTimestamp = time.format(new Date());
 
         mDatabaseLike.keepSynced(true);
-//        Toast.makeText(this, mCommentKey, Toast.LENGTH_SHORT).show();
 
-//        if (mProcessComment == true) {
-            Toast.makeText(DetailActivity.this, "true", Toast.LENGTH_SHORT).show();
             mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
                     Comment.class,
                     layout.item_comment,
                     MessageViewHolder.class,
-                    FirebaseUtil.getCommentsRef()) {
+                    FirebaseUtil.getCommentsRef().child(mPostKey)) {
 
                 @Override
                 protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, final int position) {
@@ -151,28 +146,6 @@ public class DetailActivity extends AppCompatActivity {
 
                 }
             };
-//        }
-//            FirebaseUtil.getCommentsRef().addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-////                    if (mProcessComment) {
-//                        //Comments id matches post
-//                        if (dataSnapshot.child(mPostKey).getKey().equals(mPostKey)) {
-//                            Toast.makeText(DetailActivity.this, "do match", Toast.LENGTH_SHORT).show();
-//                            mProcessComment = true;
-//                            //Comments id don't match post
-//                        } else {
-//                            Toast.makeText(DetailActivity.this, "don't match", Toast.LENGTH_SHORT).show();
-//                            mProcessComment = false;
-//                        }
-//                    }
-////                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            });
 
         mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -210,7 +183,6 @@ public class DetailActivity extends AppCompatActivity {
 //        titleTxt.startAnimation(fade_in);
 
         //Receive Data
-
         mDatabaseIntent.child(mPostKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -357,7 +329,7 @@ public class DetailActivity extends AppCompatActivity {
     void showCommentDialog() {
         CommentsFragment commentsFragment = new CommentsFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("postKey", getIntent().getExtras().getString("uid"));
+        bundle.putString("postKey", getIntent().getExtras().getString("post_key"));
         commentsFragment.setArguments(bundle);
         commentsFragment.show(fragmentManager, "Comments Fragment");
     }

@@ -27,7 +27,7 @@ public class FirebaseUtil {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
-    public static DatabaseReference getCommentsRef() {
-        return getBaseRef().child("comments");
+    public static DatabaseReference getCommentsRef () {
+        return getBaseRef().child("posts/comments");
     }
 }
