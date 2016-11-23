@@ -65,6 +65,7 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:24.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    compile 'com.github.florent37:viewanimator:1.0.4'
 }
 apply plugin: 'com.google.gms.google-services'
 

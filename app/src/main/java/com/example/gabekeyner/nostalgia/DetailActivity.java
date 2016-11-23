@@ -27,6 +27,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -212,26 +213,48 @@ public class DetailActivity extends AppCompatActivity {
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        AnimationUtil.setFadeOutAnimationShort(imageCardView);
-                        imageCardView.startAnimation(fade_up);
-//                        imageCardView.setVisibility(View.INVISIBLE);
+                        ViewAnimator.animate(imageCardView)
+                                .translationY(0,-1000)
+                                .alpha(1,0)
+                                .duration(200)
+                                .andAnimate(commentImageView)
+                                .alpha(0,1)
+                                .duration(200)
+                                .andAnimate(mCommentRecyclerView)
+                                .slideBottom()
+                                .duration(200)
+                                .start();
+                        ViewAnimator.animate(mCommentFab)
+                                .scale(0,1)
+                                .duration(500)
+                                .thenAnimate(mCommentFab)
+                                .bounce()
+                                .duration(500)
+                                .thenAnimate(mLikeButton)
+                                .flash()
+                                .duration(800)
+                                .start();
+
+                        imageCardView.setVisibility(View.INVISIBLE);
 //                            commentImageCardView.setVisibility(View.VISIBLE);
-//                        AnimationUtil.setFadeAnimationShort(commentImageCardView);
-                        mCommentFab.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mCommentFab.setVisibility(View.VISIBLE);
-                                AnimationUtil.setScaleAnimation(mCommentFab);
-                            }
-                        },500);
+
                     }
                 });
                 commentImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        ViewAnimator.animate(imageCardView)
+                                .translationY(-1000,0)
+                                .alpha(0,1)
+                                .duration(200)
+                                .andAnimate(commentImageView)
+                                .alpha(1,0)
+                                .duration(200)
+                                .start();
                         imageCardView.setVisibility(View.VISIBLE);
-                        commentImageCardView.setVisibility(View.INVISIBLE);
-                        mCommentFab.setVisibility(View.INVISIBLE);
+//                        commentImageCardView.setVisibility(View.INVISIBLE);
+//                        mCommentFab.setVisibility(View.INVISIBLE);
                     }
                 });
 
@@ -345,6 +368,17 @@ public class DetailActivity extends AppCompatActivity {
         View snackBarView = snackbar.getView();
         snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),color.DarkColor));
         snackbar.show();
+        ViewAnimator.animate(mCommentFab)
+                .tada()
+                .duration(1000)
+                .thenAnimate(mCommentFab)
+                .bounceOut()
+                .duration(500)
+                .thenAnimate(mCommentFab)
+                .duration(500)
+                .bounceIn()
+                .duration(500)
+                .start();
 }
 
     public void doPositiveClick() {

@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/AccentLighter"
     android:clipChildren="false"
     android:clipToPadding="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,7 +15,7 @@
         android:layout_width="match_parent"
         android:id="@+id/cardViewDetail"
         android:layout_height="match_parent"
-        app:cardElevation="5dp"
+        app:cardElevation="10dp"
         app:cardBackgroundColor="@color/AccentLighter">
 
         <RelativeLayout
@@ -50,11 +51,11 @@
         android:id="@+id/commentCardViewDetail"
         android:layout_height="350dp"
         android:layout_alignParentTop="true"
-        app:cardElevation="5dp"
-        android:visibility="invisible"
+        app:cardElevation="8dp"
         app:cardBackgroundColor="@color/AccentLighter">
 
         <RelativeLayout
+            android:background="@color/AccentLighter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -111,7 +112,6 @@
     <android.support.design.widget.FloatingActionButton
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:visibility="invisible"
         android:layout_margin="25dp"
         android:clickable="true"
         app:srcCompat="@android:drawable/stat_notify_chat"
@@ -120,7 +120,7 @@
         android:tint="@color/AccentLighter"
         android:alpha=".8"
         android:adjustViewBounds="true"
-        app:elevation="12dp"
+        app:elevation="5dp"
         android:layout_width="70dp"
         android:layout_height="70dp" />
 
