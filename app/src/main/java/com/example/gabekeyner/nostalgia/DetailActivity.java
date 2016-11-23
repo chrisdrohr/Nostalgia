@@ -78,7 +78,7 @@ public class DetailActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabaseLike, mDatabaseIntent, mDatabase;
 
-    private Animation fade_in;
+    private Animation fade_in, fade_out, fade_up;
     private TextView titleTxt, imageViewText;
     private ImageView imageView, commentImageView;
     private String mPostKey = null;
@@ -168,6 +168,8 @@ public class DetailActivity extends AppCompatActivity {
         mCommentRecyclerView.setAdapter(mFirebaseAdapter);
 
         fade_in = AnimationUtils.loadAnimation(getApplicationContext(), anim.fade_in_detail);
+        fade_up = AnimationUtils.loadAnimation(getApplicationContext(), anim.fade_up);
+
 
         titleTxt = (TextView) findViewById(id.commentDetailTitle);
         imageViewText = (TextView) findViewById(id.titleTextView);
@@ -210,8 +212,11 @@ public class DetailActivity extends AppCompatActivity {
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                            imageCardView.setVisibility(View.INVISIBLE);
-                            commentImageCardView.setVisibility(View.VISIBLE);
+//                        AnimationUtil.setFadeOutAnimationShort(imageCardView);
+                        imageCardView.startAnimation(fade_up);
+//                        imageCardView.setVisibility(View.INVISIBLE);
+//                            commentImageCardView.setVisibility(View.VISIBLE);
+//                        AnimationUtil.setFadeAnimationShort(commentImageCardView);
                         mCommentFab.postDelayed(new Runnable() {
                             @Override
                             public void run() {
