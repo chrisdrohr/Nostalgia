@@ -14,8 +14,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="?attr/colorPrimary"
+        android:layout_height="50dp"
+        android:background="@color/DarkColor"
         app:popupTheme="@style/AppTheme.PopupOverlay"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
@@ -24,8 +24,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:titleTextColor="@color/AccentLighter"
-        android:elevation="30dp"
-         />
+        android:elevation="4dp"
+        app:titleTextColor="@android:color/white" />
 
 
     <include
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:elevation="6dp"
         app:fabSize="mini"
-        app:pressedTranslationZ="12dp"
+        app:pressedTranslationZ="2dp"
         app:srcCompat="@drawable/expand"
         app:layout_constraintBottom_toBottomOf="@+id/include"
         app:layout_constraintLeft_toLeftOf="@+id/include"
@@ -59,9 +59,10 @@
         tools:layout_constraintLeft_creator="1"
         app:backgroundTint="@color/DarkColor"
         android:layout_marginBottom="10dp"
-        android:alpha=".8"
-        android:tint="@color/AccentLight"
-        android:adjustViewBounds="true" />
+        android:alpha="1"
+        android:tint="@color/AccentLighter"
+        android:adjustViewBounds="true"
+        android:hapticFeedbackEnabled="true" />
 
     <!--<include layout="@layout/fab_layout"/>-->
 
@@ -77,9 +78,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1"
-        android:tint="@color/AccentLight"
+        android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
-        app:elevation="12dp"
+        app:elevation="6dp"
         app:backgroundTint="@color/DarkColor"
         android:alpha=".8"
         app:srcCompat="@drawable/ic_camera_black_24dp" />
@@ -98,9 +99,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton1"
         app:layout_constraintTop_toBottomOf="@+id/floatingActionButton1"
         android:hapticFeedbackEnabled="true"
-        android:tint="@color/AccentLight"
+        android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
-        android:elevation="12dp"
+        android:elevation="6dp"
         app:backgroundTint="@color/DarkColor"
         android:alpha=".8"/>
 
@@ -116,9 +117,9 @@
         app:layout_constraintTop_toBottomOf="@+id/floatingActionButton1"
         app:backgroundTint="@color/DarkColor"
         android:alpha=".8"
-        android:tint="@color/AccentLight"
+        android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
-        android:elevation="12dp"
+        android:elevation="6dp"
         android:layout_width="70dp"
         android:layout_height="70dp" />
 
@@ -134,9 +135,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1"
-        android:tint="@color/AccentLight"
+        android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
-        app:elevation="12dp"
+        app:elevation="6dp"
         app:backgroundTint="@color/DarkColor"
         android:alpha=".8"
         app:srcCompat="@drawable/ic_image_black_24dp"
@@ -153,9 +154,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton1"
         app:layout_constraintTop_toBottomOf="@+id/floatingActionButton1"
         app:backgroundTint="@color/DarkColor"
-        android:tint="@color/AccentLight"
+        android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
-        app:elevation="12dp"
+        app:elevation="6dp"
         android:alpha=".8"
         android:layout_width="70dp"
         android:layout_height="70dp" />

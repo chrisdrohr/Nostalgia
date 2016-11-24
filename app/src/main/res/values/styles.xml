@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <!--<item name="android:windowContentTransitions">true</item>-->
-        <item name="colorPrimary">@color/MainColor</item>
+        <item name="colorPrimary">@color/DarkColor</item>
         <item name="colorPrimaryDark">@color/DarkColor</item>
         <item name="colorAccent">@color/AccentLight</item>
         <item name="android:windowActivityTransitions">true</item>

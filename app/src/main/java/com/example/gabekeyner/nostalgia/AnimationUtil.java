@@ -13,8 +13,8 @@ package com.example.gabekeyner.nostalgia;
         import java.util.Random;
 
 public class AnimationUtil {
-    private final static int SCALE_DURATION = 800;
-    private final static int FADE_DURATION_2 = 2000;
+    private final static int SCALE_DURATION = 300;
+    private final static int FADE_DURATION_2 = 800;
     private final static int FADE_DURATION_1 = 500;
 
     public static void animate(RecyclerView.ViewHolder holder, boolean goesDown){
@@ -47,14 +47,9 @@ public class AnimationUtil {
         anim.setDuration(FADE_DURATION_1);
         view.startAnimation(anim);
     }
-    public static void setFadeAnimationShort(View view) {
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(FADE_DURATION_2);
-        view.startAnimation(anim);
-    }
-    public static void setFadeOutAnimationShort(View view) {
-        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-        anim.setDuration(FADE_DURATION_2);
-        view.startAnimation(anim);
-    }
+//    public static void setFadeOutAnimationShort(View view) {
+//        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+//        anim.setDuration(FADE_DURATION_2);
+//        view.startAnimation(anim);
+//    }
 }

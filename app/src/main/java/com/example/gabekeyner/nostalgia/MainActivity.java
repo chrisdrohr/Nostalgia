@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 clickFab();
             }
-        }, 4000);
+        }, 2000);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -149,6 +150,14 @@ public class MainActivity extends AppCompatActivity
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
+
+        ViewAnimator.animate(toolbar)
+                .slideLeft()
+                .duration(1000)
+                .thenAnimate(fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3)
+                .bounce()
+                .duration(800)
+                .start();
 
     }
 //    // Fetch the config to determine the allowed length of messages.
@@ -259,8 +268,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 if (isOpen) {
-                    fab.startAnimation(rotate_anticlockwise);
-
+//                    fab.startAnimation(rotate_anticlockwise);
+                    ViewAnimator.animate(fab)
+                            .rotation(0)
+                            .duration(300)
+                            .start();
                     floatingActionButton1.startAnimation(hide_fab);
                     floatingActionButton2.startAnimation(hide_fab);
                     floatingActionButton3.startAnimation(hide_fab);
@@ -275,8 +287,11 @@ public class MainActivity extends AppCompatActivity
                     isOpen = false;
 
                 } else {
-                    fab.startAnimation(rotate_clockwise);
-
+//                    fab.startAnimation(rotate_clockwise);
+                    ViewAnimator.animate(fab)
+                            .rotation(540)
+                            .duration(300)
+                            .start();
                     floatingActionButton1.startAnimation(show_fab2);
                     floatingActionButton2.startAnimation(show_fab);
                     floatingActionButton3.startAnimation(show_fab3);

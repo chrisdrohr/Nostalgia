@@ -180,6 +180,7 @@ public class DetailActivity extends AppCompatActivity {
         commentImageCardView = (CardView) findViewById(id.commentCardViewDetail);
         commentImageView = (ImageView) findViewById(id.commentDetialView);
         mCommentFab = (FloatingActionButton) findViewById(id.fabComment);
+        mSendFab = (FloatingActionButton) findViewById(id.fabCommentSwitch);
         mLikeButton = (ImageButton) findViewById(id.likeButton);
         relativeLayout = (RelativeLayout) findViewById(id.detailLayout);
         constraintLayout = (ConstraintLayout) findViewById(id.mainActivityLayout);
@@ -213,30 +214,38 @@ public class DetailActivity extends AppCompatActivity {
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ViewAnimator.animate(imageCardView)
-                                .translationY(0,-1000)
+                        ViewAnimator.animate(imageView)
+                                .translationY(0,-500)
+                                .alpha(1,0)
+                                .duration(200)
+                                .andAnimate(titleTxt)
+                                .translationX(0,-800)
+                                .duration(200)
+
+                                .andAnimate(imageCardView)
                                 .alpha(1,0)
                                 .duration(200)
                                 .andAnimate(commentImageView)
                                 .alpha(0,1)
                                 .duration(200)
                                 .andAnimate(mCommentRecyclerView)
-                                .slideBottom()
+                                .translationX(-600,0)
                                 .duration(200)
                                 .start();
-                        ViewAnimator.animate(mCommentFab)
-                                .scale(0,1)
-                                .duration(500)
-                                .thenAnimate(mCommentFab)
-                                .bounce()
-                                .duration(500)
+                        ViewAnimator.animate(mCommentFab, mSendFab)
+                                .rollIn()
+                                .bounceIn()
+                                .duration(800)
                                 .thenAnimate(mLikeButton)
                                 .flash()
-                                .duration(800)
+                                .duration(400)
                                 .start();
-
-                        imageCardView.setVisibility(View.INVISIBLE);
-//                            commentImageCardView.setVisibility(View.VISIBLE);
+                        imageView.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageCardView.setVisibility(View.INVISIBLE);
+                            }
+                        },500);
 
                     }
                 });
@@ -245,15 +254,32 @@ public class DetailActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         ViewAnimator.animate(imageCardView)
-                                .translationY(-1000,0)
+                                .translationY(-500,0)
                                 .alpha(0,1)
                                 .duration(200)
+
+                                .andAnimate(imageView)
+                                .translationY(-500,0)
+                                .alpha(0,1)
+                                .duration(200)
+
+                                .andAnimate(titleTxt)
+                                .bounceIn()
+                                .duration(200)
+
+                                .andAnimate(mCommentFab, mSendFab)
+                                .rollOut()
+                                .duration(200)
+
                                 .andAnimate(commentImageView)
                                 .alpha(1,0)
-                                .duration(200)
+                                .duration(300)
+
+                                .andAnimate(mCommentRecyclerView)
+                                .translationX(0,-600)
                                 .start();
+
                         imageCardView.setVisibility(View.VISIBLE);
-//                        commentImageCardView.setVisibility(View.INVISIBLE);
 //                        mCommentFab.setVisibility(View.INVISIBLE);
                     }
                 });
@@ -364,20 +390,30 @@ public class DetailActivity extends AppCompatActivity {
 
     public void postComment() {
 
-        snackbar = Snackbar.make(relativeLayout, "Comment Posted", Snackbar.LENGTH_SHORT);
+        snackbar = Snackbar.make(relativeLayout, "Comment Posted", 1000);
         View snackBarView = snackbar.getView();
         snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),color.DarkColor));
         snackbar.show();
-        ViewAnimator.animate(mCommentFab)
+        ViewAnimator.animate(mCommentFab, mSendFab)
                 .tada()
                 .duration(1000)
+                .andAnimate(mCommentFab, mSendFab)
+                .translationY(0,-200)
+                .duration(200)
                 .thenAnimate(mCommentFab)
-                .bounceOut()
-                .duration(500)
+                .scale(1,0)
+                .duration(100)
+                .thenAnimate(mSendFab)
+                .startDelay(300)
+                .translationX(0,500)
+                .descelerate()
+                .duration(600)
+                .thenAnimate(mCommentFab, mSendFab)
+                .translationY(-200, 0)
+                .duration(800)
                 .thenAnimate(mCommentFab)
-                .duration(500)
                 .bounceIn()
-                .duration(500)
+                .duration(650)
                 .start();
 }
 

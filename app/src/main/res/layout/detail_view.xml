@@ -124,5 +124,20 @@
         android:layout_width="70dp"
         android:layout_height="70dp" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="25dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_menu_send"
+        android:id="@+id/fabCommentSwitch"
+        app:backgroundTint="@color/DarkColor"
+        android:tint="@color/AccentLighter"
+        android:alpha=".8"
+        android:adjustViewBounds="true"
+        app:elevation="4dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp" />
+
 
 </RelativeLayout>

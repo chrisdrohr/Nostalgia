@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.database.Query;
 
 public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
@@ -45,17 +46,27 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         previousPosition = position;
         int lastPosition = -1;
 
-        AnimationUtil.setScaleAnimation(viewHolder.mImageView);
+        AnimationUtil.setScaleAnimation(viewHolder.mCardView);
         AnimationUtil.setFadeAnimation(viewHolder.mTitle);
-        AnimationUtil.setAnimation(viewHolder.mImageView, lastPosition);
+        AnimationUtil.setAnimation(viewHolder.mCardView, lastPosition);
 
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("post_key", post_key);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                ViewAnimator.animate(viewHolder.mCardView)
+                        .pulse()
+                        .duration(100)
+                        .start();
+                viewHolder.mImageView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(context, DetailActivity.class);
+                        intent.putExtra("post_key", post_key);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                },50);
+
             }
         });
     }
