@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -54,7 +55,7 @@ public class CommentsFragment extends DialogFragment{
         commentPath = FirebaseUtil.getBaseRef().child("posts").getKey();
 
         // Send function to comment
-        SimpleDateFormat time = new SimpleDateFormat("dd/MM-hh:mm");
+        SimpleDateFormat time = new SimpleDateFormat("MM/dd-hh:mm");
         final String mCurrentTimestamp = time.format(new Date());
         mSendFab = (FloatingActionButton) view.findViewById(R.id.sendFab);
         AnimationUtil.setFadeAnimation(mSendFab);
@@ -98,6 +99,9 @@ public class CommentsFragment extends DialogFragment{
         Glide.with(CommentsFragment.this)
                 .load(mPhotoUrl)
                 .priority(Priority.IMMEDIATE)
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
         textView.setText(mUsername);
 //        autoTypeTextView.setTextAutoTyping("Comment on this photo");

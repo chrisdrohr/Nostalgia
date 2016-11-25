@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.gabekeyner.nostalgia.CameraActivity"
-    android:background="#000000">
+    android:background="@color/AccentLighter">
 
 
     <!--<com.facebook.share.widget.ShareButton-->
@@ -18,12 +18,13 @@
 
     <EditText
         android:id="@+id/editText"
-        android:ems="10"
+        android:textColor="@color/DarkColor"
+        android:ems="15"
         android:layout_width="0dp"
         android:textColorHint="#FFFFFF"
-        android:hint="Caption your memory..."
-        android:elevation="-10dp"
-        android:background="@color/MainColor"
+        android:hint="   Add a title.."
+        android:elevation="2dp"
+        android:background="@color/AccentLight"
         android:isScrollContainer="true"
         android:soundEffectsEnabled="true"
         tools:layout_constraintRight_creator="1"
@@ -35,8 +36,7 @@
         android:layout_height="50dp"
         android:inputType="textCapSentences"
         style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
-        android:singleLine="true"
-        android:textSize="14sp"/>
+        android:textSize="18sp"/>
 
     <ImageView
         android:layout_width="0dp"
@@ -52,15 +52,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.design.widget.FloatingActionButton
-        android:text="Post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:fabSize="mini"
-        app:backgroundTint="@color/cardview_light_background"
-        android:tint="@color/AccentLight"
+        app:backgroundTint="@color/fabColor"
+        android:tint="@color/AccentLighter"
+        android:backgroundTint="@color/DarkColor"
         app:pressedTranslationZ="12dp"
-        app:srcCompat="@android:drawable/ic_menu_send"
-        app:elevation="10dp"
+        app:srcCompat="@drawable/upload_cloud_vector"
+        app:elevation="6dp"
         android:id="@+id/uploadFab"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
@@ -75,6 +75,7 @@
         android:layout_height="wrap_content"
         style="?android:attr/progressBarStyleLarge"
         android:id="@+id/progress_bar"
+        android:backgroundTint="@color/MainColor"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"

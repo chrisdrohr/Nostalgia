@@ -54,6 +54,10 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.gabekeyner.nostalgia.MainActivity"/>
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -93,7 +97,7 @@
         <activity
             android:name=".SignInActivity"
             android:label="@string/title_activity_sign_in" />
-        <activity android:name=".ImageViewerActivity"></activity>
+
     </application>
 
 </manifest>

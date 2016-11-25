@@ -10,7 +10,7 @@
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:colorBackground">@color/background_material_light</item>
         <item name="android:navigationBarColor">@color/DarkColor</item>
-        <item name="android:statusBarColor">@color/DarkColor</item>
+        <item name="android:statusBarColor">@color/DarkColor700</item>
         <item name="android:colorForeground">@color/foreground_material_light</item>
         <item name="android:textColorPrimary">@color/AccentLight</item>
     </style>
@@ -45,5 +45,7 @@
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
+
+    <style name="MaterialNostalgia" parent="AppTheme" />
 
 </resources>

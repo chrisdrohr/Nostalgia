@@ -1,6 +1,5 @@
 package com.example.gabekeyner.nostalgia;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +35,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.StorageReference;
 
+import static com.example.gabekeyner.nostalgia.R.menu.main;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference mChildRef;
     private StorageReference mStorage;
     private PostAdapter mPostAdapter;
+    private Toolbar toolbar;
 
     public static final String ANONYMOUS = "anonymous";
     private String mUsername;
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
 
+
         ViewAnimator.animate(toolbar)
                 .slideLeft()
                 .duration(1000)
@@ -158,6 +161,8 @@ public class MainActivity extends AppCompatActivity
                 .bounce()
                 .duration(800)
                 .start();
+
+
 
     }
 //    // Fetch the config to determine the allowed length of messages.
@@ -323,6 +328,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CameraActivity.class);
                 intent.putExtra(CameraActivity.ACTIVITY_INTENTION, CameraActivity.GALLERY_PICKER);
+                finishAfterTransition();
                 startActivity(intent);
             }
         });
@@ -350,7 +356,7 @@ public class MainActivity extends AppCompatActivity
     //VIEWS
     private void initViews() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(false);
+        recyclerView.setHasFixedSize(true);
         final StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         manager.getGapStrategy();
@@ -374,6 +380,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(mPostAdapter);
     }
 
+
     @Override
     public void onBackPressed() {
         // Handles the Navigation Drawer Opening / Closing
@@ -385,10 +392,39 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        ViewAnimator.animate(toolbar)
+//                .slideRight()
+//                .duration(500)
+//                .andAnimate(fab)
+//                .slideBottom()
+//                .duration(500)
+//                .andAnimate(recyclerView)
+//                .fadeOut()
+//                .start();
+//    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ViewAnimator.animate(toolbar)
+                .slideLeft()
+                .duration(300)
+                .andAnimate(recyclerView,fab)
+                .slideBottom()
+                .duration(300)
+                .thenAnimate(fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3)
+                .bounce()
+                .duration(300)
+                .start();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(main, menu);
         return true;
     }
 
@@ -411,9 +447,13 @@ public class MainActivity extends AppCompatActivity
                 mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
                 break;
-
+            case R.id.twoViewVertical:
+                StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                mStaggered2VerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+                recyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
+                break;
             case R.id.staggeredViewVertical:
-                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
                 mStaggeredVerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
                 recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
                 break;
@@ -447,9 +487,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void transition (View view) {
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, imageTransition, "imageTransition");
-        Intent i = new Intent(MainActivity.this, DetailActivity.class);
-        startActivity(i, options.toBundle());
-    }
+//    public void transition (View view) {
+//        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, imageTransition, "imageTransition");
+//        Intent i = new Intent(MainActivity.this, DetailActivity.class);
+//        startActivity(i, options.toBundle());
+//    }
 }

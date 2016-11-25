@@ -31,7 +31,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         viewHolder.mUsername.setText("-" + model.getUser());
         Glide.with(context)
                 .load(model.getImageURL())
-                .thumbnail(0.5f)
+                .thumbnail(0.1f)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(viewHolder.mImageView);
@@ -46,9 +46,10 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         previousPosition = position;
         int lastPosition = -1;
 
-        AnimationUtil.setScaleAnimation(viewHolder.mCardView);
-        AnimationUtil.setFadeAnimation(viewHolder.mTitle);
+//        AnimationUtil.setScaleAnimation(viewHolder.mCardView);
+//        AnimationUtil.setFadeAnimation(viewHolder.mTitle);
         AnimationUtil.setAnimation(viewHolder.mCardView, lastPosition);
+
 
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override

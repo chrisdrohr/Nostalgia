@@ -35,9 +35,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.gabekeyner.nostalgia.R.anim;
@@ -71,7 +68,7 @@ public class DetailActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private ConstraintLayout constraintLayout;
     private Snackbar snackbar;
-    private String mUsername, mPhotoUrl, mUid, commentPath;
+    private String mUsername, mPhotoUrl, mUid, commentPath, timeStamp;
 
     // Firebase instance variables
     private FirebaseRecyclerAdapter<Comment, MessageViewHolder>mFirebaseAdapter;
@@ -113,9 +110,6 @@ public class DetailActivity extends AppCompatActivity {
         mDatabaseIntent = FirebaseUtil.getBaseRef().child("posts");
         mPostKey = getIntent().getExtras().getString("post_key");
 
-        SimpleDateFormat time = new SimpleDateFormat("dd/MM-hh:mm");
-        final String mCurrentTimestamp = time.format(new Date());
-
         mDatabaseLike.keepSynced(true);
 
             mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
@@ -128,7 +122,7 @@ public class DetailActivity extends AppCompatActivity {
                 protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, final int position) {
                     viewHolder.commentTextView.setText(model.getText());
                     viewHolder.commentAutoTypeTextView.setTextAutoTyping(mUsername);
-                    viewHolder.commentTimestampAutoTextView.setTextAutoTyping(mCurrentTimestamp);
+                    viewHolder.commentTimestampAutoTextView.setTextAutoTyping(model.getTimestamp());
                     viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
                     viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
 
@@ -210,6 +204,7 @@ public class DetailActivity extends AppCompatActivity {
                             return false;
                         }
                     });
+
                 }
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -418,9 +413,10 @@ public class DetailActivity extends AppCompatActivity {
 }
 
     public void doPositiveClick() {
-        FirebaseUtil.getDeletePostRef().child(mPostKey).removeValue();
                 Intent intent = new Intent(DetailActivity.this, MainActivity.class);
                 startActivity(intent);
+        FirebaseUtil.getDeletePostRef().child(mPostKey).removeValue();
+        finish();
     }
 
     @Override

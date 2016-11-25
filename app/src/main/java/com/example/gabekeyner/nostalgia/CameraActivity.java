@@ -1,5 +1,8 @@
 package com.example.gabekeyner.nostalgia;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,13 +12,14 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -24,7 +28,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -57,6 +60,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private String mUsername;
     private long mTimestamp;
     private String mUid;
+    private Context context;
 
     //FireBase
     private StorageReference mStorageReference;
@@ -84,9 +88,11 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             //TAKE PHOTO
             if (extras.getString(ACTIVITY_INTENTION).equals(TAKE_PHOTO)) {
                 Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                if (takePhotoIntent.resolveActivity(getPackageManager()) !=null) {
                 takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
-                startActivityForResult(takePhotoIntent, REQUEST_TAKE_PHOTO);
+                    startActivityForResult(takePhotoIntent, REQUEST_TAKE_PHOTO);
+                }
 
                 //PICK FROM GALLERY
             } else if (extras.getString(ACTIVITY_INTENTION).equals(GALLERY_PICKER)) {
@@ -129,19 +135,26 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             } else {
                 return null;
             }
-            File mediaFile;
-            try {
-                mediaFile = File.createTempFile(fileName, fileType, mediaStorageDir);
-                filepath = mediaFile.getAbsolutePath();
-                Log.i(TAG, "File: " + Uri.fromFile(mediaFile));
-
-                return Uri.fromFile(mediaFile);
-            } catch (IOException e) {
-                Log.e(TAG, "Error creating file: " + mediaStorageDir.getAbsolutePath() + fileName + fileType);
-            }
+//            try {
+//
+////                 Uri photoURI = FileProvider.getUriForFile(CameraActivity.this, BuildConfig.APPLICATION_ID + ".provider", createImageUri());
+////                filepath = mediaFile.getAbsolutePath();
+////                Log.i(TAG, "File: " + Uri.fromFile(mediaFile));
+////
+////                return Uri.fromFile(mediaFile);
+////            } catch (IOException e) {
+////                Log.e(TAG, "Error creating file: " + mediaStorageDir.getAbsolutePath() + fileName + fileType);
+//            }
         }
         // something went wrong
         return null;
+    }
+
+    private Uri createImageUri() {
+        ContentResolver contentResolver = getContentResolver();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.TITLE,mTimestamp);
+        return contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
     }
 
     private boolean isExternalStorageAvailable() {
@@ -160,9 +173,11 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_TAKE_PHOTO) {
                 //CREATES FILE FOR THE IMAGE
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    mImageView.setImageBitmap(imageBitmap);
+                Uri imageUri = Uri.parse(filepath);
+                File file = new File(imageUri.getPath());
+//                Bundle extras = data.getExtras();
+//                Bitmap imageBitmap = (Bitmap) extras.get("data");
+//                    mImageView.setImageBitmap(imageBitmap);
 
             } else if (requestCode == REQUEST_PICK_PHOTO) {
                 if (data != null) {
@@ -189,6 +204,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         } else if (resultCode != RESULT_CANCELED) {
             Intent intent = new Intent(this, MainActivity.class);
             Toast.makeText(this, "Sorry, there was an error!", Toast.LENGTH_LONG).show();
+            startActivity(intent);
 
         }else if (data == null) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -198,6 +214,19 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        ViewAnimator.animate(mTitle)
+                .fadeOut()
+                .duration(100)
+                .andAnimate(mUploadFab)
+                .bounce()
+                .duration(200)
+                .thenAnimate(mUploadFab)
+                .newsPaper()
+                .duration(4000)
+                .start();
+
         progressBar.setVisibility(View.VISIBLE);
         mUploadFab.setEnabled(false);
         final StorageReference photoRef = mStorageReference.child(mMediaUri.getLastPathSegment());
@@ -219,6 +248,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 mUploadFab.setEnabled(true);
                 Toast.makeText(CameraActivity.this, "Memory Uploaded!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(CameraActivity.this, MainActivity.class));
+                finish();
             }
         });
     }

@@ -23,7 +23,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_centerHorizontal="true"
-        app:border_color="@color/MainColor"
+        app:border_color="@color/DarkColor"
         app:border_overlay="true"
         app:border_width="1dp"
         android:id="@+id/drawerImageView"
@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/drawerNameTextView"
-        android:textColor="@color/MainColor"
+        android:textColor="@color/DarkColor"
         android:layout_below="@+id/drawerImageView"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"

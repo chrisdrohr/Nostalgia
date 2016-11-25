@@ -8,7 +8,7 @@
 
 
     <android.support.v7.widget.CardView
-        app:cardBackgroundColor="@color/MainColor"
+        app:cardBackgroundColor="@color/DarkColor"
         android:layout_centerHorizontal="true"
         android:layout_margin="40dp"
         android:layout_width="250dp"
@@ -82,7 +82,7 @@
         android:elevation="@dimen/cardview_default_radius"
         android:hint="    Write a comment..."
         android:textColorHint="#FFFFFF"
-        android:background="@color/MainColor"
+        android:background="@color/DarkColor"
         style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
         android:inputType="textCapSentences"
         android:layout_below="@+id/cardViewprofile"

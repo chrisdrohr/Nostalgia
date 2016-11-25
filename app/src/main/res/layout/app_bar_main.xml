@@ -51,18 +51,17 @@
         android:elevation="6dp"
         app:fabSize="mini"
         app:pressedTranslationZ="2dp"
-        app:srcCompat="@drawable/expand"
+        app:srcCompat="@drawable/blur_vector"
         app:layout_constraintBottom_toBottomOf="@+id/include"
         app:layout_constraintLeft_toLeftOf="@+id/include"
         app:layout_constraintRight_toRightOf="@+id/include"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1"
-        app:backgroundTint="@color/DarkColor"
         android:layout_marginBottom="10dp"
-        android:alpha="1"
         android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
-        android:hapticFeedbackEnabled="true" />
+        android:hapticFeedbackEnabled="true"
+        app:backgroundTint="@color/fabColor" />
 
     <!--<include layout="@layout/fab_layout"/>-->
 
@@ -81,16 +80,15 @@
         android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
         app:elevation="6dp"
-        app:backgroundTint="@color/DarkColor"
-        android:alpha=".8"
-        app:srcCompat="@drawable/ic_camera_black_24dp" />
+        app:backgroundTint="@color/fabColor"
+        app:srcCompat="@drawable/camera_iris_vector" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:clickable="true"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_menu_gallery"
+        app:srcCompat="@drawable/image_multiple"
         android:id="@+id/floatingActionButton2"
         app:layout_constraintRight_toLeftOf="@+id/floatingActionButton1"
         android:layout_marginEnd="16dp"
@@ -102,12 +100,11 @@
         android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
         android:elevation="6dp"
-        app:backgroundTint="@color/DarkColor"
-        android:alpha=".8"/>
+        app:backgroundTint="@color/fabColor" />
 
     <android.support.design.widget.FloatingActionButton
         android:clickable="true"
-        app:srcCompat="@drawable/ic_videocam_black_24dp"
+        app:srcCompat="@drawable/camcorder_vector"
         android:id="@+id/floatingActionButton3"
         android:layout_marginStart="16dp"
         app:layout_constraintLeft_toRightOf="@+id/floatingActionButton1"
@@ -115,8 +112,7 @@
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton1"
         app:layout_constraintTop_toBottomOf="@+id/floatingActionButton1"
-        app:backgroundTint="@color/DarkColor"
-        android:alpha=".8"
+        app:backgroundTint="@color/fabColor"
         android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
         android:elevation="6dp"
@@ -138,14 +134,13 @@
         android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
         app:elevation="6dp"
-        app:backgroundTint="@color/DarkColor"
-        android:alpha=".8"
-        app:srcCompat="@drawable/ic_image_black_24dp"
+        app:backgroundTint="@color/fabColor"
+        app:srcCompat="@drawable/image_vector"
         android:focusable="false" />
 
     <android.support.design.widget.FloatingActionButton
         android:clickable="true"
-        app:srcCompat="@drawable/ic_movie_black_24dp"
+        app:srcCompat="@drawable/filmstrip_vector"
         android:id="@+id/fabVideo"
         android:layout_marginStart="16dp"
         app:layout_constraintLeft_toRightOf="@+id/floatingActionButton1"
@@ -153,11 +148,10 @@
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton1"
         app:layout_constraintTop_toBottomOf="@+id/floatingActionButton1"
-        app:backgroundTint="@color/DarkColor"
+        app:backgroundTint="@color/fabColor"
         android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
         app:elevation="6dp"
-        android:alpha=".8"
         android:layout_width="70dp"
         android:layout_height="70dp" />
 
