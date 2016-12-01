@@ -141,7 +141,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 }
             };
-
+        //TODO: put author comment appear on left side or in different color
         mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {

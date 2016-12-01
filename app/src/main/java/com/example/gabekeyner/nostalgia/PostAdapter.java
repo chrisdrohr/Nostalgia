@@ -36,7 +36,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(viewHolder.mImageView);
 
-        //FOR ANIMATION
+//        FOR ANIMATION
         if (position > previousPosition) {
             //We are scrolling down
             AnimationUtil.animate(viewHolder, true);
@@ -45,9 +45,6 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         }
         previousPosition = position;
         int lastPosition = -1;
-
-//        AnimationUtil.setScaleAnimation(viewHolder.mCardView);
-//        AnimationUtil.setFadeAnimation(viewHolder.mTitle);
         AnimationUtil.setAnimation(viewHolder.mCardView, lastPosition);
 
 

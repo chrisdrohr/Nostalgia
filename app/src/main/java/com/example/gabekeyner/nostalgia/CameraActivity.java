@@ -97,7 +97,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 //PICK FROM GALLERY
             } else if (extras.getString(ACTIVITY_INTENTION).equals(GALLERY_PICKER)) {
                 Intent pickPhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                pickPhotoIntent.setType("image/*");
+                pickPhotoIntent.setType("image/jpeg");
                 startActivityForResult(pickPhotoIntent, REQUEST_PICK_PHOTO);
 
                 //TAKE VIDEO
@@ -251,6 +251,44 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //check flag variable
+        Bundle extras = getIntent().getExtras();
+        if (extras.containsKey(ACTIVITY_INTENTION)) {
+            //TAKE PHOTO
+            if (extras.getString(ACTIVITY_INTENTION).equals(TAKE_PHOTO)) {
+                Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                if (takePhotoIntent.resolveActivity(getPackageManager()) !=null) {
+                    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                    startActivityForResult(takePhotoIntent, REQUEST_TAKE_PHOTO);
+                }
+
+                //PICK FROM GALLERY
+            } else if (extras.getString(ACTIVITY_INTENTION).equals(GALLERY_PICKER)) {
+                Intent pickPhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                pickPhotoIntent.setType("image/jpeg");
+                startActivityForResult(pickPhotoIntent, REQUEST_PICK_PHOTO);
+
+                //TAKE VIDEO
+            } else if (extras.getString(ACTIVITY_INTENTION).equals(VIDEO_SHOOTER)) {
+                Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+//                mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
+                takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15);
+                startActivityForResult(takeVideoIntent, REQUEST_TAKE_VIDEO);
+
+                //PICK FROM VIDEO GALLERY
+            } else if (extras.getString(ACTIVITY_INTENTION).equals(GALLERY_VIDEO_PICKER)) {
+                Intent pickVideoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                pickVideoIntent.setType("video/*");
+                startActivityForResult(pickVideoIntent, REQUEST_PICK_VIDEO);
+            }
+        }
+        super.onBackPressed();
     }
 }
 

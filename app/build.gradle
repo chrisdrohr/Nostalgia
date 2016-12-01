@@ -37,7 +37,7 @@ dependencies {
     //Firebase
 
     // Firebase UI
-
+    compile 'com.firebaseui:firebase-ui-auth:0.6.0'
     // Testing dependencies
 
     compile 'com.android.support:appcompat-v7:24.2.1'

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:drawable/screen_background_dark_transparent">
 
     <!--<RelativeLayout-->
         <!--android:layout_width="match_parent"-->
@@ -23,7 +24,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_centerHorizontal="true"
-        app:border_color="@color/DarkColor"
+        app:border_color="@color/AccentLighter"
         app:border_overlay="true"
         app:border_width="1dp"
         android:id="@+id/drawerImageView"
@@ -32,7 +33,7 @@
 
     <TextView
         android:id="@+id/drawerNameTextView"
-        android:textColor="@color/DarkColor"
+        android:textColor="@color/AccentLighter"
         android:layout_below="@+id/drawerImageView"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"

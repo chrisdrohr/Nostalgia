@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
     FloatingActionButton fab, fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3;
     Animation hide_fab, show_fab, show_fab2, show_fab3, rotate_anticlockwise, rotate_clockwise, stayhidden_fab;
@@ -87,8 +88,6 @@ public class MainActivity extends AppCompatActivity
                 mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
             }
         }
-
-        constraintLayout = (ConstraintLayout) findViewById(R.id.mainActivityLayout);
 //        // Initialize Firebase Remote Config.
 //        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 //
@@ -152,16 +151,6 @@ public class MainActivity extends AppCompatActivity
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
-
-
-        ViewAnimator.animate(toolbar)
-                .slideLeft()
-                .duration(1000)
-                .thenAnimate(fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3)
-                .bounce()
-                .duration(800)
-                .start();
-
 
 
     }
@@ -388,37 +377,29 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+//            super.onBackPressed();
         }
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        ViewAnimator.animate(toolbar)
-//                .slideRight()
-//                .duration(500)
-//                .andAnimate(fab)
-//                .slideBottom()
-//                .duration(500)
-//                .andAnimate(recyclerView)
-//                .fadeOut()
-//                .start();
-//    }
 
     @Override
     public void onResume() {
         super.onResume();
         ViewAnimator.animate(toolbar)
                 .slideLeft()
-                .duration(300)
+                .duration(500)
                 .andAnimate(recyclerView,fab)
                 .slideBottom()
-                .duration(300)
+                .duration(500)
                 .thenAnimate(fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3)
                 .bounce()
                 .duration(300)
                 .start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -468,13 +449,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-            // Handle the pulling from gallery action
-
          if (id == R.id.nav_create_group) {
             // Handle the New Grouup action  action
+//             Toast.makeText(context, "balh", Toast.LENGTH_SHORT).show();
+             openGroupsActivity();
         } else if (id == R.id.nav_first_label) {
             // Handle the added Group Label action
         } else if (id == R.id.nav_share) {
@@ -486,10 +464,10 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void openGroupsActivity () {
+        Intent intent = new Intent(MainActivity.this, GroupsActivity.class);
+        MainActivity.this.startActivity(intent);
+    }
 
-//    public void transition (View view) {
-//        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, imageTransition, "imageTransition");
-//        Intent i = new Intent(MainActivity.this, DetailActivity.class);
-//        startActivity(i, options.toBundle());
-//    }
+
 }

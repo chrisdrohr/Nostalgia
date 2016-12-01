@@ -14,7 +14,8 @@ public class Viewholder extends RecyclerView.ViewHolder {
 
     public TextView mTitle;
     public ImageView mImageView;
-    public TextView mUsername;
+    public TextView mUsername, groupsUsername;
+    public ImageView profilePicture;
     public CardView mCardView;
     public Context mContext;
     public ImageView detailImageView;
@@ -26,6 +27,8 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mUsername = (TextView) itemView.findViewById(R.id.usernameTextView);
         mImageView = (ImageView) itemView.findViewById(R.id.imageView);
         mCardView = (CardView) itemView.findViewById(R.id.cardView);
+        profilePicture = (ImageView) itemView.findViewById(R.id.imageViewGroup);
+        groupsUsername = (TextView) itemView.findViewById(R.id.textViewGroup);
         mContext = itemView.getContext();
         detailImageView = (ImageView) itemView.findViewById(R.id.detialView);
         detailTitle = (TextView) itemView.findViewById(R.id.commentDetailTitle);
