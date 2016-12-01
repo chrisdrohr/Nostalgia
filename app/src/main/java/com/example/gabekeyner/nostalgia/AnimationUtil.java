@@ -1,16 +1,16 @@
 package com.example.gabekeyner.nostalgia;
 
 
-        import android.animation.AnimatorSet;
-        import android.animation.ObjectAnimator;
-        import android.support.v7.widget.RecyclerView;
-        import android.view.View;
-        import android.view.animation.AccelerateDecelerateInterpolator;
-        import android.view.animation.AlphaAnimation;
-        import android.view.animation.Animation;
-        import android.view.animation.ScaleAnimation;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 
-        import java.util.Random;
+import java.util.Random;
 
 public class AnimationUtil {
     private final static int SCALE_DURATION = 300;
@@ -19,7 +19,7 @@ public class AnimationUtil {
 
     public static void animate(RecyclerView.ViewHolder holder, boolean goesDown){
         AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator animatorTranslateY = ObjectAnimator.ofFloat(holder.itemView, "translationY", goesDown==true ? 800 : -10, 0);
+        ObjectAnimator animatorTranslateY = ObjectAnimator.ofFloat(holder.itemView, "translationY", goesDown ? 800 : -10, 0);
 //        ObjectAnimator animatorTranslateX = ObjectAnimator.ofFloat(holder.itemView, "translationX", 1000, 0);
         animatorTranslateY.setDuration(600);
 //        animatorTranslateX.setDuration(500);

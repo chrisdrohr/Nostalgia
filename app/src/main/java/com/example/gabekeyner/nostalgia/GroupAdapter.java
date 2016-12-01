@@ -33,18 +33,18 @@ public class GroupAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
                 .into(viewHolder.profilePicture);
 
         //FOR ANIMATION
-        if (position > previousPosition) {
-            //We are scrolling down
-            AnimationUtil.animate(viewHolder, true);
-        } else { //We are scrolling up
-            AnimationUtil.animate(viewHolder, false);
-        }
-        previousPosition = position;
-        int lastPosition = -1;
+//        if (position > previousPosition) {
+//            //We are scrolling down
+//            AnimationUtil.animate(viewHolder, true);
+//        } else { //We are scrolling up
+//            AnimationUtil.animate(viewHolder, false);
+//        }
+//        previousPosition = position;
+//        int lastPosition = -1;
 
 //        AnimationUtil.setScaleAnimation(viewHolder.mCardView);
 //        AnimationUtil.setFadeAnimation(viewHolder.mTitle);
-        AnimationUtil.setAnimation(viewHolder.mCardView, lastPosition);
+//        AnimationUtil.setAnimation(viewHolder.mCardView, lastPosition);
 
 
 //        viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {

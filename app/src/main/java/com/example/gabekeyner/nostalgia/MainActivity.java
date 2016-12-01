@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference mChildRef;
     private StorageReference mStorage;
     private PostAdapter mPostAdapter;
+    private CardView cardView;
     private Toolbar toolbar;
 
     public static final String ANONYMOUS = "anonymous";
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         }, 2000);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
+        cardView = (CardView) findViewById(R.id.cardView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -345,11 +347,12 @@ public class MainActivity extends AppCompatActivity
     //VIEWS
     private void initViews() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(30);
+//        recyclerView.setHasFixedSize(true);
         final StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-        manager.getGapStrategy();
-        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+//        manager.getGapStrategy();
+//        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mChildRef = mDatabase.child("posts");
         mPostAdapter = new PostAdapter(Post.class, R.layout.card_view, Viewholder.class, mChildRef, getApplicationContext());
@@ -367,6 +370,7 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        });
         recyclerView.setAdapter(mPostAdapter);
+//        manager.findLastVisibleItemPositions();
     }
 
 
@@ -386,11 +390,11 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
         ViewAnimator.animate(toolbar)
-                .slideLeft()
-                .duration(500)
+                .slideTop()
+                .duration(300)
                 .andAnimate(recyclerView,fab)
                 .slideBottom()
-                .duration(500)
+                .duration(300)
                 .thenAnimate(fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3)
                 .bounce()
                 .duration(300)
@@ -427,16 +431,19 @@ public class MainActivity extends AppCompatActivity
                 LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
                 mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
+                recyclerView.setItemViewCacheSize(30);
                 break;
             case R.id.twoViewVertical:
                 StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                mStaggered2VerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+//                mStaggered2VerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
                 recyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
+                recyclerView.setItemViewCacheSize(30);
                 break;
             case R.id.staggeredViewVertical:
                 StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-                mStaggeredVerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+//                mStaggeredVerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
                 recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
+                recyclerView.setItemViewCacheSize(50);
                 break;
             default:
         }

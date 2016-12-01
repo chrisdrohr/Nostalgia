@@ -43,9 +43,9 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         } else { //We are scrolling up
             AnimationUtil.animate(viewHolder, false);
         }
-        previousPosition = position;
+        previousPosition = getItemCount();
         int lastPosition = -1;
-        AnimationUtil.setAnimation(viewHolder.mCardView, lastPosition);
+        AnimationUtil.setAnimation(viewHolder.mCardView, previousPosition);
 
 
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
