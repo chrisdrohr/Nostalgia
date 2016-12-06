@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,6 +31,7 @@ public class SignInActivity extends AppCompatActivity implements
 
     private GoogleApiClient mGoogleApiClient;
 
+
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
 
@@ -40,7 +42,6 @@ public class SignInActivity extends AppCompatActivity implements
 
         // Assign fields
         mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
-
         // Set click listeners
         mSignInButton.setOnClickListener(this);
 
@@ -104,7 +105,6 @@ public class SignInActivity extends AppCompatActivity implements
                     Log.w(TAG, "signInWithCredential", task.getException());
                     Toast.makeText(SignInActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(SignInActivity.this, "Sign in", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SignInActivity.this, MainActivity.class));
                     finish();
                 }

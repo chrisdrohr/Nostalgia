@@ -59,8 +59,6 @@ public class DetailActivity extends AppCompatActivity {
             commentTimestampAutoTextView = (AutoTypeTextView) itemView.findViewById(id.dateAutoText);
         }
     }
-    public static final String TITLE = "title";
-    public static final String COMMENTS_CHILD = "comments";
     private ProgressBar mProgressBar;
     private RecyclerView mCommentRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
@@ -141,7 +139,6 @@ public class DetailActivity extends AppCompatActivity {
 
                 }
             };
-        //TODO: put author comment appear on left side or in different color
         mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {

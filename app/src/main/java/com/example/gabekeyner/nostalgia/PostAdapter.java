@@ -13,6 +13,7 @@ import com.google.firebase.database.Query;
 
 public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
 
+
     private static final String TAG = PostAdapter.class.getSimpleName();
     private Context context;
     int previousPosition = 0;
@@ -25,7 +26,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         this.context = context;
     }
     @Override
-    public void populateViewHolder(final Viewholder viewHolder, final Post model, int position) {
+    public void populateViewHolder(final Viewholder viewHolder, final Post model, final int position) {
         final String post_key = getRef(position).getKey();
         viewHolder.mTitle.setText(model.getTitle());
         viewHolder.mUsername.setText("-" + model.getUser());
@@ -44,16 +45,16 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
             AnimationUtil.animate(viewHolder, false);
         }
         previousPosition = getItemCount();
+        final int center = R.anim.rotate_clockwise;
         int lastPosition = -1;
         AnimationUtil.setAnimation(viewHolder.mCardView, previousPosition);
-
 
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ViewAnimator.animate(viewHolder.mCardView)
-                        .pulse()
-                        .duration(100)
+                        .tada()
+                        .duration(50)
                         .start();
                 viewHolder.mImageView.postDelayed(new Runnable() {
                     @Override
@@ -63,7 +64,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     }
-                },50);
+                },10);
 
             }
         });

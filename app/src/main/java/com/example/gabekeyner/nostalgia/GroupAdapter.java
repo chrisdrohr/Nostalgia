@@ -1,14 +1,21 @@
 package com.example.gabekeyner.nostalgia;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.Query;
 
 public class GroupAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
+
+    private String mPhotoUrl, mUsername, mUid;
+
+
+
 
     private static final String TAG = GroupAdapter.class.getSimpleName();
     private Context context;
@@ -27,7 +34,7 @@ public class GroupAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
         viewHolder.groupsUsername.setText(model.getUserName());
         Glide.with(context)
                 .load(model.getProfilePicture())
-                .thumbnail(0.1f)
+                .thumbnail(0.5f)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(viewHolder.profilePicture);
@@ -45,27 +52,34 @@ public class GroupAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
 //        AnimationUtil.setScaleAnimation(viewHolder.mCardView);
 //        AnimationUtil.setFadeAnimation(viewHolder.mTitle);
 //        AnimationUtil.setAnimation(viewHolder.mCardView, lastPosition);
+        mUsername = FirebaseUtil.getUserName();
+        mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
+        mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
-//        viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        viewHolder.profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = new User(
+                        mUsername,
+                        mPhotoUrl,
+                        mUid,
+                        null,
+                        null);
+                FirebaseUtil.getGroupUserRef().push().setValue(user);
+
+
+//                Group group = new Group(
+//                        mUid,
+//                        viewHolder.mEditText.getText().toString());
+////                FirebaseUtil.getGroupRef().push().setValue(group);
+//                viewHolder.mEditText.setText("");
+//                Toast.makeText(context, group.toString(), Toast.LENGTH_SHORT).show();
 //                ViewAnimator.animate(viewHolder.mCardView)
 //                        .pulse()
 //                        .duration(100)
 //                        .start();
-//                viewHolder.mImageView.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Intent intent = new Intent(context, DetailActivity.class);
-//                        intent.putExtra("post_key", post_key);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        context.startActivity(intent);
-//                    }
-//                },50);
-//
-//            }
-//        });
+            }
+        });
     }
-
 }

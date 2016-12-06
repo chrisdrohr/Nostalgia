@@ -5,15 +5,18 @@ import java.util.Map;
 public class User {
     private String userName;
     private String profilePicture;
+    private String uid;
     private Map<String, Boolean> posts;
     private Map<String, Object> groups;
 
     public User() {
     }
 
-    public User(String userName, String profilePicture, Map<String, Boolean> posts, Map<String, Object> groups) {
+
+    public User(String userName, String profilePicture, String uid, Map<String, Boolean> posts, Map<String, Object> groups) {
         this.userName = userName;
         this.profilePicture = profilePicture;
+        this.uid = uid;
         this.posts = posts;
         this.groups = groups;
     }
@@ -24,6 +27,10 @@ public class User {
 
     public String getProfilePicture() {
         return profilePicture;
+    }
+
+    public String getUid() {
+        return uid;
     }
 
     public Map<String, Boolean> getPosts() {

@@ -22,16 +22,19 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.florent37.viewanimator.ViewAnimator;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.StorageReference;
@@ -52,9 +55,12 @@ public class MainActivity extends AppCompatActivity
     private CardView cardView;
     private Toolbar toolbar;
 
+    private String mUsername, mPhotoUrl, mUid, userKey;
+    private Boolean mProcessUser = true;
+    private DatabaseReference mDatabaseUserExists;
+
+
     public static final String ANONYMOUS = "anonymous";
-    private String mUsername;
-    private String mPhotoUrl;
     private GoogleApiClient mGoogleApiClient;
     private Context context;
     private Post model;
@@ -79,6 +85,9 @@ public class MainActivity extends AppCompatActivity
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabaseUserExists = FirebaseUtil.getUserExistsRef();
+
+        mDatabaseUserExists.keepSynced(true);
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, SignInActivity.class));
@@ -90,6 +99,7 @@ public class MainActivity extends AppCompatActivity
                 mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
             }
         }
+        mUid = FirebaseUtil.getUid();
 //        // Initialize Firebase Remote Config.
 //        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 //
@@ -115,6 +125,7 @@ public class MainActivity extends AppCompatActivity
         initViews();
         fabAnimations();
         fabClickable();
+        checkUser();
         fabPhoto.startAnimation(stayhidden_fab);
         fabVideo.startAnimation(stayhidden_fab);
         fabPhoto.setClickable(false);
@@ -130,6 +141,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         cardView = (CardView) findViewById(R.id.cardView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -141,7 +153,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //User Info display
+        //user Info display
         final View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         userImageView = (ImageView)headerLayout.findViewById(R.id.drawerImageView);
         userTextView = (TextView) headerLayout.findViewById(R.id.drawerNameTextView);
@@ -348,29 +360,12 @@ public class MainActivity extends AppCompatActivity
     private void initViews() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setItemViewCacheSize(30);
-//        recyclerView.setHasFixedSize(true);
         final StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-//        manager.getGapStrategy();
-//        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mChildRef = mDatabase.child("posts");
         mPostAdapter = new PostAdapter(Post.class, R.layout.card_view, Viewholder.class, mChildRef, getApplicationContext());
-//        mPostAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-//            @Override
-//            public void onItemRangeChanged(int positionStart, int itemCount) {
-//                super.onItemRangeChanged(positionStart, itemCount);
-//                int viewCount = mPostAdapter.getItemCount();
-//                int lastVisiblePosition = manager.findLastCompletelyVisibleItemPositions(null)[0];
-//                recyclerView.scrollToPosition(positionStart);
-//                if (lastVisiblePosition == -1) ||
-//                (positionStart >= (viewCount - 1) && lastVisiblePosition == (positionStart - 1))) {
-//                    recyclerView.scrollToPosition(positionStart);
-//                }
-//            }
-//        });
         recyclerView.setAdapter(mPostAdapter);
-//        manager.findLastVisibleItemPositions();
     }
 
 
@@ -423,9 +418,9 @@ public class MainActivity extends AppCompatActivity
 //                return true;
             case R.id.sign_out_menu:
                 mFirebaseAuth.signOut();
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mUsername = ANONYMOUS;
                 startActivity(new Intent(this, SignInActivity.class));
+//                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                mUsername = ANONYMOUS;
                 return true;
             case R.id.linearViewVertical:
                 LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
@@ -474,6 +469,62 @@ public class MainActivity extends AppCompatActivity
     public void openGroupsActivity () {
         Intent intent = new Intent(MainActivity.this, GroupsActivity.class);
         MainActivity.this.startActivity(intent);
+    }
+
+        public void checkUser () {
+//            userKey = FirebaseUtil.getUserExistsRef().
+//            Toast.makeText(MainActivity.this, userKey, Toast.LENGTH_SHORT).show();
+
+            FirebaseUtil.getUserExistsRef().setValue(FirebaseUtil.getUid());
+        FirebaseUtil.getUserExistsRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+//                userKey = dataSnapshot.getValue().toString();
+                if (dataSnapshot.getValue().toString().equals(mUid)) {
+
+                }else {
+                    addUser();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void addUser () {
+        mProcessUser = true;
+        mUsername = FirebaseUtil.getUserName();
+        FirebaseUtil.getUserRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (mProcessUser) {
+//                    if new user
+                    mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
+                    mUsername = FirebaseUtil.getUser().getUserName();
+                    mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    User user = new User(
+                            mUsername,
+                            mPhotoUrl,
+                            mUid,
+                            null,
+                            null
+                    );
+                    FirebaseUtil.getUserRef().push().setValue(user);
+//                    FirebaseUtil.getUserExistsRef().setValue(FirebaseUtil.getUid());
+                    Toast.makeText(MainActivity.this, "Hello " + mUsername, Toast.LENGTH_LONG).show();
+                    mProcessUser = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 

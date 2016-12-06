@@ -13,7 +13,11 @@ public class FirebaseUtil {
 
     public static User getUser () {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        return new User(user.getDisplayName(),user.getPhotoUrl().toString(),null, null);
+        return new User(user.getDisplayName(),user.getPhotoUrl().toString(), null, null, null);
+    }
+    public static String getUserName () {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        return firebaseUser.getDisplayName();
     }
     public static DatabaseReference getLikesRef() {
         return getBaseRef().child("likes");
@@ -29,5 +33,19 @@ public class FirebaseUtil {
 
     public static DatabaseReference getCommentsRef () {
         return getBaseRef().child("posts/comments");
+    }
+    public static DatabaseReference getUserRef () {
+        return getBaseRef().child("users/data");
+    }
+
+    public static DatabaseReference getUserExistsRef() {
+        return getBaseRef().child("users/exists");
+    }
+    public static DatabaseReference getGroupRef () {
+        return getBaseRef().child("groups");
+    }
+
+    public static DatabaseReference getGroupUserRef () {
+        return getBaseRef().child("groups/users");
     }
 }
