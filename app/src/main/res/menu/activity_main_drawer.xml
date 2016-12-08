@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--TODO NEED TO  MAKE " EDIT "  click able TO MOVE [ EDIT ACTIVITY ] -->
-    <item android:title="Groups                                                  EDIT">
         <menu>
-            <item
-                android:id="@+id/nav_first_label"
-                android:icon="@drawable/ic_label"
-                android:title="Group" />
+            <item android:title="Groups" />
+        </menu>
+
+        <menu>
             <item
                 android:id="@+id/nav_create_group"
                 android:icon="@drawable/ic_add"
                 android:title="Create New Group"/>
-            <!--TODO NEED TO  MAKE " CREATE NEW GROUP  "  click able TO START [ EDIT ACTIVITY ]-->
-
         </menu>
-    </item>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
-
-        </menu>
-    </item>
 
 </menu>

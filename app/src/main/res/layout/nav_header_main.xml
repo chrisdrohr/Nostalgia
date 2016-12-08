@@ -6,21 +6,6 @@
     android:orientation="vertical"
     android:background="@android:drawable/screen_background_dark_transparent">
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/MainColor"/>-->
-
-        <!--<Space-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:background="@color/MainColor"/>-->
-
-    <!--</RelativeLayout>-->
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_centerHorizontal="true"

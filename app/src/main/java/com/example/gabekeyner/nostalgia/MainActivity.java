@@ -453,13 +453,7 @@ public class MainActivity extends AppCompatActivity
 
          if (id == R.id.nav_create_group) {
             // Handle the New Grouup action  action
-//             Toast.makeText(context, "balh", Toast.LENGTH_SHORT).show();
              openGroupsActivity();
-        } else if (id == R.id.nav_first_label) {
-            // Handle the added Group Label action
-        } else if (id == R.id.nav_share) {
-            // Handle the share action
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -467,8 +461,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
     public void openGroupsActivity () {
-        Intent intent = new Intent(MainActivity.this, GroupsActivity.class);
-        MainActivity.this.startActivity(intent);
+        GroupFragment groupFragment = new GroupFragment();
+        groupFragment.show(getFragmentManager(), "Group Fragment");
     }
 
         public void checkUser () {
