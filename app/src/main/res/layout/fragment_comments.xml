@@ -10,9 +10,9 @@
     <android.support.v7.widget.CardView
         app:cardBackgroundColor="@color/DarkColor"
         android:layout_centerHorizontal="true"
-        android:layout_margin="40dp"
+        android:layout_margin="10dp"
         android:layout_width="250dp"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         android:id="@+id/cardViewprofile">
 
         <RelativeLayout
@@ -30,7 +30,7 @@
                 />
             <TextView
                 android:id="@+id/dialogTextView"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dialogUserImageView"
                 android:textAlignment="center"

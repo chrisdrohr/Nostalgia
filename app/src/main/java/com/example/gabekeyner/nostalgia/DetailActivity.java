@@ -1,6 +1,7 @@
 package com.example.gabekeyner.nostalgia;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +14,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
@@ -34,14 +34,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.sloop.fonts.FontsManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.example.gabekeyner.nostalgia.R.anim;
-import static com.example.gabekeyner.nostalgia.R.color;
-import static com.example.gabekeyner.nostalgia.R.drawable;
-import static com.example.gabekeyner.nostalgia.R.id;
-import static com.example.gabekeyner.nostalgia.R.layout;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -53,12 +48,13 @@ public class DetailActivity extends AppCompatActivity {
 
         public MessageViewHolder(View v) {
             super(v);
-            commentTextView = (TextView) itemView.findViewById(id.commentTextView);
-            commentAutoTypeTextView = (AutoTypeTextView) itemView.findViewById(id.userAutoText);
-            commentImageView = (CircleImageView) itemView.findViewById(id.commentImageView);
-            commentTimestampAutoTextView = (AutoTypeTextView) itemView.findViewById(id.dateAutoText);
+            commentTextView = (TextView) itemView.findViewById(R.id.commentTextView);
+            commentAutoTypeTextView = (AutoTypeTextView) itemView.findViewById(R.id.userAutoText);
+            commentImageView = (CircleImageView) itemView.findViewById(R.id.commentImageView);
+            commentTimestampAutoTextView = (AutoTypeTextView) itemView.findViewById(R.id.dateAutoText);
         }
     }
+
     private ProgressBar mProgressBar;
     private RecyclerView mCommentRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
@@ -66,10 +62,11 @@ public class DetailActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private ConstraintLayout constraintLayout;
     private Snackbar snackbar;
+    private Typeface typeface;
     private String mUsername, mPhotoUrl, mUid, commentPath, timeStamp;
 
     // Firebase instance variables
-    private FirebaseRecyclerAdapter<Comment, MessageViewHolder>mFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Comment, MessageViewHolder> mFirebaseAdapter;
     private FirebaseUser mFirebaseUser;
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabaseLike, mDatabaseIntent, mDatabase;
@@ -81,21 +78,24 @@ public class DetailActivity extends AppCompatActivity {
     private CardView imageCardView, commentImageCardView;
     private ImageButton mLikeButton;
     private Boolean mProcessLike = false;
-    private Boolean mProcessComment = false;
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-
         super.onCreate(savedInstanceState);
-        setContentView(layout.detail_view);
+        setContentView (R.layout.detail_view);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Toolbar toolbar = (Toolbar) findViewById(id.toolbar);
-        setSupportActionBar(toolbar);
+
+
+        FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
+        FontsManager.changeFonts(this);
 
         // Initialize ProgressBar and RecyclerView.
-        mCommentRecyclerView = (RecyclerView) findViewById(id.commentRecyclerView);
+        mCommentRecyclerView = (RecyclerView) findViewById(R.id.commentRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
         mCommentRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -110,35 +110,35 @@ public class DetailActivity extends AppCompatActivity {
 
         mDatabaseLike.keepSynced(true);
 
-            mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
-                    Comment.class,
-                    layout.item_comment,
-                    MessageViewHolder.class,
-                    FirebaseUtil.getCommentsRef().child(mPostKey)) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
+                Comment.class,
+                R.layout.item_comment,
+                MessageViewHolder.class,
+                FirebaseUtil.getCommentsRef().child(mPostKey)) {
 
-                @Override
-                protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, final int position) {
-                    viewHolder.commentTextView.setText(model.getText());
-                    viewHolder.commentAutoTypeTextView.setTextAutoTyping(mUsername);
-                    viewHolder.commentTimestampAutoTextView.setTextAutoTyping(model.getTimestamp());
-                    viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
-                    viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
+            @Override
+            protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, final int position) {
+                viewHolder.commentTextView.setText(model.getText());
+                viewHolder.commentAutoTypeTextView.setTextAutoTyping(mUsername);
+                viewHolder.commentTimestampAutoTextView.setTextAutoTyping(model.getTimestamp());
+                viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
+                viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
+                FontsManager.changeFonts(viewHolder.commentTextView);
+                FontsManager.changeFonts(viewHolder.commentNameTextView);
 
-                    if (model.getPhotoUrl() == null) {
-                        viewHolder.commentImageView
-                                .setImageDrawable(ContextCompat
-                                        .getDrawable(DetailActivity.this,
-                                                drawable.ic_account_circle_black_36dp));
-                    } else {
-                        Glide.with(DetailActivity.this)
-                                .load(mPhotoUrl)
-                                .priority(Priority.NORMAL)
-                                .into(viewHolder.commentImageView);
-                    }
-
-
+                if (model.getPhotoUrl() == null) {
+                    viewHolder.commentImageView
+                            .setImageDrawable(ContextCompat
+                                    .getDrawable(DetailActivity.this,
+                                            R.drawable.ic_account_circle_black_36dp));
+                } else {
+                    Glide.with(DetailActivity.this)
+                            .load(mPhotoUrl)
+                            .priority(Priority.NORMAL)
+                            .into(viewHolder.commentImageView);
                 }
-            };
+            }
+        };
         mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
@@ -159,22 +159,21 @@ public class DetailActivity extends AppCompatActivity {
         mCommentRecyclerView.setLayoutManager(mLinearLayoutManager);
         mCommentRecyclerView.setAdapter(mFirebaseAdapter);
 
-        fade_in = AnimationUtils.loadAnimation(getApplicationContext(), anim.fade_in_detail);
-        fade_up = AnimationUtils.loadAnimation(getApplicationContext(), anim.fade_up);
+        fade_in = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_detail);
+        fade_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_up);
 
-
-        titleTxt = (TextView) findViewById(id.commentDetailTitle);
-        imageViewText = (TextView) findViewById(id.titleTextView);
-        imageView = (ImageView) findViewById(id.detialView);
-        imageCardView = (CardView) findViewById(id.cardViewDetail);
-        mCommentRecyclerView = (RecyclerView) findViewById(id.commentRecyclerView);
-        commentImageCardView = (CardView) findViewById(id.commentCardViewDetail);
-        commentImageView = (ImageView) findViewById(id.commentDetialView);
-        mCommentFab = (FloatingActionButton) findViewById(id.fabComment);
-        mSendFab = (FloatingActionButton) findViewById(id.fabCommentSwitch);
-        mLikeButton = (ImageButton) findViewById(id.likeButton);
-        relativeLayout = (RelativeLayout) findViewById(id.detailLayout);
-        constraintLayout = (ConstraintLayout) findViewById(id.mainActivityLayout);
+        titleTxt = (TextView) findViewById(R.id.commentDetailTitle);
+        imageViewText = (TextView) findViewById(R.id.titleTextView);
+        imageView = (ImageView) findViewById(R.id.detialView);
+        imageCardView = (CardView) findViewById(R.id.cardViewDetail);
+        mCommentRecyclerView = (RecyclerView) findViewById(R.id.commentRecyclerView);
+        commentImageCardView = (CardView) findViewById(R.id.commentCardViewDetail);
+        commentImageView = (ImageView) findViewById(R.id.commentDetialView);
+        mCommentFab = (FloatingActionButton) findViewById(R.id.fabComment);
+        mSendFab = (FloatingActionButton) findViewById(R.id.fabCommentSwitch);
+        mLikeButton = (ImageButton) findViewById(R.id.likeButton);
+        relativeLayout = (RelativeLayout) findViewById(R.id.detailLayout);
+        constraintLayout = (ConstraintLayout) findViewById(R.id.mainActivityLayout);
 //        titleTxt.startAnimation(fade_in);
 
         //Receive Data
@@ -213,7 +212,6 @@ public class DetailActivity extends AppCompatActivity {
                                 .andAnimate(titleTxt)
                                 .translationX(0,-800)
                                 .duration(200)
-
                                 .andAnimate(imageCardView)
                                 .alpha(1,0)
                                 .duration(200)
@@ -301,11 +299,11 @@ public class DetailActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //Liked
                         if (dataSnapshot.child(mPostKey).hasChild(FirebaseUtil.getUid())){
-                            mLikeButton.setImageResource(drawable.heart);
+                            mLikeButton.setImageResource(R.drawable.heart);
 
                         }else {
                             //Unliked
-                            mLikeButton.setImageResource(drawable.heart_outline);
+                            mLikeButton.setImageResource(R.drawable.heart_outline);
                         }
                     }
 
@@ -334,36 +332,36 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mProcessLike = true;
-                    FirebaseUtil.getLikesRef().addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+                FirebaseUtil.getLikesRef().addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            if (mProcessLike) {
-                                    //Unliked
-                                if (dataSnapshot.child(mPostKey).hasChild(mUid)) {
-                                    FirebaseUtil.getLikesRef().child(mPostKey).child(mUid).removeValue();
-                                    mProcessLike = false;
-                                    snackbar = Snackbar.make(relativeLayout, "Unliked", Snackbar.LENGTH_SHORT);
-                                    View snackBarView = snackbar.getView();
-                                    snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),color.DarkColor));
-                                    snackbar.show();
-                                    //Liked
-                                } else {
-                                    FirebaseUtil.getLikesRef().child(mPostKey).child(mUid).setValue("like");
-                                    mProcessLike = false;
-                                    snackbar = Snackbar.make(relativeLayout, "Liked!", Snackbar.LENGTH_SHORT);
-                                    View snackBarView = snackbar.getView();
-                                    snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),color.DarkColor));
-                                    snackbar.show();
-                                }
+                        if (mProcessLike) {
+                            //Unliked
+                            if (dataSnapshot.child(mPostKey).hasChild(mUid)) {
+                                FirebaseUtil.getLikesRef().child(mPostKey).child(mUid).removeValue();
+                                mProcessLike = false;
+                                snackbar = Snackbar.make(relativeLayout, "Unliked", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.DarkColor));
+                                snackbar.show();
+                                //Liked
+                            } else {
+                                FirebaseUtil.getLikesRef().child(mPostKey).child(mUid).setValue("like");
+                                mProcessLike = false;
+                                snackbar = Snackbar.make(relativeLayout, "Liked!", Snackbar.LENGTH_SHORT);
+                                View snackBarView = snackbar.getView();
+                                snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.DarkColor));
+                                snackbar.show();
                             }
                         }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
-                }
+                    }
+                });
+            }
         });
     }
 
@@ -384,7 +382,7 @@ public class DetailActivity extends AppCompatActivity {
 
         snackbar = Snackbar.make(relativeLayout, "Comment Posted", 1000);
         View snackBarView = snackbar.getView();
-        snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),color.DarkColor));
+        snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.DarkColor));
         snackbar.show();
         ViewAnimator.animate(mCommentFab, mSendFab)
                 .tada()
@@ -407,11 +405,11 @@ public class DetailActivity extends AppCompatActivity {
                 .bounceIn()
                 .duration(650)
                 .start();
-}
+    }
 
     public void doPositiveClick() {
-                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
-                startActivity(intent);
+        Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+        startActivity(intent);
         FirebaseUtil.getDeletePostRef().child(mPostKey).removeValue();
         finish();
     }
@@ -427,4 +425,5 @@ public class DetailActivity extends AppCompatActivity {
         super.onBackPressed();
         finishAfterTransition();
     }
+
 }

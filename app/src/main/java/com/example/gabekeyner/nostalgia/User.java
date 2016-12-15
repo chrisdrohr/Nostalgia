@@ -1,23 +1,25 @@
 package com.example.gabekeyner.nostalgia;
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.Map;
 
 public class User {
     private String userName;
     private String profilePicture;
     private String uid;
-    private Map<String, Boolean> posts;
+    private String groupId;
     private Map<String, Object> groups;
 
     public User() {
     }
 
 
-    public User(String userName, String profilePicture, String uid, Map<String, Boolean> posts, Map<String, Object> groups) {
+    public User(String userName, String profilePicture, String uid, String groupId, Map<String, Object> groups) {
         this.userName = userName;
         this.profilePicture = profilePicture;
         this.uid = uid;
-        this.posts = posts;
+        this.groupId = groupId;
         this.groups = groups;
     }
 
@@ -33,11 +35,17 @@ public class User {
         return uid;
     }
 
-    public Map<String, Boolean> getPosts() {
-        return posts;
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public Map<String, Object> getGroups() {
         return groups;
     }
+
+
 }

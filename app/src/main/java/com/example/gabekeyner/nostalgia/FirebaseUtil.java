@@ -45,7 +45,7 @@ public class FirebaseUtil {
         return getBaseRef().child("groups");
     }
 
-    public static DatabaseReference getGroupUserRef () {
-        return getBaseRef().child("groups/users");
+    public static DatabaseReference getGroupMemberRef () {
+        return getBaseRef().child("groups/members");
     }
 }

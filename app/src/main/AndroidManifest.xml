@@ -89,18 +89,27 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity
-            android:name=".DetailActivity"
-            android:label="@string/title_activity_detail"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan" />
+        <!--<activity-->
+            <!--android:name=".DetailActivity"-->
+            <!--android:label="@string/title_activity_detail"-->
+            <!--android:theme="@style/AppTheme"-->
+            <!--android:windowSoftInputMode="adjustPan" />-->
         <activity
             android:name=".SignInActivity"
             android:label="@string/title_activity_sign_in" />
         <activity
             android:name=".GroupsActivity"
             android:label="@string/title_activity_groups"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".DetailActivity"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.gabekeyner.nostalgia.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

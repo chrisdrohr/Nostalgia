@@ -11,6 +11,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="16dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarDetail"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/DarkColor"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:id="@+id/cardViewDetail"
@@ -37,7 +51,7 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/cardview_dark_background"
                 android:textAlignment="center"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 style="bold"
                 android:layout_below="@+id/detialView"/>
 

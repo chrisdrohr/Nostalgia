@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
@@ -29,6 +31,7 @@ public class CommentsFragment extends DialogFragment{
     private CircleImageView userImageView;
     private String mPhotoUrl, mUsername, mUid, commentPath;
     private TextView textView;
+    private CardView cardView;
     private AutoTypeTextView autoTypeTextView;
     private EditText mEditText;
     public static final String mPost_key = null;
@@ -42,7 +45,7 @@ public class CommentsFragment extends DialogFragment{
 
         userImageView = (CircleImageView) view.findViewById(R.id.dialogUserImageView);
         textView = (TextView) view.findViewById(R.id.dialogTextView);
-//        autoTypeTextView = (AutoTypeTextView) view.findViewById(R.id.commentAutoText);
+        cardView = (CardView) view.findViewById(R.id.cardViewprofile);
         mEditText = (EditText) view.findViewById(R.id.commentEditText);
 
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
@@ -104,8 +107,24 @@ public class CommentsFragment extends DialogFragment{
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
         textView.setText(mUsername);
-//        autoTypeTextView.setTextAutoTyping("Comment on this photo");
-//        autoTypeTextView.setTypingSpeed(20);
+
+        ViewAnimator.animate(cardView)
+                .zoomIn()
+                .duration(200)
+                .andAnimate(userImageView, textView, mEditText)
+                .alpha(0,0)
+                .thenAnimate(userImageView)
+                .alpha(0,1)
+                .bounceIn()
+                .duration(200)
+                .thenAnimate(textView)
+                .slideBottom()
+                .duration(100)
+                .thenAnimate(mEditText)
+                .slideBottom()
+                .descelerate()
+                .duration(150)
+                .start();
 
         builder.setView(view);
         builder.setPositiveButton("Post",

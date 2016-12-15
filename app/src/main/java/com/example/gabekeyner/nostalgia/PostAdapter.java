@@ -13,7 +13,6 @@ import com.google.firebase.database.Query;
 
 public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
 
-
     private static final String TAG = PostAdapter.class.getSimpleName();
     private Context context;
     int previousPosition = 0;
@@ -25,6 +24,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         super(modelClass, modelLayout, viewHolderClass, ref);
         this.context = context;
     }
+
     @Override
     public void populateViewHolder(final Viewholder viewHolder, final Post model, final int position) {
         final String post_key = getRef(position).getKey();
@@ -40,14 +40,14 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
 //        FOR ANIMATION
         if (position > previousPosition) {
             //We are scrolling down
-            AnimationUtil.animate(viewHolder, true);
-        } else { //We are scrolling up
             AnimationUtil.animate(viewHolder, false);
+        } else { //We are scrolling up
+            AnimationUtil.animate(viewHolder, true);
         }
         previousPosition = getItemCount();
         final int center = R.anim.rotate_clockwise;
         int lastPosition = -1;
-        AnimationUtil.setAnimation(viewHolder.mCardView, previousPosition);
+//        AnimationUtil.setAnimation(viewHolder.mCardView, previousPosition);
 
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override

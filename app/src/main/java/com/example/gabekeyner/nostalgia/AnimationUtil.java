@@ -19,10 +19,10 @@ public class AnimationUtil {
 
     public static void animate(RecyclerView.ViewHolder holder, boolean goesDown){
         AnimatorSet animatorSet = new AnimatorSet();
-        ObjectAnimator animatorTranslateY = ObjectAnimator.ofFloat(holder.itemView, "translationY", goesDown ? 800 : -10, 0);
-//        ObjectAnimator animatorTranslateX = ObjectAnimator.ofFloat(holder.itemView, "translationX", 1000, 0);
-        animatorTranslateY.setDuration(600);
-//        animatorTranslateX.setDuration(500);
+        ObjectAnimator animatorTranslateY = ObjectAnimator.ofFloat(holder.itemView, "translationY", goesDown ? 100 : -100, 0);
+        ObjectAnimator animatorTranslateX = ObjectAnimator.ofFloat(holder.itemView, "translationX", 1000, 0);
+        animatorTranslateY.setDuration(400);
+        animatorTranslateX.setDuration(500);
         animatorSet.playTogether(animatorTranslateY);
         animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
         animatorSet.start();

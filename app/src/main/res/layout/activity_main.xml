@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
-    android:background="@color/AccentLighter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -18,12 +17,44 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
+        app:itemIconTint="@color/fabColor"
         android:background="@android:drawable/screen_background_dark_transparent"
-        android:layout_width="160dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="260dp"
+            android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_centerInParent="true"
+            android:elevation="-2dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/navigationDrawerRecyclerView"
+                android:background="@android:drawable/screen_background_dark_transparent"
+                android:scrollbars="vertical"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+
+        </RelativeLayout>
+
+        <!--<fragment-->
+            <!--android:id="@+id/recyclerViewFragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--class="com.example.gabekeyner.nostalgia.NavDrawerGroupsFragment"-->
+            <!--tools:layout="@layout/nav_drawer_list_items">-->
+        <!--</fragment>-->
+      </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

@@ -3,7 +3,6 @@ package com.example.gabekeyner.nostalgia;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,6 +25,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,35 +38,47 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.StorageReference;
+import com.sloop.fonts.FontsManager;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.example.gabekeyner.nostalgia.FirebaseUtil.getGroupRef;
 import static com.example.gabekeyner.nostalgia.R.menu.main;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+    public static class GroupsViewHolder extends RecyclerView.ViewHolder {
+        public CircleImageView navDrawerImageView;
+        public TextView navDrawerTextView;
+
+        public GroupsViewHolder(View itemView) {
+            super(itemView);
+            navDrawerImageView = (CircleImageView) itemView.findViewById(R.id.navDrawerImageView);
+            navDrawerTextView = (TextView) itemView.findViewById(R.id.navDrawerTextView);
+        }
+    }
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    public RecyclerView recyclerView;
-
+    public RecyclerView recyclerView, navGroupRecyclerView;
+    private FirebaseRecyclerAdapter<Group, GroupsViewHolder> mGroupFirebaseAdapter;
+    private LinearLayoutManager layoutManager;
     private DatabaseReference mDatabase;
     private DatabaseReference mChildRef;
     private StorageReference mStorage;
     private PostAdapter mPostAdapter;
     private CardView cardView;
     private Toolbar toolbar;
-
     private String mUsername, mPhotoUrl, mUid, userKey;
     private Boolean mProcessUser = true;
     private DatabaseReference mDatabaseUserExists;
-
-
     public static final String ANONYMOUS = "anonymous";
     private GoogleApiClient mGoogleApiClient;
     private Context context;
     private Post model;
     private ImageView imageTransition, userImageView;
-    private TextView userTextView;
-    private ConstraintLayout constraintLayout;
+    private TextView userTextView, mTitle;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -82,11 +94,14 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
+        mTitle = (TextView) findViewById(R.id.textView);
+        FontsManager.changeFonts(mTitle);
+
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mDatabaseUserExists = FirebaseUtil.getUserExistsRef();
-
         mDatabaseUserExists.keepSynced(true);
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
@@ -139,6 +154,8 @@ public class MainActivity extends AppCompatActivity
         }, 2000);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        navGroupRecyclerView = (RecyclerView) findViewById(R.id.navigationDrawerRecyclerView);
+        layoutManager = new LinearLayoutManager(context);
         cardView = (CardView) findViewById(R.id.cardView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -153,11 +170,35 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mGroupFirebaseAdapter = new FirebaseRecyclerAdapter<Group, GroupsViewHolder>(
+                Group.class,
+                R.layout.nav_drawer_list_items,
+                GroupsViewHolder.class,
+                getGroupRef()) {
+            @Override
+            protected void populateViewHolder(GroupsViewHolder viewHolder, Group model, int position) {
+                viewHolder.navDrawerTextView.setText(model.getGroupName());
+                Glide.with(MainActivity.this)
+                        .load(model.getGroupPhoto())
+                        .thumbnail(0.5f)
+                        .crossFade()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(viewHolder.navDrawerImageView);
+                final String groupKey = getRef(position).getKey();
+                getRef(position).push();
+                Intent intent = new Intent(groupKey);
+                intent.putExtra("groupKey", getRef(position).getKey());
+            }
+        };
+        navGroupRecyclerView.setLayoutManager(layoutManager);
+        navGroupRecyclerView.setAdapter(mGroupFirebaseAdapter);
+
         //user Info display
         final View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         userImageView = (ImageView)headerLayout.findViewById(R.id.drawerImageView);
         userTextView = (TextView) headerLayout.findViewById(R.id.drawerNameTextView);
         userTextView.setText(mUsername);
+        FontsManager.changeFonts(userTextView);
         Glide.with(this)
                 .load(mPhotoUrl)
                 .centerCrop()
@@ -165,8 +206,6 @@ public class MainActivity extends AppCompatActivity
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
-
-
     }
 //    // Fetch the config to determine the allowed length of messages.
 //    public void fetchConfig() {
@@ -359,15 +398,17 @@ public class MainActivity extends AppCompatActivity
     //VIEWS
     private void initViews() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setItemViewCacheSize(30);
+//        recyclerView.setItemViewCacheSize(30);
         final StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+//        recyclerView.setItemAnimator(null);
         recyclerView.setLayoutManager(manager);
+        manager.setItemPrefetchEnabled(false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mChildRef = mDatabase.child("posts");
         mPostAdapter = new PostAdapter(Post.class, R.layout.card_view, Viewholder.class, mChildRef, getApplicationContext());
         recyclerView.setAdapter(mPostAdapter);
     }
-
 
     @Override
     public void onBackPressed() {
@@ -379,7 +420,6 @@ public class MainActivity extends AppCompatActivity
 //            super.onBackPressed();
         }
     }
-
 
     @Override
     public void onResume() {
@@ -426,19 +466,23 @@ public class MainActivity extends AppCompatActivity
                 LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
                 mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
-                recyclerView.setItemViewCacheSize(30);
+                mLinearLayoutManagerVertical.setItemPrefetchEnabled(false);
+//                recyclerView.setItemAnimator(null);
+//                recyclerView.setItemViewCacheSize(30);
                 break;
             case R.id.twoViewVertical:
                 StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//                mStaggered2VerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
                 recyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
-                recyclerView.setItemViewCacheSize(30);
+                mStaggered2VerticalLayoutManager.setItemPrefetchEnabled(false);
+//                recyclerView.setItemAnimator(null);
+//                recyclerView.setItemViewCacheSize(30);
                 break;
             case R.id.staggeredViewVertical:
                 StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-//                mStaggeredVerticalLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
                 recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
-                recyclerView.setItemViewCacheSize(50);
+                mStaggeredVerticalLayoutManager.setItemPrefetchEnabled(false);
+//                recyclerView.setItemAnimator(null);
+//                recyclerView.setItemViewCacheSize(50);
                 break;
             default:
         }
@@ -466,14 +510,10 @@ public class MainActivity extends AppCompatActivity
     }
 
         public void checkUser () {
-//            userKey = FirebaseUtil.getUserExistsRef().
-//            Toast.makeText(MainActivity.this, userKey, Toast.LENGTH_SHORT).show();
-
             FirebaseUtil.getUserExistsRef().setValue(FirebaseUtil.getUid());
         FirebaseUtil.getUserExistsRef().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                userKey = dataSnapshot.getValue().toString();
                 if (dataSnapshot.getValue().toString().equals(mUid)) {
 
                 }else {
@@ -507,7 +547,6 @@ public class MainActivity extends AppCompatActivity
                             null
                     );
                     FirebaseUtil.getUserRef().push().setValue(user);
-//                    FirebaseUtil.getUserExistsRef().setValue(FirebaseUtil.getUid());
                     Toast.makeText(MainActivity.this, "Hello " + mUsername, Toast.LENGTH_LONG).show();
                     mProcessUser = false;
                 }
