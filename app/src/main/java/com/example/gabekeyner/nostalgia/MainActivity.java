@@ -33,7 +33,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -137,7 +136,6 @@ public class MainActivity extends AppCompatActivity
 //        fetchConfig();
 
         System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
-        initViews();
         fabAnimations();
         fabClickable();
         checkUser();
@@ -153,7 +151,6 @@ public class MainActivity extends AppCompatActivity
             }
         }, 2000);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         navGroupRecyclerView = (RecyclerView) findViewById(R.id.navigationDrawerRecyclerView);
         layoutManager = new LinearLayoutManager(context);
         cardView = (CardView) findViewById(R.id.cardView);
@@ -394,20 +391,6 @@ public class MainActivity extends AppCompatActivity
 
     private void clickFab() {
         fab.callOnClick();
-    }
-    //VIEWS
-    private void initViews() {
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//        recyclerView.setItemViewCacheSize(30);
-        final StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-//        recyclerView.setItemAnimator(null);
-        recyclerView.setLayoutManager(manager);
-        manager.setItemPrefetchEnabled(false);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mChildRef = mDatabase.child("posts");
-        mPostAdapter = new PostAdapter(Post.class, R.layout.card_view, Viewholder.class, mChildRef, getApplicationContext());
-        recyclerView.setAdapter(mPostAdapter);
     }
 
     @Override
