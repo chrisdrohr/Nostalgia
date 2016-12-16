@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/AccentLighter"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.gabekeyner.nostalgia.GroupsActivity"
+    tools:context="com.example.gabekeyner.nostalgia.Activities.GroupsActivity"
     tools:showIn="@layout/activity_groups">
 
     <android.support.v7.widget.RecyclerView

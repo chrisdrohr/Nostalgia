@@ -1,4 +1,4 @@
-package com.example.gabekeyner.nostalgia;
+package com.example.gabekeyner.nostalgia.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +25,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.example.gabekeyner.nostalgia.Adapters.PostAdapter;
+import com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment;
+import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
+import com.example.gabekeyner.nostalgia.ObjectClasses.Post;
+import com.example.gabekeyner.nostalgia.ObjectClasses.User;
+import com.example.gabekeyner.nostalgia.R;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,29 +44,26 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.StorageReference;
 import com.sloop.fonts.FontsManager;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.example.gabekeyner.nostalgia.FirebaseUtil.getGroupRef;
 import static com.example.gabekeyner.nostalgia.R.menu.main;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    public static class GroupsViewHolder extends RecyclerView.ViewHolder {
-        public CircleImageView navDrawerImageView;
-        public TextView navDrawerTextView;
-
-        public GroupsViewHolder(View itemView) {
-            super(itemView);
-            navDrawerImageView = (CircleImageView) itemView.findViewById(R.id.navDrawerImageView);
-            navDrawerTextView = (TextView) itemView.findViewById(R.id.navDrawerTextView);
-        }
-    }
+//    public static class GroupsViewHolder extends RecyclerView.ViewHolder {
+//        public CircleImageView navDrawerImageView;
+//        public TextView navDrawerTextView;
+//
+//        public GroupsViewHolder(View itemView) {
+//            super(itemView);
+//            navDrawerImageView = (CircleImageView) itemView.findViewById(R.id.navDrawerImageView);
+//            navDrawerTextView = (TextView) itemView.findViewById(R.id.navDrawerTextView);
+//        }
+//    }
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     public RecyclerView recyclerView, navGroupRecyclerView;
-    private FirebaseRecyclerAdapter<Group, GroupsViewHolder> mGroupFirebaseAdapter;
+//    private FirebaseRecyclerAdapter<Group, GroupsViewHolder> mGroupFirebaseAdapter;
     private LinearLayoutManager layoutManager;
     private DatabaseReference mDatabase;
     private DatabaseReference mChildRef;
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity
             }
         }, 2000);
 
-        navGroupRecyclerView = (RecyclerView) findViewById(R.id.navigationDrawerRecyclerView);
+//        navGroupRecyclerView = (RecyclerView) findViewById(R.id.navigationDrawerRecyclerView);
         layoutManager = new LinearLayoutManager(context);
         cardView = (CardView) findViewById(R.id.cardView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -167,28 +169,28 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mGroupFirebaseAdapter = new FirebaseRecyclerAdapter<Group, GroupsViewHolder>(
-                Group.class,
-                R.layout.nav_drawer_list_items,
-                GroupsViewHolder.class,
-                getGroupRef()) {
-            @Override
-            protected void populateViewHolder(GroupsViewHolder viewHolder, Group model, int position) {
-                viewHolder.navDrawerTextView.setText(model.getGroupName());
-                Glide.with(MainActivity.this)
-                        .load(model.getGroupPhoto())
-                        .thumbnail(0.5f)
-                        .crossFade()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(viewHolder.navDrawerImageView);
-                final String groupKey = getRef(position).getKey();
-                getRef(position).push();
-                Intent intent = new Intent(groupKey);
-                intent.putExtra("groupKey", getRef(position).getKey());
-            }
-        };
-        navGroupRecyclerView.setLayoutManager(layoutManager);
-        navGroupRecyclerView.setAdapter(mGroupFirebaseAdapter);
+//        mGroupFirebaseAdapter = new FirebaseRecyclerAdapter<Group, GroupsViewHolder>(
+//                Group.class,
+//                R.layout.nav_drawer_list_items,
+//                GroupsViewHolder.class,
+//                getGroupRef()) {
+//            @Override
+//            protected void populateViewHolder(GroupsViewHolder viewHolder, Group model, int position) {
+//                viewHolder.navDrawerTextView.setText(model.getGroupName());
+//                Glide.with(MainActivity.this)
+//                        .load(model.getGroupPhoto())
+//                        .thumbnail(0.5f)
+//                        .crossFade()
+//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                        .into(viewHolder.navDrawerImageView);
+//                final String groupKey = getRef(position).getKey();
+//                getRef(position).push();
+//                Intent intent = new Intent(groupKey);
+//                intent.putExtra("groupKey", getRef(position).getKey());
+//            }
+//        };
+//        navGroupRecyclerView.setLayoutManager(layoutManager);
+//        navGroupRecyclerView.setAdapter(mGroupFirebaseAdapter);
 
         //user Info display
         final View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);

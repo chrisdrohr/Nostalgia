@@ -1,9 +1,11 @@
-package com.example.gabekeyner.nostalgia;
+package com.example.gabekeyner.nostalgia.Adapters;
 
 import android.content.Context;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.gabekeyner.nostalgia.ObjectClasses.User;
+import com.example.gabekeyner.nostalgia.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.Query;
 

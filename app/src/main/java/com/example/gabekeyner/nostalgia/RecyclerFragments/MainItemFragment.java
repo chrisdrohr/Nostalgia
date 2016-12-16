@@ -1,4 +1,4 @@
-package com.example.gabekeyner.nostalgia;
+package com.example.gabekeyner.nostalgia.RecyclerFragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,6 +8,12 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
+import com.example.gabekeyner.nostalgia.ObjectClasses.Post;
+import com.example.gabekeyner.nostalgia.Adapters.PostAdapter;
+import com.example.gabekeyner.nostalgia.R;
+import com.example.gabekeyner.nostalgia.Viewholder;
 
 public class MainItemFragment extends Fragment {
 

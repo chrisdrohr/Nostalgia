@@ -4,7 +4,7 @@
     android:background="@color/AccentLighter"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.example.gabekeyner.nostalgia.DeleteDialogFragment">
+    tools:context="com.example.gabekeyner.nostalgia.DialogFragments.DeleteDialogFragment">
 
     <android.support.v7.widget.CardView
         app:cardBackgroundColor="@color/DarkColor"

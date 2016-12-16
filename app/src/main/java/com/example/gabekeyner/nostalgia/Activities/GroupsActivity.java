@@ -1,4 +1,4 @@
-package com.example.gabekeyner.nostalgia;
+package com.example.gabekeyner.nostalgia.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
+import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
+import com.example.gabekeyner.nostalgia.ObjectClasses.Group;
+import com.example.gabekeyner.nostalgia.ObjectClasses.User;
+import com.example.gabekeyner.nostalgia.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,9 +30,9 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.example.gabekeyner.nostalgia.FirebaseUtil.getGroupMemberRef;
-import static com.example.gabekeyner.nostalgia.FirebaseUtil.getGroupRef;
-import static com.example.gabekeyner.nostalgia.FirebaseUtil.getUserRef;
+import static com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil.getGroupMemberRef;
+import static com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil.getGroupRef;
+import static com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil.getUserRef;
 import static com.example.gabekeyner.nostalgia.R.id.addedUserCircleImageView;
 import static com.example.gabekeyner.nostalgia.R.menu.main;
 

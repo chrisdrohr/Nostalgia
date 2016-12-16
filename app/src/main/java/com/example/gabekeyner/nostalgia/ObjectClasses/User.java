@@ -1,6 +1,4 @@
-package com.example.gabekeyner.nostalgia;
-
-import com.google.firebase.database.DatabaseReference;
+package com.example.gabekeyner.nostalgia.ObjectClasses;
 
 import java.util.Map;
 

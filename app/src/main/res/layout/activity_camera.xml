@@ -6,7 +6,7 @@
     android:id="@+id/activity_camera"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gabekeyner.nostalgia.CameraActivity"
+    tools:context="com.example.gabekeyner.nostalgia.Activities.CameraActivity"
     android:background="@color/AccentLighter">
 
 

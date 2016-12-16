@@ -8,19 +8,14 @@
     android:layout_height="wrap_content"
     android:background="@color/AccentLighter"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.gabekeyner.nostalgia.MainActivity"
+    tools:context="com.example.gabekeyner.nostalgia.Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <fragment
-        android:name="com.example.gabekeyner.nostalgia.MainItemFragment"
+        android:name="com.example.gabekeyner.nostalgia.RecyclerFragments.MainItemFragment"
         android:id="@+id/mainItemFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/recyclerView"-->
-        <!--android:scrollbars="none"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
 
 </RelativeLayout>

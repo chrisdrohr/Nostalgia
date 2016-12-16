@@ -1,12 +1,16 @@
-package com.example.gabekeyner.nostalgia;
+package com.example.gabekeyner.nostalgia.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.gabekeyner.nostalgia.Activities.DetailActivity;
+import com.example.gabekeyner.nostalgia.AnimationUtil;
+import com.example.gabekeyner.nostalgia.ObjectClasses.Post;
+import com.example.gabekeyner.nostalgia.R;
+import com.example.gabekeyner.nostalgia.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.database.Query;
@@ -16,9 +20,6 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     private static final String TAG = PostAdapter.class.getSimpleName();
     private Context context;
     int previousPosition = 0;
-    private String title, imageURL;
-    public ImageView detailImage;
-    private ImageView imageTransition, viewerImageView;
 
     public PostAdapter(Class<Post> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);

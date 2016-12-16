@@ -1,4 +1,4 @@
-package com.example.gabekeyner.nostalgia;
+package com.example.gabekeyner.nostalgia.Activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -26,6 +26,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
+import com.example.gabekeyner.nostalgia.DialogFragments.CommentsFragment;
+import com.example.gabekeyner.nostalgia.DialogFragments.DeleteDialogFragment;
+import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
+import com.example.gabekeyner.nostalgia.ObjectClasses.Group;
+import com.example.gabekeyner.nostalgia.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,7 +71,7 @@ public class DetailActivity extends AppCompatActivity {
     private String mUsername, mPhotoUrl, mUid, commentPath, timeStamp;
 
     // Firebase instance variables
-    private FirebaseRecyclerAdapter<Comment, MessageViewHolder> mFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Group.Comment, MessageViewHolder> mFirebaseAdapter;
     private FirebaseUser mFirebaseUser;
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabaseLike, mDatabaseIntent, mDatabase;
@@ -110,14 +115,14 @@ public class DetailActivity extends AppCompatActivity {
 
         mDatabaseLike.keepSynced(true);
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Comment, MessageViewHolder>(
-                Comment.class,
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Group.Comment, MessageViewHolder>(
+                Group.Comment.class,
                 R.layout.item_comment,
                 MessageViewHolder.class,
                 FirebaseUtil.getCommentsRef().child(mPostKey)) {
 
             @Override
-            protected void populateViewHolder(MessageViewHolder viewHolder, Comment model, final int position) {
+            protected void populateViewHolder(MessageViewHolder viewHolder, Group.Comment model, final int position) {
                 viewHolder.commentTextView.setText(model.getText());
                 viewHolder.commentAutoTypeTextView.setTextAutoTyping(mUsername);
                 viewHolder.commentTimestampAutoTextView.setTextAutoTyping(model.getTimestamp());

@@ -29,6 +29,9 @@ public class Viewholder extends RecyclerView.ViewHolder {
     public AutoTypeTextView autoTypeTextView;
     public CircleImageView circleImageView;
 
+    public CircleImageView navDrawerImageView;
+    public TextView navDrawerTextView;
+
     public Viewholder(View itemView) {
         super(itemView);
         mTitle = (TextView) itemView.findViewById(R.id.textView);
@@ -43,6 +46,9 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mEditText = (EditText) itemView.findViewById(R.id.groupEditText);
         circleImageView = (CircleImageView) itemView.findViewById(R.id.addedUserCircleImageView);
         autoTypeTextView = (AutoTypeTextView) itemView.findViewById(R.id.userAutoText);
+
+        navDrawerImageView = (CircleImageView) itemView.findViewById(R.id.navDrawerImageView);
+        navDrawerTextView = (TextView) itemView.findViewById(R.id.navDrawerTextView);
     }
 
 

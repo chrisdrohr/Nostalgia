@@ -1,5 +1,6 @@
-package com.example.gabekeyner.nostalgia;
+package com.example.gabekeyner.nostalgia.Firebase;
 
+import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;

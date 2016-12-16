@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/AccentLighter"
     android:layout_width="match_parent"
-    tools:context="com.example.gabekeyner.nostalgia.CommentsFragment"
+    tools:context="com.example.gabekeyner.nostalgia.DialogFragments.CommentsFragment"
     android:layout_height="wrap_content">
 
 

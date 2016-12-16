@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/AccentLighter"
-    tools:context="com.example.gabekeyner.nostalgia.GroupFragment">
+    tools:context="com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment">
 
     <android.support.v7.widget.CardView
         app:cardBackgroundColor="@color/fabColor"

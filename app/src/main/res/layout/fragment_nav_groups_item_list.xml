@@ -2,12 +2,13 @@
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.example.gabekeyner.nostalgia.CommentItemFragment"
+    android:background="@android:drawable/screen_background_dark_transparent"
+    android:id="@+id/recyclerViewNavGroupslist"
+    android:name="com.example.gabekeyner.nostalgia.NavGroupsItemFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.gabekeyner.nostalgia.RecyclerFragments.CommentItemFragment"
-    tools:listitem="@layout/fragment_comment_item" />
+    tools:context="com.example.gabekeyner.nostalgia.RecyclerFragments.NavGroupsItemFragment"
+    tools:listitem="@layout/fragment_nav_groups_item" />
