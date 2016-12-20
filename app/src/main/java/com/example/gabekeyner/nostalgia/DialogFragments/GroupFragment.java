@@ -17,8 +17,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.gabekeyner.nostalgia.Activities.GroupsActivity;
+import com.example.gabekeyner.nostalgia.Adapters.UserAdapter;
 import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
 import com.example.gabekeyner.nostalgia.ObjectClasses.Group;
+import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.example.gabekeyner.nostalgia.R;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,15 +29,18 @@ import com.sloop.fonts.FontsManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil.getGroupMemberRef;
+
 public class GroupFragment extends DialogFragment {
 
-    private String mUsername, mPhotoUrl, mUid, groupName, groupId, groupKey;
+    private String mUsername, mPhotoUrl, mUid, groupName, groupId;
     private Context context;
     private TextView textView;
     private CardView cardView;
     private CircleImageView circleUserImageView;
     private EditText mEditText;
     private DatabaseReference databaseReference;
+    public static String groupKey = "groupKey";
 
 
     @Override
@@ -52,7 +57,6 @@ public class GroupFragment extends DialogFragment {
         mUsername = FirebaseUtil.getUser().getUserName();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         context = getActivity();
-//        groupKey = getGroupRef().child(groupName).getKey();
 
         Glide.with(this)
                 .load(mPhotoUrl)
@@ -95,99 +99,26 @@ public class GroupFragment extends DialogFragment {
                         mUsername,
                         groupName,
                         mPhotoUrl,
-                        null);
-
+                        groupKey);
 //                getGroupRef().push().setValue(group);
                 ref.setValue(group);
                 groupKey = ref.getKey();
+
+                User user = new User(
+                        mUsername,
+                        mPhotoUrl,
+                        mUid,
+                        groupName,
+                        null);
+                getGroupMemberRef().child(groupKey).push().setValue(user);
+                Intent groupNameIntent = new Intent(context, UserAdapter.class);
+                groupNameIntent.putExtra("groupKey", groupKey);
+                context.sendBroadcast(groupNameIntent,"groupKey");
 
                 Intent intent = new Intent(context, GroupsActivity.class);
                 intent.putExtra("groupName",mEditText.getText().toString());
                 intent.putExtra("groupKey", groupKey);
                 context.startActivity(intent);
-
-//                getGroupRef().addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                        groupKey = dataSnapshot.getRef().getKey();
-//                        final Group group = new Group(
-//                                null,
-//                                null,
-//                                null,
-//                                groupKey);
-//
-////                        getGroupRef().child(dataSnapshot.getKey()).push().setValue(group);
-//
-//                        User user = new User(
-//                                mUsername,
-//                                mPhotoUrl,
-//                                mUid,
-//                                null,
-//                                null);
-//                        Toast.makeText(context, groupKey, Toast.LENGTH_SHORT).show();
-//                        getGroupMemberRef().child(groupKey).push().setValue(user);
-//                        getGroupRef().removeEventListener(this);
-//                        getGroupMemberRef().removeEventListener(this);
-//                        Intent intent = new Intent(context, GroupsActivity.class);
-//                        intent.putExtra("groupName",mEditText.getText().toString());
-//                        intent.putExtra("groupKey", groupKey);
-////                        context.startActivity(intent);
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//
-//                    }
-//                });
-
-//                getGroupRef().addChildEventListener(new ChildEventListener() {
-//                    @Override
-//                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//
-//                        groupKey = String.valueOf(dataSnapshot.hashCode());
-//                        final Group group = new Group(
-//                                null,
-//                                null,
-//                                null,
-//                                groupKey);
-//
-//                        getGroupRef().child(dataSnapshot.getKey()).push().setValue(group);
-//
-//                        User user = new User(
-//                                mUsername,
-//                                mPhotoUrl,
-//                                mUid,
-//                                null,
-//                                null);
-//                        Toast.makeText(context, groupKey, Toast.LENGTH_SHORT).show();
-//                        getGroupMemberRef().child(groupKey).push().setValue(user);
-//                        getGroupRef().removeEventListener(this);
-//                        getGroupMemberRef().removeEventListener(this);
-//                        Intent intent = new Intent(context, GroupsActivity.class);
-//                        intent.putExtra("groupName",mEditText.getText().toString());
-//                        intent.putExtra("groupKey", groupKey);
-//                        context.startActivity(intent);
-//                    }
-
-//                    @Override
-//                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                    }
-//
-//                    @Override
-//                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//
-//                    }
-//                });
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -1,44 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:id="@+id/cardViewGroup"
+    android:id="@+id/userProfileCardView"
     app:cardElevation="2dp"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="1dp"
+    android:layout_margin=".5dp"
     android:clickable="true"
     app:cardCornerRadius="1dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:background="@color/AccentLight"
-        android:onClick="transition"
         android:orientation="vertical"
         android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imageViewGroup"
+        android:id="@+id/userProfileImageView"
         android:background="@drawable/custom_bg"
-        android:clickable="true"
-        android:transitionName="imageTransition"
         android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/textViewGroup"
-                android:layout_alignBottom="@+id/imageViewGroup"
-                android:layout_alignStart="@+id/imageViewGroup"
+                android:id="@+id/userProfileTextView"
+                android:layout_alignBottom="@+id/userProfileImageView"
+                android:layout_alignStart="@+id/userProfileImageView"
                 android:fontFamily="monospace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="10dp"
                 android:textColor="@color/AccentLighter"
                 android:textAllCaps="false"
-                android:textSize="10sp" />
-
+                android:textSize="15sp" />
     </RelativeLayout>
-
-
 </android.support.v7.widget.CardView>

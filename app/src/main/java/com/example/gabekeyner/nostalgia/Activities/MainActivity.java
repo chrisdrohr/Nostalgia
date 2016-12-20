@@ -1,6 +1,5 @@
 package com.example.gabekeyner.nostalgia.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,9 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,14 +22,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.gabekeyner.nostalgia.Adapters.PostAdapter;
 import com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment;
 import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
-import com.example.gabekeyner.nostalgia.ObjectClasses.Post;
 import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.example.gabekeyner.nostalgia.R;
 import com.github.florent37.viewanimator.ViewAnimator;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,8 +34,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.storage.StorageReference;
 import com.sloop.fonts.FontsManager;
 
 import static com.example.gabekeyner.nostalgia.R.menu.main;
@@ -49,43 +41,19 @@ import static com.example.gabekeyner.nostalgia.R.menu.main;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-//    public static class GroupsViewHolder extends RecyclerView.ViewHolder {
-//        public CircleImageView navDrawerImageView;
-//        public TextView navDrawerTextView;
-//
-//        public GroupsViewHolder(View itemView) {
-//            super(itemView);
-//            navDrawerImageView = (CircleImageView) itemView.findViewById(R.id.navDrawerImageView);
-//            navDrawerTextView = (TextView) itemView.findViewById(R.id.navDrawerTextView);
-//        }
-//    }
-
-    private static final String TAG = MainActivity.class.getSimpleName();
-
-    public RecyclerView recyclerView, navGroupRecyclerView;
-//    private FirebaseRecyclerAdapter<Group, GroupsViewHolder> mGroupFirebaseAdapter;
-    private LinearLayoutManager layoutManager;
-    private DatabaseReference mDatabase;
-    private DatabaseReference mChildRef;
-    private StorageReference mStorage;
-    private PostAdapter mPostAdapter;
+    public RecyclerView recyclerView;
     private CardView cardView;
     private Toolbar toolbar;
     private String mUsername, mPhotoUrl, mUid, userKey;
     private Boolean mProcessUser = true;
     private DatabaseReference mDatabaseUserExists;
     public static final String ANONYMOUS = "anonymous";
-    private GoogleApiClient mGoogleApiClient;
-    private Context context;
-    private Post model;
-    private ImageView imageTransition, userImageView;
+    private ImageView userImageView;
     private TextView userTextView, mTitle;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
     FloatingActionButton fab, fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3;
     Animation hide_fab, show_fab, show_fab2, show_fab3, rotate_anticlockwise, rotate_clockwise, stayhidden_fab;
     boolean isOpen = true;
@@ -94,6 +62,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerViewMainList);
 
         FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
         mTitle = (TextView) findViewById(R.id.textView);
@@ -116,27 +86,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
         mUid = FirebaseUtil.getUid();
-//        // Initialize Firebase Remote Config.
-//        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-//
-//// Define Firebase Remote Config Settings.
-//        FirebaseRemoteConfigSettings firebaseRemoteConfigSettings =
-//                new FirebaseRemoteConfigSettings.Builder()
-//                        .setDeveloperModeEnabled(true)
-//                        .build();
-//
-//// Define default config values. Defaults are used when fetched config values are not
-//// available. Eg: if an error occurred fetching values from the server.
-//        Map<String, Object> defaultConfigMap = new HashMap<>();
-//        defaultConfigMap.put("friendly_msg_length", 10L);
-//
-//// Apply config settings and default values.
-//        mFirebaseRemoteConfig.setConfigSettings(firebaseRemoteConfigSettings);
-//        mFirebaseRemoteConfig.setDefaults(defaultConfigMap);
-//
-//// Fetch remote config.
-//        fetchConfig();
-
         System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
         fabAnimations();
         fabClickable();
@@ -153,8 +102,7 @@ public class MainActivity extends AppCompatActivity
             }
         }, 2000);
 
-//        navGroupRecyclerView = (RecyclerView) findViewById(R.id.navigationDrawerRecyclerView);
-        layoutManager = new LinearLayoutManager(context);
+//        layoutManager = new LinearLayoutManager(context);
         cardView = (CardView) findViewById(R.id.cardView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -168,29 +116,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-//        mGroupFirebaseAdapter = new FirebaseRecyclerAdapter<Group, GroupsViewHolder>(
-//                Group.class,
-//                R.layout.nav_drawer_list_items,
-//                GroupsViewHolder.class,
-//                getGroupRef()) {
-//            @Override
-//            protected void populateViewHolder(GroupsViewHolder viewHolder, Group model, int position) {
-//                viewHolder.navDrawerTextView.setText(model.getGroupName());
-//                Glide.with(MainActivity.this)
-//                        .load(model.getGroupPhoto())
-//                        .thumbnail(0.5f)
-//                        .crossFade()
-//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                        .into(viewHolder.navDrawerImageView);
-//                final String groupKey = getRef(position).getKey();
-//                getRef(position).push();
-//                Intent intent = new Intent(groupKey);
-//                intent.putExtra("groupKey", getRef(position).getKey());
-//            }
-//        };
-//        navGroupRecyclerView.setLayoutManager(layoutManager);
-//        navGroupRecyclerView.setAdapter(mGroupFirebaseAdapter);
 
         //user Info display
         final View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
@@ -206,49 +131,6 @@ public class MainActivity extends AppCompatActivity
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
     }
-//    // Fetch the config to determine the allowed length of messages.
-//    public void fetchConfig() {
-//        long cacheExpiration = 3600; // 1 hour in seconds
-//        // If developer mode is enabled reduce cacheExpiration to 0 so that
-//        // each fetch goes to the server. This should not be used in release
-//        // builds.
-//        if (mFirebaseRemoteConfig.getInfo().getConfigSettings()
-//                .isDeveloperModeEnabled()) {
-//            cacheExpiration = 0;
-//        }
-//        mFirebaseRemoteConfig.fetch(cacheExpiration)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        // Make the fetched config available via
-//                        // FirebaseRemoteConfig get<type> calls.
-//                        mFirebaseRemoteConfig.activateFetched();
-//                        applyRetrievedLengthLimit();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        // There has been an error fetching the config
-//                        Log.w(TAG, "Error fetching config: " +
-//                                e.getMessage());
-//                        applyRetrievedLengthLimit();
-//                    }
-//                });
-//    }
-    /**
-     * Apply retrieved length limit to edit text field.
-     * This result may be fresh from the server or it may be from cached
-     * values.
-     */
-//    mEditText = (EditText) findViewById(R.id.commentEditText);
-//    private void applyRetrievedLengthLimit() {
-//        Long friendly_msg_length =
-//                mFirebaseRemoteConfig.getLong("friendly_msg_length");
-//        mEditText.setFilters(new InputFilter[]{new
-//                InputFilter.LengthFilter(friendly_msg_length.intValue())});
-//        Log.d(TAG, "FML is: " + friendly_msg_length);
-//    }
 
     private void fabAnimations() {
         //ANIMATION LAYOUTS
@@ -437,40 +319,34 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         //LAYOUTS & ORIENTATIONS
-        switch (id) {
-//            case R.id.fresh_config_menu:
-//                fetchConfig();
+//        switch (id) {
+////            case R.id.fresh_config_menu:
+////                fetchConfig();
+////                return true;
+//            case R.id.sign_out_menu:
+//                mFirebaseAuth.signOut();
+//                startActivity(new Intent(this, SignInActivity.class));
+////                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+//                mUsername = ANONYMOUS;
 //                return true;
-            case R.id.sign_out_menu:
-                mFirebaseAuth.signOut();
-                startActivity(new Intent(this, SignInActivity.class));
-//                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mUsername = ANONYMOUS;
-                return true;
-            case R.id.linearViewVertical:
-                LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
-                mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
-                mLinearLayoutManagerVertical.setItemPrefetchEnabled(false);
-//                recyclerView.setItemAnimator(null);
-//                recyclerView.setItemViewCacheSize(30);
-                break;
-            case R.id.twoViewVertical:
-                StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
-                mStaggered2VerticalLayoutManager.setItemPrefetchEnabled(false);
-//                recyclerView.setItemAnimator(null);
-//                recyclerView.setItemViewCacheSize(30);
-                break;
-            case R.id.staggeredViewVertical:
-                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
-                mStaggeredVerticalLayoutManager.setItemPrefetchEnabled(false);
-//                recyclerView.setItemAnimator(null);
-//                recyclerView.setItemViewCacheSize(50);
-                break;
-            default:
-        }
+//            case R.id.linearViewVertical:
+//                LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
+//                mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
+//                recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
+//                mLinearLayoutManagerVertical.setItemPrefetchEnabled(false);
+//                break;
+//            case R.id.twoViewVertical:
+//                StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//                recyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
+//                mStaggered2VerticalLayoutManager.setItemPrefetchEnabled(false);
+//                break;
+//            case R.id.staggeredViewVertical:
+//                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+//                recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
+//                mStaggeredVerticalLayoutManager.setItemPrefetchEnabled(false);
+//                break;
+//            default:
+//        }
         return super.onOptionsItemSelected(item);
     }
 

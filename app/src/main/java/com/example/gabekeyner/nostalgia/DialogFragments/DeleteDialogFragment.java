@@ -31,14 +31,6 @@ public class DeleteDialogFragment extends DialogFragment {
     private AutoTypeTextView autoTypeTextView;
     private String mPost_key = null;
 
-
-//    public static MyAlertDialogFragment newInstance(int title) {
-//        MyAlertDialogFragment frag = new MyAlertDialogFragment();
-//        Bundle args = new Bundle();
-//        args.putInt("title", title);
-//        frag.setArguments(args);
-//        return frag;
-//    }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

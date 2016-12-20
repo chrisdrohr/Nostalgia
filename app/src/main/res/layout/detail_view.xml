@@ -116,12 +116,17 @@
 
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.RecyclerView
+    <fragment
+        android:name="com.example.gabekeyner.nostalgia.RecyclerFragments.CommentItemFragment"
+        android:id="@+id/commentItemFragment"
         android:layout_width="match_parent"
-        android:id="@+id/commentRecyclerView"
-        android:background="@color/AccentLighter"
-        android:layout_below="@+id/commentCardViewDetail"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:id="@+id/commentRecyclerView"-->
+        <!--android:background="@color/AccentLighter"-->
+        <!--android:layout_below="@+id/commentCardViewDetail"-->
+        <!--android:layout_height="match_parent" />-->
 
     <android.support.design.widget.FloatingActionButton
         android:layout_alignParentBottom="true"

@@ -10,6 +10,7 @@ import com.example.gabekeyner.nostalgia.Activities.DetailActivity;
 import com.example.gabekeyner.nostalgia.AnimationUtil;
 import com.example.gabekeyner.nostalgia.ObjectClasses.Post;
 import com.example.gabekeyner.nostalgia.R;
+import com.example.gabekeyner.nostalgia.RecyclerFragments.CommentItemFragment;
 import com.example.gabekeyner.nostalgia.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.github.florent37.viewanimator.ViewAnimator;
@@ -24,6 +25,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     public PostAdapter(Class<Post> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         this.context = context;
+
     }
 
     @Override
@@ -60,6 +62,10 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
                 viewHolder.mImageView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Intent commentIntent = new Intent(context, CommentItemFragment.class);
+                        commentIntent.putExtra("post_key", post_key);
+                        context.sendBroadcast(commentIntent,"post_key");
+
                         Intent intent = new Intent(context, DetailActivity.class);
                         intent.putExtra("post_key", post_key);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

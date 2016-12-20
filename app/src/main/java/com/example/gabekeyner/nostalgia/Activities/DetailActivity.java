@@ -1,7 +1,6 @@
 package com.example.gabekeyner.nostalgia.Activities;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -14,8 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -25,40 +22,19 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.example.gabekeyner.nostalgia.DialogFragments.CommentsFragment;
 import com.example.gabekeyner.nostalgia.DialogFragments.DeleteDialogFragment;
 import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
-import com.example.gabekeyner.nostalgia.ObjectClasses.Group;
 import com.example.gabekeyner.nostalgia.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.sloop.fonts.FontsManager;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class DetailActivity extends AppCompatActivity {
-
-    public static class MessageViewHolder extends RecyclerView.ViewHolder {
-        public TextView commentTextView;
-        public TextView commentNameTextView;
-        public CircleImageView commentImageView;
-        public AutoTypeTextView commentAutoTypeTextView, commentTimestampAutoTextView;
-
-        public MessageViewHolder(View v) {
-            super(v);
-            commentTextView = (TextView) itemView.findViewById(R.id.commentTextView);
-            commentAutoTypeTextView = (AutoTypeTextView) itemView.findViewById(R.id.userAutoText);
-            commentImageView = (CircleImageView) itemView.findViewById(R.id.commentImageView);
-            commentTimestampAutoTextView = (AutoTypeTextView) itemView.findViewById(R.id.dateAutoText);
-        }
-    }
 
     private ProgressBar mProgressBar;
     private RecyclerView mCommentRecyclerView;
@@ -67,16 +43,10 @@ public class DetailActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private ConstraintLayout constraintLayout;
     private Snackbar snackbar;
-    private Typeface typeface;
     private String mUsername, mPhotoUrl, mUid, commentPath, timeStamp;
 
     // Firebase instance variables
-    private FirebaseRecyclerAdapter<Group.Comment, MessageViewHolder> mFirebaseAdapter;
-    private FirebaseUser mFirebaseUser;
-    private FirebaseAuth mFirebaseAuth;
-    private DatabaseReference mDatabaseLike, mDatabaseIntent, mDatabase;
-
-    private Animation fade_in, fade_out, fade_up;
+    private DatabaseReference mDatabaseLike, mDatabaseIntent;
     private TextView titleTxt, imageViewText;
     private ImageView imageView, commentImageView;
     private String mPostKey = null;
@@ -93,17 +63,8 @@ public class DetailActivity extends AppCompatActivity {
 //        setSupportActionBar(toolbar);
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.setDisplayHomeAsUpEnabled(true);
-
-
-
         FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
         FontsManager.changeFonts(this);
-
-        // Initialize ProgressBar and RecyclerView.
-        mCommentRecyclerView = (RecyclerView) findViewById(R.id.commentRecyclerView);
-        mLinearLayoutManager = new LinearLayoutManager(this);
-        mLinearLayoutManager.setStackFromEnd(true);
-        mCommentRecyclerView.setLayoutManager(mLinearLayoutManager);
 
         //Initialize Firebase Auth
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
@@ -112,66 +73,12 @@ public class DetailActivity extends AppCompatActivity {
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabaseIntent = FirebaseUtil.getBaseRef().child("posts");
         mPostKey = getIntent().getExtras().getString("post_key");
-
         mDatabaseLike.keepSynced(true);
-
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Group.Comment, MessageViewHolder>(
-                Group.Comment.class,
-                R.layout.item_comment,
-                MessageViewHolder.class,
-                FirebaseUtil.getCommentsRef().child(mPostKey)) {
-
-            @Override
-            protected void populateViewHolder(MessageViewHolder viewHolder, Group.Comment model, final int position) {
-                viewHolder.commentTextView.setText(model.getText());
-                viewHolder.commentAutoTypeTextView.setTextAutoTyping(mUsername);
-                viewHolder.commentTimestampAutoTextView.setTextAutoTyping(model.getTimestamp());
-                viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
-                viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
-                FontsManager.changeFonts(viewHolder.commentTextView);
-                FontsManager.changeFonts(viewHolder.commentNameTextView);
-
-                if (model.getPhotoUrl() == null) {
-                    viewHolder.commentImageView
-                            .setImageDrawable(ContextCompat
-                                    .getDrawable(DetailActivity.this,
-                                            R.drawable.ic_account_circle_black_36dp));
-                } else {
-                    Glide.with(DetailActivity.this)
-                            .load(mPhotoUrl)
-                            .priority(Priority.NORMAL)
-                            .into(viewHolder.commentImageView);
-                }
-            }
-        };
-        mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = mFirebaseAdapter.getItemCount();
-                int lastVisiblePosition = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
-                // If the recycler view is initially being loaded or the
-                // user is at the bottom of the list, scroll to the bottom
-                // of the list to show the newly added message.
-                if (lastVisiblePosition == -1 ||
-                        (positionStart >= (friendlyMessageCount - 1) &&
-                                lastVisiblePosition == (positionStart - 1))) {
-                    mCommentRecyclerView.scrollToPosition(positionStart);
-                }
-            }
-        });
-
-        mCommentRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mCommentRecyclerView.setAdapter(mFirebaseAdapter);
-
-        fade_in = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in_detail);
-        fade_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_up);
-
         titleTxt = (TextView) findViewById(R.id.commentDetailTitle);
         imageViewText = (TextView) findViewById(R.id.titleTextView);
         imageView = (ImageView) findViewById(R.id.detialView);
         imageCardView = (CardView) findViewById(R.id.cardViewDetail);
-        mCommentRecyclerView = (RecyclerView) findViewById(R.id.commentRecyclerView);
+        mCommentRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCommentList);
         commentImageCardView = (CardView) findViewById(R.id.commentCardViewDetail);
         commentImageView = (ImageView) findViewById(R.id.commentDetialView);
         mCommentFab = (FloatingActionButton) findViewById(R.id.fabComment);
@@ -272,15 +179,14 @@ public class DetailActivity extends AppCompatActivity {
 
                                 .andAnimate(mCommentRecyclerView)
                                 .translationX(0,-600)
+                                .duration(200)
                                 .start();
 
                         imageCardView.setVisibility(View.VISIBLE);
-//                        mCommentFab.setVisibility(View.INVISIBLE);
                     }
                 });
 
                 //Bind Data
-//                titleTxt.setText(post_title);
                 imageViewText.setText(post_title);
                 Glide.with(DetailActivity.this)
                         .load(post_image)
@@ -430,5 +336,4 @@ public class DetailActivity extends AppCompatActivity {
         super.onBackPressed();
         finishAfterTransition();
     }
-
 }
