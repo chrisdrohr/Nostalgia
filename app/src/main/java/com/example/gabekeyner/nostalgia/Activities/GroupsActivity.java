@@ -97,16 +97,4 @@ public class GroupsActivity extends AppCompatActivity{
                 .duration(300)
                 .start();
     }
-
-//    public void addUser() {
-//        groupKey = GroupFragment.groupKey;
-////        Toast.makeText(mContext, groupKey, Toast.LENGTH_SHORT).show();
-////        User user = new User(
-////                mUsername,
-////                mPhotoUrl,
-////                mUid,
-////                null,
-////                null);
-////        getGroupMemberRef().child(groupKey).push().setValue(user);
-//    }
 }

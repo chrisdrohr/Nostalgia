@@ -2,7 +2,6 @@ package com.example.gabekeyner.nostalgia.Adapters;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -12,6 +11,7 @@ import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.example.gabekeyner.nostalgia.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
 import static com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil.getGroupMemberRef;
@@ -20,7 +20,9 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
 
     private Context context;
     public static String groupKey = "groupKey";
+    public static String userKey = "userKey";
     private String mUsername, mPhotoUrl, mUid, groupName;
+    private DatabaseReference databaseReference;
 
 
     public UserAdapter(Class<User> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
@@ -46,14 +48,18 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
                 mUsername = FirebaseUtil.getUserName();
                 mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
                 groupKey = GroupFragment.groupKey;
-                Toast.makeText(context, groupKey, Toast.LENGTH_SHORT).show();
+                databaseReference = getGroupMemberRef().child(groupKey);
+                DatabaseReference ref = databaseReference.push();
+
                 User user = new User(
                         mUsername,
                         mPhotoUrl,
                         mUid,
                         null,
                         null);
-                getGroupMemberRef().child(groupKey).push().setValue(user);
+                ref.setValue(user);
+                userKey = ref.getKey();
+//                getGroupMemberRef().child(groupKey).push().setValue(user);
             }
         });
     }

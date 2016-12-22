@@ -3,10 +3,13 @@ package com.example.gabekeyner.nostalgia.Adapters;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment;
+import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
 import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.example.gabekeyner.nostalgia.R;
 import com.example.gabekeyner.nostalgia.Viewholder;
@@ -17,6 +20,8 @@ import com.google.firebase.database.Query;
 public class AddedUserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
 
     private Context context;
+    public static String groupKey = "groupKey";
+    public static String userKey = "userKey";
 
     public AddedUserAdapter(Class<User> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
@@ -24,7 +29,8 @@ public class AddedUserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> 
     }
 
     @Override
-    protected void populateViewHolder(Viewholder viewHolder, User model, int position) {
+    protected void populateViewHolder(final Viewholder viewHolder, User model, final int position) {
+
         viewHolder.addedUserAutoTypeTextView.setTextAutoTyping(model.getUserName());
         viewHolder.addedUserAutoTypeTextView.setTypingSpeed(50);
 
@@ -43,7 +49,6 @@ public class AddedUserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> 
                     .priority(Priority.NORMAL)
                     .into(viewHolder.addedUserImageView);
         }
-
         ViewAnimator.animate(viewHolder.addedUserImageView)
                 .bounceIn()
                 .duration(500)
@@ -51,11 +56,19 @@ public class AddedUserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> 
 
         viewHolder.addedUserImageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-//                userKey = getGroupRef().child(groupName).getKey();
-                return false;
+            public boolean onLongClick(View v) throws IndexOutOfBoundsException {
+                if (v != null) {
+                    Toast.makeText(context, "key" + userKey, Toast.LENGTH_SHORT).show();
+                    groupKey = GroupFragment.groupKey;
+                    userKey = getRef(position).getKey();
+                    FirebaseUtil.getGroupMemberRef().child(groupKey).child(userKey).removeValue();
+                    notifyItemChanged(position);
+                    return false;
+                }
+                else {
+                    throw new IndexOutOfBoundsException("Updating...");
+                }
             }
         });
-
     }
 }
