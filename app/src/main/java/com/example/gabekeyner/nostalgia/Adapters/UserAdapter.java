@@ -55,7 +55,7 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
                         mUsername,
                         mPhotoUrl,
                         mUid,
-                        null,
+                        groupKey,
                         null);
                 ref.setValue(user);
                 userKey = ref.getKey();

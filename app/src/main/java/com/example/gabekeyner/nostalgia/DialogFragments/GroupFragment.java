@@ -94,7 +94,8 @@ public class GroupFragment extends DialogFragment {
 
                 databaseReference = FirebaseUtil.getGroupRef();
                 DatabaseReference ref = databaseReference.push();
-
+                groupKey = FirebaseUtil.getGroupRef().child(groupKey).toString();
+                groupKey = ref.getKey();
                 final Group group = new Group(
                         mUsername,
                         groupName,
@@ -103,12 +104,13 @@ public class GroupFragment extends DialogFragment {
 //                getGroupRef().push().setValue(group);
                 ref.setValue(group);
                 groupKey = ref.getKey();
+//                ref.push().child("groupId").setValue(groupKey);
 
                 User user = new User(
                         mUsername,
                         mPhotoUrl,
                         mUid,
-                        groupName,
+                        groupKey,
                         null);
                 getGroupMemberRef().child(groupKey).push().setValue(user);
                 Intent groupNameIntent = new Intent(context, UserAdapter.class);

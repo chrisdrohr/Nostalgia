@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
         ViewAnimator.animate(toolbar)
-                .slideTop()
+//                .slideTop()
                 .duration(300)
                 .andAnimate(recyclerView,fab)
                 .slideBottom()
@@ -305,6 +305,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onPause() {
+        Toast.makeText(this, "pause", Toast.LENGTH_SHORT).show();
+        ViewAnimator.animate(toolbar, recyclerView)
+                .alpha(1,1)
+                .duration(1000)
+                .start();
         super.onPause();
     }
 

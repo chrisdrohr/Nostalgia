@@ -21,6 +21,7 @@
         android:id="@+id/toolbarDetail"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:elevation="4dp"
         android:background="@color/DarkColor"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
@@ -29,8 +30,8 @@
         android:layout_width="match_parent"
         android:id="@+id/cardViewDetail"
         android:layout_height="match_parent"
-        app:cardElevation="10dp"
-        app:cardBackgroundColor="@color/AccentLighter">
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@android:drawable/screen_background_dark_transparent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -49,7 +50,7 @@
                 android:id="@+id/titleTextView"
                 android:fontFamily="cursive"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/cardview_dark_background"
+                android:textColor="@color/tw__solid_white"
                 android:textAlignment="center"
                 android:textSize="30sp"
                 style="bold"
@@ -65,7 +66,7 @@
         android:id="@+id/commentCardViewDetail"
         android:layout_height="350dp"
         android:layout_alignParentTop="true"
-        app:cardElevation="8dp"
+        app:cardElevation="-2dp"
         app:cardBackgroundColor="@color/AccentLighter">
 
         <RelativeLayout
@@ -139,7 +140,7 @@
         android:tint="@color/AccentLighter"
         android:alpha=".8"
         android:adjustViewBounds="true"
-        app:elevation="5dp"
+        app:elevation="4dp"
         android:layout_width="70dp"
         android:layout_height="70dp" />
 
@@ -154,7 +155,7 @@
         android:tint="@color/AccentLighter"
         android:alpha=".8"
         android:adjustViewBounds="true"
-        app:elevation="4dp"
+        app:elevation="3dp"
         android:layout_width="70dp"
         android:layout_height="70dp" />
 

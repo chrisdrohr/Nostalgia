@@ -3,7 +3,6 @@ package com.example.gabekeyner.nostalgia.Adapters;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -58,7 +57,7 @@ public class AddedUserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> 
             @Override
             public boolean onLongClick(View v) throws IndexOutOfBoundsException {
                 if (v != null) {
-                    Toast.makeText(context, "key" + userKey, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "key" + userKey, Toast.LENGTH_SHORT).show();
                     groupKey = GroupFragment.groupKey;
                     userKey = getRef(position).getKey();
                     FirebaseUtil.getGroupMemberRef().child(groupKey).child(userKey).removeValue();

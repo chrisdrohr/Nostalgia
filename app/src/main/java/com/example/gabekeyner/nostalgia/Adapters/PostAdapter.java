@@ -25,7 +25,6 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     public PostAdapter(Class<Post> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         this.context = context;
-
     }
 
     @Override
@@ -56,8 +55,8 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
             @Override
             public void onClick(View v) {
                 ViewAnimator.animate(viewHolder.mCardView)
-                        .tada()
-                        .duration(50)
+                        .bounce()
+                        .duration(20)
                         .start();
                 viewHolder.mImageView.postDelayed(new Runnable() {
                     @Override
@@ -72,7 +71,6 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
                         context.startActivity(intent);
                     }
                 },10);
-
             }
         });
     }

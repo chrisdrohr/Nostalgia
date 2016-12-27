@@ -1,9 +1,6 @@
 package com.example.gabekeyner.nostalgia.ObjectClasses;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class Group implements Parcelable{
+public class Group {
 
     public String user;
     public String groupName;
@@ -52,15 +49,5 @@ public class Group implements Parcelable{
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-
     }
 }

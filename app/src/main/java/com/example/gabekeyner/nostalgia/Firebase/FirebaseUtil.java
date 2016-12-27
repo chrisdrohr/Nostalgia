@@ -1,5 +1,6 @@
 package com.example.gabekeyner.nostalgia.Firebase;
 
+import com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment;
 import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -7,6 +8,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseUtil {
+
+    public static String groupKey = GroupFragment.groupKey;
 
     public static DatabaseReference getBaseRef() {
         return FirebaseDatabase.getInstance().getReference();
@@ -27,8 +30,12 @@ public class FirebaseUtil {
     public static DatabaseReference getDeletePostRef() {
         return FirebaseDatabase.getInstance().getReference().child("posts");
     }
-    public static DatabaseReference getPostRef() {
-        return FirebaseDatabase.getInstance().getReference().child("posts");
+//    public static DatabaseReference getPostRef() {
+//        return FirebaseDatabase.getInstance().getReference().child("posts");
+//    }
+
+    public static DatabaseReference getPostRef () {
+        return FirebaseDatabase.getInstance().getReference().child(groupKey).child("posts");
     }
 
     public static String getUid () {

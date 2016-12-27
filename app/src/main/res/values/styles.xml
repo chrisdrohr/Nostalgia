@@ -2,13 +2,13 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
+        <!--<item name="android:windowBackground">@drawable/splash</item>-->
         <!--<item name="android:windowContentTransitions">true</item>-->
         <item name="colorPrimary">@color/DarkColor</item>
         <item name="colorPrimaryDark">@color/DarkColor</item>
         <item name="colorAccent">@color/AccentLight</item>
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:colorBackground">@color/background_material_light</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/DarkColor</item>
         <item name="android:statusBarColor">@color/DarkColor700</item>
         <item name="android:colorForeground">@color/foreground_material_light</item>
@@ -27,12 +27,12 @@
 
     <style name="Nostalgia" parent="AppTheme" />
 
-    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
+    <!--<style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">-->
+        <!--<item name="android:background">@color/black_overlay</item>-->
 
-    </style>
+    <!--</style>-->
 
-    <style name="transparent" parent="android:Theme.Holo.Light.NoActionBar.TranslucentDecor" />
+    <!--<style name="transparent" parent="android:Theme.Holo.Light.NoActionBar.TranslucentDecor" />-->
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>

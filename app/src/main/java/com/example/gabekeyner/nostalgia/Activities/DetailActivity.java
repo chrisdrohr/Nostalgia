@@ -12,6 +12,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -34,6 +35,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.sloop.fonts.FontsManager;
 
+import static com.example.gabekeyner.nostalgia.R.menu.main;
+
 public class DetailActivity extends AppCompatActivity {
 
     private ProgressBar mProgressBar;
@@ -43,6 +46,7 @@ public class DetailActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private ConstraintLayout constraintLayout;
     private Snackbar snackbar;
+    private Toolbar toolbar;
     private String mUsername, mPhotoUrl, mUid, commentPath, timeStamp;
 
     // Firebase instance variables
@@ -59,10 +63,11 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView (R.layout.detail_view);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 //        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.tw__btn_composer_tweet);
+//        actionBar.setHomeButtonEnabled(true);
         FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
         FontsManager.changeFonts(this);
 
@@ -276,6 +281,31 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMainList);
+
+        ViewAnimator.animate(toolbar,recyclerView)
+                .alpha(1,1)
+                .start();
+        ViewAnimator.animate(mCommentRecyclerView,relativeLayout)
+                .newsPaper()
+                .duration(1000)
+                .andAnimate(imageCardView,commentImageCardView,mCommentFab,mSendFab)
+                .alpha(0,0)
+                .thenAnimate(commentImageCardView)
+                .alpha(1,1)
+                .translationX(1000, 0)
+                .duration(1500)
+                .thenAnimate(imageCardView)
+                .alpha(1,1)
+                .newsPaper()
+                .descelerate()
+                .duration(2000)
+                .start();
+        super.onResume();
+    }
+
     void showDeleteDialog() {
         DeleteDialogFragment deleteDialogFragment = new DeleteDialogFragment();
         deleteDialogFragment.show(fragmentManager, "Delete Dialog Fragment");
@@ -326,10 +356,18 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(main, menu);
+        return true;
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         finishAfterTransition();
         return true;
     }
+
 
     @Override
     public void onBackPressed() {
