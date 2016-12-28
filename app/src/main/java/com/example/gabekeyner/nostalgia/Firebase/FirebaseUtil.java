@@ -10,14 +10,14 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseUtil {
 
-    public static String groupKey = "groupKey";
+    public static String groupKey;
 
     public static DatabaseReference getBaseRef() {
         return FirebaseDatabase.getInstance().getReference();
     }
     public static DatabaseReference getGroupKeyRef() {
-        groupKey = NavGroupsAdapter.groupKey;
         groupKey = GroupFragment.groupKey;
+        groupKey = NavGroupsAdapter.groupKey;
         return FirebaseDatabase.getInstance().getReference().child("groups").child(groupKey);
     }
 

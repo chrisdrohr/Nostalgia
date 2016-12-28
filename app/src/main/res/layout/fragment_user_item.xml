@@ -18,8 +18,6 @@
 
     <ImageView
         android:id="@+id/userProfileImageView"
-        android:background="@drawable/custom_bg"
-        android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -27,7 +25,6 @@
                 android:id="@+id/userProfileTextView"
                 android:layout_alignBottom="@+id/userProfileImageView"
                 android:layout_alignStart="@+id/userProfileImageView"
-                android:fontFamily="monospace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="10dp"

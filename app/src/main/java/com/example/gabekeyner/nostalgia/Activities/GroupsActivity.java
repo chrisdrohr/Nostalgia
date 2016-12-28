@@ -1,6 +1,7 @@
 package com.example.gabekeyner.nostalgia.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +17,9 @@ import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.sloop.fonts.FontsManager;
 
-import static com.example.gabekeyner.nostalgia.R.menu.main;
+import static com.example.gabekeyner.nostalgia.R.menu.group;
 
 public class GroupsActivity extends AppCompatActivity{
 
@@ -28,7 +30,7 @@ public class GroupsActivity extends AppCompatActivity{
     private Toolbar toolbar;
     private ImageView imageView;
     public static Context mContext;
-    public static String groupKey = "groupKey";
+    public static String groupKey;
 
 
     @Override
@@ -37,6 +39,8 @@ public class GroupsActivity extends AppCompatActivity{
         setContentView(R.layout.activity_groups);
         toolbar = (Toolbar) findViewById(R.id.toolbarGroup);
         setSupportActionBar(toolbar);
+
+
 
         Bundle bundle = getIntent().getExtras();
         groupName = bundle.getString("groupName");
@@ -51,31 +55,31 @@ public class GroupsActivity extends AppCompatActivity{
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
 
+        FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
+        FontsManager.changeFonts(autoTypeTextViewGroupName);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //LAYOUTS & ORIENTATIONS
-//        switch (id) {
-//            case R.id.twoViewVertical:
-//                recyclerView.setLayoutManager(groupLayoutManager);
-//                recyclerView.setAdapter(mGroupFirebaseAdapter);
-////                Toast.makeText(this, getGroupRef().child(groupName).getKey(), Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.staggeredViewVertical:
-//               recyclerView.setLayoutManager(userLayoutManager);
-//                recyclerView.setAdapter(mUserFirebaseAdapter);
-//                break;
-//            default:
-//    }
+//        LAYOUTS & ORIENTATIONS
+        switch (id) {
+            case R.id.save:
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.discard:
+                FirebaseUtil.getGroupKeyRef().child(groupKey).removeValue();
+                break;
+            default:
+    }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(main, menu);
+        getMenuInflater().inflate(group, menu);
         return true;
     }
 

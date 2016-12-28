@@ -76,7 +76,7 @@ public class DetailActivity extends AppCompatActivity {
         mUsername = FirebaseUtil.getUser().getUserName();
         mDatabaseLike = FirebaseUtil.getLikesRef();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mDatabaseIntent = FirebaseUtil.getBaseRef().child("posts");
+        mDatabaseIntent = FirebaseUtil.getPostRef();
         mPostKey = getIntent().getExtras().getString("post_key");
         mDatabaseLike.keepSynced(true);
         titleTxt = (TextView) findViewById(R.id.commentDetailTitle);
@@ -119,7 +119,7 @@ public class DetailActivity extends AppCompatActivity {
                     });
 
                 }
-                imageCardView.setOnClickListener(new View.OnClickListener() {
+                imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ViewAnimator.animate(imageView)

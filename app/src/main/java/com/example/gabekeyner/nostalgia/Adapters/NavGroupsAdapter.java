@@ -5,9 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.gabekeyner.nostalgia.Activities.MainActivity;
+import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
 import com.example.gabekeyner.nostalgia.ObjectClasses.Group;
 import com.example.gabekeyner.nostalgia.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -36,10 +39,12 @@ public class NavGroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> 
             @Override
             public void onClick(View view) {
                 groupKey = model.getGroupId();
-//                Toast.makeText(context, groupKey, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(groupKey);
+                Toast.makeText(context, "nav" + groupKey, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, FirebaseUtil.class);
                 intent.putExtra(groupKey, "groupKey");
                 context.sendBroadcast(intent);
+                notifyDataSetChanged();
+                context.startActivity(new Intent(context, MainActivity.class));
             }
         });
     }
