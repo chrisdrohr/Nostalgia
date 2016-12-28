@@ -60,7 +60,7 @@ public class AddedUserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> 
 //                    Toast.makeText(context, "key" + userKey, Toast.LENGTH_SHORT).show();
                     groupKey = GroupFragment.groupKey;
                     userKey = getRef(position).getKey();
-                    FirebaseUtil.getGroupMemberRef().child(groupKey).child(userKey).removeValue();
+                    FirebaseUtil.getGroupMemberRef().child(userKey).removeValue();
                     notifyItemChanged(position);
                     return false;
                 }

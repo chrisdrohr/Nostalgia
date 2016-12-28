@@ -28,7 +28,7 @@ public class AddedUserItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         groupKey = getActivity().getIntent().getStringExtra("groupKey");
 
-        mAddedUserAdapter = new AddedUserAdapter(User.class, R.layout.fragment_added_user_item, Viewholder.class, FirebaseUtil.getGroupMemberRef().child(groupKey), getContext());
+        mAddedUserAdapter = new AddedUserAdapter(User.class, R.layout.fragment_added_user_item, Viewholder.class, FirebaseUtil.getGroupMemberRef(), getContext());
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         super.onCreate(savedInstanceState);
     }

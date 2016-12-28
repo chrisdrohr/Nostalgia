@@ -110,12 +110,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.gabekeyner.nostalgia.Activities.MainActivity" />
         </activity>
-        <receiver android:name=".Activities.MyBroadcastReceiver">
-            <intent-filter>
-                <action android:name="groupKey"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

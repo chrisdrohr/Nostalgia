@@ -3,6 +3,7 @@ package com.example.gabekeyner.nostalgia.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -13,7 +14,6 @@ import com.example.gabekeyner.nostalgia.R;
 import com.example.gabekeyner.nostalgia.RecyclerFragments.CommentItemFragment;
 import com.example.gabekeyner.nostalgia.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.database.Query;
 
 public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
@@ -54,23 +54,25 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewAnimator.animate(viewHolder.mCardView)
-                        .bounce()
-                        .duration(20)
-                        .start();
-                viewHolder.mImageView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent commentIntent = new Intent(context, CommentItemFragment.class);
-                        commentIntent.putExtra("post_key", post_key);
-                        context.sendBroadcast(commentIntent,"post_key");
+//                ViewAnimator.animate(viewHolder.mCardView)
+//                        .bounce()
+//                        .duration(20)
+//                        .start();
+                Intent commentIntent = new Intent(context, CommentItemFragment.class);
+                commentIntent.putExtra("post_key", post_key);
+                context.sendBroadcast(commentIntent,"post_key");
 
-                        Intent intent = new Intent(context, DetailActivity.class);
-                        intent.putExtra("post_key", post_key);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    }
-                },10);
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("post_key", post_key);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                Toast.makeText(context, "post adapter" + post_key, Toast.LENGTH_SHORT).show();
+//                viewHolder.mImageView.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                    }
+//                },1);
             }
         });
     }

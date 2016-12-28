@@ -9,7 +9,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +29,8 @@ import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
 import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.example.gabekeyner.nostalgia.R;
 import com.github.florent37.viewanimator.ViewAnimator;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     public static final String ANONYMOUS = "anonymous";
     private ImageView userImageView;
     private TextView userTextView, mTitle;
+    private GoogleApiClient mGoogleApiClient;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -305,7 +310,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onPause() {
-        Toast.makeText(this, "pause", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "pause", Toast.LENGTH_SHORT).show();
         ViewAnimator.animate(toolbar, recyclerView)
                 .alpha(1,1)
                 .duration(1000)
@@ -324,34 +329,34 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         //LAYOUTS & ORIENTATIONS
-//        switch (id) {
-////            case R.id.fresh_config_menu:
-////                fetchConfig();
-////                return true;
-//            case R.id.sign_out_menu:
-//                mFirebaseAuth.signOut();
-//                startActivity(new Intent(this, SignInActivity.class));
-////                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-//                mUsername = ANONYMOUS;
+        switch (id) {
+//            case R.id.fresh_config_menu:
+//                fetchConfig();
 //                return true;
-//            case R.id.linearViewVertical:
-//                LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
-//                mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
-//                recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
-//                mLinearLayoutManagerVertical.setItemPrefetchEnabled(false);
-//                break;
-//            case R.id.twoViewVertical:
-//                StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//                recyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
-//                mStaggered2VerticalLayoutManager.setItemPrefetchEnabled(false);
-//                break;
-//            case R.id.staggeredViewVertical:
-//                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-//                recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
-//                mStaggeredVerticalLayoutManager.setItemPrefetchEnabled(false);
-//                break;
-//            default:
-//        }
+            case R.id.sign_out_menu:
+                mFirebaseAuth.signOut();
+                startActivity(new Intent(this, SignInActivity.class));
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                mUsername = ANONYMOUS;
+                return true;
+            case R.id.linearViewVertical:
+                LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
+                mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
+                mLinearLayoutManagerVertical.setItemPrefetchEnabled(false);
+                break;
+            case R.id.twoViewVertical:
+                StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
+                mStaggered2VerticalLayoutManager.setItemPrefetchEnabled(false);
+                break;
+            case R.id.staggeredViewVertical:
+                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
+                mStaggeredVerticalLayoutManager.setItemPrefetchEnabled(false);
+                break;
+            default:
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -381,7 +386,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue().toString().equals(mUid)) {
-
+                    //TODO: fix user add
+//                    addUser();
                 }else {
                     addUser();
                 }

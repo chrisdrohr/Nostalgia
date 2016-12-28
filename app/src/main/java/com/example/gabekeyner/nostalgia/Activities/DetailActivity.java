@@ -119,7 +119,7 @@ public class DetailActivity extends AppCompatActivity {
                     });
 
                 }
-                imageView.setOnClickListener(new View.OnClickListener() {
+                imageCardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ViewAnimator.animate(imageView)
@@ -289,19 +289,19 @@ public class DetailActivity extends AppCompatActivity {
                 .alpha(1,1)
                 .start();
         ViewAnimator.animate(mCommentRecyclerView,relativeLayout)
-                .newsPaper()
-                .duration(1000)
+                .translationX(1000,0)
+                .duration(100)
                 .andAnimate(imageCardView,commentImageCardView,mCommentFab,mSendFab)
                 .alpha(0,0)
                 .thenAnimate(commentImageCardView)
                 .alpha(1,1)
                 .translationX(1000, 0)
-                .duration(1500)
+                .duration(100)
                 .thenAnimate(imageCardView)
                 .alpha(1,1)
-                .newsPaper()
+                .translationX(1000,0)
                 .descelerate()
-                .duration(2000)
+                .duration(100)
                 .start();
         super.onResume();
     }

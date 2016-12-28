@@ -48,7 +48,7 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
                 mUsername = FirebaseUtil.getUserName();
                 mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
                 groupKey = GroupFragment.groupKey;
-                databaseReference = getGroupMemberRef().child(groupKey);
+                databaseReference = getGroupMemberRef();
                 DatabaseReference ref = databaseReference.push();
 
                 User user = new User(

@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
@@ -42,7 +41,7 @@ public class GroupsActivity extends AppCompatActivity{
         Bundle bundle = getIntent().getExtras();
         groupName = bundle.getString("groupName");
         groupKey = bundle.getString("groupKey");
-        Toast.makeText(this, groupKey, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, groupKey, Toast.LENGTH_SHORT).show();
 
         imageView = (ImageView) findViewById(R.id.userProfileImageView);
         autoTypeTextViewGroupName = (AutoTypeTextView) findViewById(R.id.autoTypeTextViewGroupName);

@@ -112,7 +112,7 @@ public class GroupFragment extends DialogFragment {
                         mUid,
                         groupKey,
                         null);
-                getGroupMemberRef().child(groupKey).push().setValue(user);
+                getGroupMemberRef().push().setValue(user);
                 Intent groupNameIntent = new Intent(context, UserAdapter.class);
                 groupNameIntent.putExtra("groupKey", groupKey);
                 context.sendBroadcast(groupNameIntent,"groupKey");

@@ -2,7 +2,7 @@ package com.example.gabekeyner.nostalgia.ObjectClasses;
 
 public class Group {
 
-    public String user;
+    public String groupCreator;
     public String groupName;
     public String groupPhoto;
     public String groupId;
@@ -11,20 +11,20 @@ public class Group {
     }
 
 
-    public Group(String user, String groupName, String groupPhoto, String groupId) {
-        this.user = user;
+    public Group(String groupCreator, String groupName, String groupPhoto, String groupId) {
+        this.groupCreator = groupCreator;
         this.groupName = groupName;
         this.groupPhoto = groupPhoto;
         this.groupId = groupId;
 
     }
 
-    public String getUser() {
-        return user;
+    public String getGroupCreator() {
+        return groupCreator;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setGroupCreator(String groupCreator) {
+        this.groupCreator = groupCreator;
     }
 
     public String getGroupName() {

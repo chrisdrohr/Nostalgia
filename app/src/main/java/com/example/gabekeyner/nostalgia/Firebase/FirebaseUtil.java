@@ -1,5 +1,6 @@
 package com.example.gabekeyner.nostalgia.Firebase;
 
+import com.example.gabekeyner.nostalgia.Adapters.NavGroupsAdapter;
 import com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment;
 import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -9,10 +10,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseUtil {
 
-    public static String groupKey = GroupFragment.groupKey;
+    public static String groupKey = "groupKey";
 
     public static DatabaseReference getBaseRef() {
         return FirebaseDatabase.getInstance().getReference();
+    }
+    public static DatabaseReference getGroupKeyRef() {
+        groupKey = NavGroupsAdapter.groupKey;
+        groupKey = GroupFragment.groupKey;
+        return FirebaseDatabase.getInstance().getReference().child("groups").child(groupKey);
     }
 
     public static User getUser () {
@@ -24,7 +30,7 @@ public class FirebaseUtil {
         return firebaseUser.getDisplayName();
     }
     public static DatabaseReference getLikesRef() {
-        return getBaseRef().child("likes");
+        return getGroupKeyRef().child("likes");
     }
 
     public static DatabaseReference getDeletePostRef() {
@@ -35,7 +41,8 @@ public class FirebaseUtil {
 //    }
 
     public static DatabaseReference getPostRef () {
-        return FirebaseDatabase.getInstance().getReference().child(groupKey).child("posts");
+
+        return getGroupKeyRef().child("posts");
     }
 
     public static String getUid () {
@@ -43,7 +50,7 @@ public class FirebaseUtil {
     }
 
     public static DatabaseReference getCommentsRef () {
-        return getBaseRef().child("posts/comments");
+        return getGroupKeyRef().child("posts/comments");
     }
     public static DatabaseReference getUserRef () {
         return getBaseRef().child("users/data");
@@ -57,6 +64,7 @@ public class FirebaseUtil {
     }
 
     public static DatabaseReference getGroupMemberRef () {
-        return getBaseRef().child("groups/members");
+        groupKey = GroupFragment.groupKey;
+        return getBaseRef().child("groups").child(groupKey).child("members");
     }
 }
