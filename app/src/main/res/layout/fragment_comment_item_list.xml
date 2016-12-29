@@ -6,7 +6,6 @@
     android:name="com.example.gabekeyner.nostalgia.CommentItemFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/AccentLighter"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.example.gabekeyner.nostalgia.RecyclerFragments.CommentItemFragment"
     tools:listitem="@layout/fragment_comment_item" />

@@ -7,12 +7,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,7 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.sloop.fonts.FontsManager;
 
-import static com.example.gabekeyner.nostalgia.R.menu.main;
+import static com.example.gabekeyner.nostalgia.R.menu.detail;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -63,11 +65,10 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView (R.layout.detail_view);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbarDetail);
         setSupportActionBar(toolbar);
-//        ActionBar actionBar = getSupportActionBar();
-//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.tw__btn_composer_tweet);
-//        actionBar.setHomeButtonEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
         FontsManager.changeFonts(this);
 
@@ -91,7 +92,6 @@ public class DetailActivity extends AppCompatActivity {
         mLikeButton = (ImageButton) findViewById(R.id.likeButton);
         relativeLayout = (RelativeLayout) findViewById(R.id.detailLayout);
         constraintLayout = (ConstraintLayout) findViewById(R.id.mainActivityLayout);
-//        titleTxt.startAnimation(fade_in);
 
         //Receive Data
         mDatabaseIntent.child(mPostKey).addValueEventListener(new ValueEventListener() {
@@ -110,13 +110,13 @@ public class DetailActivity extends AppCompatActivity {
                             return false;
                         }
                     });
-                    commentImageView.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View v) {
-                            showDeleteDialog();
-                            return false;
-                        }
-                    });
+//                    commentImageView.setOnLongClickListener(new View.OnLongClickListener() {
+//                        @Override
+//                        public boolean onLongClick(View v) {
+//                            showDeleteDialog();
+//                            return false;
+//                        }
+//                    });
 
                 }
                 imageView.setOnClickListener(new View.OnClickListener() {
@@ -132,12 +132,12 @@ public class DetailActivity extends AppCompatActivity {
                                 .andAnimate(imageCardView)
                                 .alpha(1,0)
                                 .duration(200)
-                                .andAnimate(commentImageView)
-                                .alpha(0,1)
-                                .duration(200)
-                                .andAnimate(mCommentRecyclerView)
-                                .translationX(-600,0)
-                                .duration(200)
+//                                .andAnimate(commentImageView)
+//                                .alpha(0,1)
+//                                .duration(200)
+//                                .andAnimate(mCommentRecyclerView)
+//                                .translationX(-600,0)
+//                                .duration(200)
                                 .start();
                         ViewAnimator.animate(mCommentFab, mSendFab)
                                 .rollIn()
@@ -156,7 +156,7 @@ public class DetailActivity extends AppCompatActivity {
 
                     }
                 });
-                commentImageView.setOnClickListener(new View.OnClickListener() {
+               imageCardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -178,13 +178,13 @@ public class DetailActivity extends AppCompatActivity {
                                 .rollOut()
                                 .duration(200)
 
-                                .andAnimate(commentImageView)
-                                .alpha(1,0)
-                                .duration(300)
+//                                .andAnimate(commentImageView)
+//                                .alpha(1,0)
+//                                .duration(300)
 
-                                .andAnimate(mCommentRecyclerView)
-                                .translationX(0,-600)
-                                .duration(200)
+//                                .andAnimate(mCommentRecyclerView)
+//                                .translationX(0,-600)
+//                                .duration(200)
                                 .start();
 
                         imageCardView.setVisibility(View.VISIBLE);
@@ -204,10 +204,11 @@ public class DetailActivity extends AppCompatActivity {
                 Glide.with(DetailActivity.this)
                         .load(post_image)
                         .thumbnail(0.5f)
+//                        .bitmapTransform(new SepiaFilterTransformation(DetailActivity.this))
                         .crossFade()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .centerCrop()
-                        .priority(Priority.HIGH)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .priority(Priority.NORMAL)
                         .into(commentImageView);
 
                 FirebaseUtil.getLikesRef().addValueEventListener(new ValueEventListener() {
@@ -358,8 +359,21 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(main, menu);
+        getMenuInflater().inflate(detail, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.viewPhoto:
+                imageCardView.callOnClick();
+                break;
+            default:
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

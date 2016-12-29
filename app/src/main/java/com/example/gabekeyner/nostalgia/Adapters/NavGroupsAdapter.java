@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -20,6 +19,7 @@ public class NavGroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> 
     private Context context;
     private BroadcastReceiver broadcastReceiver;
     public static String groupKey = "groupKey";
+    public static String groupName;
 
     public NavGroupsAdapter(Class<Group> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
@@ -39,7 +39,8 @@ public class NavGroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> 
             @Override
             public void onClick(View view) {
                 groupKey = model.getGroupId();
-                Toast.makeText(context, "nav" + groupKey, Toast.LENGTH_SHORT).show();
+                groupName = model.getGroupName();
+//                Toast.makeText(context, "nav" + groupKey, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, FirebaseUtil.class);
                 intent.putExtra(groupKey, "groupKey");
                 context.sendBroadcast(intent);

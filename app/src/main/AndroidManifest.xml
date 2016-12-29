@@ -103,7 +103,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activities.DetailActivity"
-            android:label="@string/title_activity_detail"
+            android:label=""
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
