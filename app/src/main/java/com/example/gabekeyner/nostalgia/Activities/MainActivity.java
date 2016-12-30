@@ -53,10 +53,11 @@ public class MainActivity extends AppCompatActivity
     private Boolean mProcessUser = true;
     private DatabaseReference mDatabaseUserExists;
     public static final String ANONYMOUS = "anonymous";
-    private ImageView userImageView;
+    private ImageView userImageView, mBg;
     private TextView userTextView, mTitle;
     private GoogleApiClient mGoogleApiClient;
-
+    private NavigationView navigationView;
+    private DrawerLayout drawer;
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -111,17 +112,27 @@ public class MainActivity extends AppCompatActivity
 //        layoutManager = new LinearLayoutManager(context);
         cardView = (CardView) findViewById(R.id.cardView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        mBg = (ImageView) findViewById(R.id.mainActivityBg);
+
+
+//        Glide.with(this)
+//                .load(mFirebaseUser.getPhotoUrl())
+//                .crossFade()
+//                .centerCrop()
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .priority(Priority.IMMEDIATE)
+//                .into(mBg);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(NavGroupsAdapter.groupName);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //user Info display
@@ -138,6 +149,7 @@ public class MainActivity extends AppCompatActivity
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
     }
+
 
     private void fabAnimations() {
         //ANIMATION LAYOUTS
@@ -309,6 +321,18 @@ public class MainActivity extends AppCompatActivity
                 .duration(300)
                 .start();
     }
+
+//    @Override
+//    protected void onStart() {
+//        Toast.makeText(this, "start", Toast.LENGTH_SHORT).show();
+//        drawer.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                drawer.openDrawer(Gravity.LEFT);
+//            }
+//        },1000);
+//        super.onStart();
+//    }
 
     @Override
     protected void onPause() {

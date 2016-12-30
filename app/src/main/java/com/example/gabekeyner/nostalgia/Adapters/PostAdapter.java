@@ -3,7 +3,6 @@ package com.example.gabekeyner.nostalgia.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -66,7 +65,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
                 intent.putExtra("post_key", post_key);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-                Toast.makeText(context, "post adapter" + post_key, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "post adapter" + post_key, Toast.LENGTH_SHORT).show();
 //                viewHolder.mImageView.postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {

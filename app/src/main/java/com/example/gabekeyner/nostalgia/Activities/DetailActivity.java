@@ -156,40 +156,15 @@ public class DetailActivity extends AppCompatActivity {
 
                     }
                 });
-               imageCardView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+//               imageCardView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//
+//                    }
+//                });
 
-                        ViewAnimator.animate(imageCardView)
-                                .translationY(-500,0)
-                                .alpha(0,1)
-                                .duration(200)
 
-                                .andAnimate(imageView)
-                                .translationY(-500,0)
-                                .alpha(0,1)
-                                .duration(200)
-
-                                .andAnimate(titleTxt)
-                                .bounceIn()
-                                .duration(200)
-
-                                .andAnimate(mCommentFab, mSendFab)
-                                .rollOut()
-                                .duration(200)
-
-//                                .andAnimate(commentImageView)
-//                                .alpha(1,0)
-//                                .duration(300)
-
-//                                .andAnimate(mCommentRecyclerView)
-//                                .translationX(0,-600)
-//                                .duration(200)
-                                .start();
-
-                        imageCardView.setVisibility(View.VISIBLE);
-                    }
-                });
 
                 //Bind Data
                 imageViewText.setText(post_title);
@@ -369,7 +344,35 @@ public class DetailActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.viewPhoto:
-                imageCardView.callOnClick();
+                ViewAnimator.animate(imageCardView)
+                        .translationY(-500,0)
+                        .alpha(0,1)
+                        .duration(200)
+
+                        .andAnimate(imageView)
+                        .translationY(-500,0)
+                        .alpha(0,1)
+                        .duration(200)
+
+                        .andAnimate(titleTxt)
+                        .bounceIn()
+                        .duration(200)
+
+                        .andAnimate(mCommentFab, mSendFab)
+                        .rollOut()
+                        .duration(200)
+
+//                                .andAnimate(commentImageView)
+//                                .alpha(1,0)
+//                                .duration(300)
+
+//                                .andAnimate(mCommentRecyclerView)
+//                                .translationX(0,-600)
+//                                .duration(200)
+                        .start();
+
+                imageCardView.setVisibility(View.VISIBLE);
+//                imageCardView.callOnClick();
                 break;
             default:
         }
@@ -381,7 +384,6 @@ public class DetailActivity extends AppCompatActivity {
         finishAfterTransition();
         return true;
     }
-
 
     @Override
     public void onBackPressed() {

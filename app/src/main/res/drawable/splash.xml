@@ -7,7 +7,7 @@
         <item>
             <bitmap
                 android:gravity="center"
-                android:src="@drawable/sunset"/>
+                android:src="@drawable/mbg"
+                android:alpha=".1"/>
         </item>
-
     </layer-list>

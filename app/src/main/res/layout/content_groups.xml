@@ -5,7 +5,6 @@
     android:id="@+id/content_groups"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/AccentLighter"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.gabekeyner.nostalgia.Activities.GroupsActivity"
     tools:showIn="@layout/activity_groups">
@@ -15,7 +14,7 @@
         android:id="@+id/userItemFragment"
         android:elevation="4dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
     <com.dragankrstic.autotypetextview.AutoTypeTextView
         android:id="@+id/autoTypeTextViewGroupName"

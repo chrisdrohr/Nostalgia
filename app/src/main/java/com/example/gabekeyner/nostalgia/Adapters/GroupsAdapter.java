@@ -16,28 +16,28 @@ import com.example.gabekeyner.nostalgia.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.Query;
 
-public class NavGroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
+public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
     private Context context;
     private BroadcastReceiver broadcastReceiver;
     public static String groupKey = "groupKey";
     public static String groupName;
 
-    public NavGroupsAdapter(Class<Group> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
+    public GroupsAdapter(Class<Group> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         this.context = context;
     }
 
     @Override
     protected void populateViewHolder(final Viewholder viewHolder, final Group model, final int position) {
-        viewHolder.navDrawerTextView.setText(model.getGroupName());
+        viewHolder.groupsTextView.setText(model.getGroupName());
         Glide.with(context)
                 .load(model.getGroupPhoto())
                 .thumbnail(0.1f)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)
-                .into(viewHolder.navDrawerImageView);
-        viewHolder.navDrawerTextView.setOnClickListener(new View.OnClickListener() {
+                .into(viewHolder.groupsImageView);
+        viewHolder.groupsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 groupKey = model.getGroupId();

@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/save"
-        android:icon="@drawable/ic_menu_gallery"
-        android:title="Save"
+        android:icon="@drawable/publish_vector"
+        android:title="Publish Group"
         android:orderInCategory="100"
         app:showAsAction="always"/>
     <item
         android:id="@+id/discard"
         android:title="Discard"
-        android:icon="@drawable/tw__composer_close"
+        android:icon="@drawable/delete_vector"
         android:orderInCategory="100"
         app:showAsAction="always"/>
 </menu>

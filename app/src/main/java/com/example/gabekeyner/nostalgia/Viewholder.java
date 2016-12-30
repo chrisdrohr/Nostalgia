@@ -25,8 +25,8 @@ public class Viewholder extends RecyclerView.ViewHolder {
     public ImageView profilePicture;
     public CardView mCardView;
     public Context mContext;
-    public ImageView detailImageView, userProfileImageView;
-    public TextView detailTitle, userProfileTextView;
+    public ImageView detailImageView, userProfileImageView, groupsImageView;
+    public TextView detailTitle, userProfileTextView, groupsTextView;
     public EditText mEditText;
     public AutoTypeTextView autoTypeTextView;
     public CircleImageView circleImageView;
@@ -60,9 +60,11 @@ public class Viewholder extends RecyclerView.ViewHolder {
         commentTimestampAutoTextView = (AutoTypeTextView) itemView.findViewById(R.id.dateAutoText);
         addedUserAutoTypeTextView = (AutoTypeTextView) itemView.findViewById(R.id.addedUserAutoText);
         addedUserImageView = (CircleImageView) itemView.findViewById(addedUserCircleImageView);
-
         userProfileImageView = (ImageView) itemView.findViewById(R.id.userProfileImageView);
         userProfileTextView = (TextView) itemView.findViewById(R.id.userProfileTextView);
+
+        groupsTextView = (TextView) itemView.findViewById(R.id.groupsTextView);
+        groupsImageView = (ImageView) itemView.findViewById(R.id.groupsImageView);
     }
 
 
