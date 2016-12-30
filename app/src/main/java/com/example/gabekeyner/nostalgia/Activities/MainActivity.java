@@ -2,25 +2,27 @@ package com.example.gabekeyner.nostalgia.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -30,7 +32,6 @@ import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
 import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.example.gabekeyner.nostalgia.R;
 import com.github.florent37.viewanimator.ViewAnimator;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,7 +58,11 @@ public class MainActivity extends AppCompatActivity
     private TextView userTextView, mTitle;
     private GoogleApiClient mGoogleApiClient;
     private NavigationView navigationView;
+    private Boolean mProcessUserExists = false;
     private DrawerLayout drawer;
+    private Snackbar snackbar;
+    private RelativeLayout relativeLayout;
+    private ConstraintLayout constraintLayout;
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -112,8 +117,9 @@ public class MainActivity extends AppCompatActivity
 //        layoutManager = new LinearLayoutManager(context);
         cardView = (CardView) findViewById(R.id.cardView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        relativeLayout = (RelativeLayout) findViewById(R.id.content_main);
+        constraintLayout = (ConstraintLayout) findViewById(R.id.mainActivityLayout);
 //        mBg = (ImageView) findViewById(R.id.mainActivityBg);
-
 
 //        Glide.with(this)
 //                .load(mFirebaseUser.getPhotoUrl())
@@ -149,7 +155,6 @@ public class MainActivity extends AppCompatActivity
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
     }
-
 
     private void fabAnimations() {
         //ANIMATION LAYOUTS
@@ -362,25 +367,25 @@ public class MainActivity extends AppCompatActivity
             case R.id.sign_out_menu:
                 mFirebaseAuth.signOut();
                 startActivity(new Intent(this, SignInActivity.class));
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mUsername = ANONYMOUS;
+//                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+//                mUsername = ANONYMOUS;
                 return true;
-            case R.id.linearViewVertical:
-                LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
-                mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
-                mLinearLayoutManagerVertical.setItemPrefetchEnabled(false);
-                break;
-            case R.id.twoViewVertical:
-                StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
-                mStaggered2VerticalLayoutManager.setItemPrefetchEnabled(false);
-                break;
-            case R.id.staggeredViewVertical:
-                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-                recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
-                mStaggeredVerticalLayoutManager.setItemPrefetchEnabled(false);
-                break;
+//            case R.id.linearViewVertical:
+//                LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(this);
+//                mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
+//                recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
+//                mLinearLayoutManagerVertical.setItemPrefetchEnabled(false);
+//                break;
+//            case R.id.twoViewVertical:
+//                StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//                recyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
+//                mStaggered2VerticalLayoutManager.setItemPrefetchEnabled(false);
+//                break;
+//            case R.id.staggeredViewVertical:
+//                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+//                recyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
+//                mStaggeredVerticalLayoutManager.setItemPrefetchEnabled(false);
+//                break;
             default:
         }
         return super.onOptionsItemSelected(item);
@@ -407,24 +412,40 @@ public class MainActivity extends AppCompatActivity
     }
 
         public void checkUser () {
-            FirebaseUtil.getUserExistsRef().setValue(FirebaseUtil.getUid());
-        FirebaseUtil.getUserExistsRef().addValueEventListener(new ValueEventListener() {
+            mProcessUserExists = true;
+        FirebaseUtil.getBaseRef().child("users/exists").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue().toString().equals(mUid)) {
-                    //TODO: fix user add
-//                    addUser();
-                }else {
+                if (mProcessUserExists) {
+                    if (dataSnapshot.hasChild(mUid)) {
+                        snackbar = Snackbar.make(constraintLayout, "Welcome back!", Snackbar.LENGTH_SHORT);
+                        View snackBarView = snackbar.getView();
+                        snackBarView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.DarkColor));
+                        snackbar.show();
+
+                        drawer.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                drawer.openDrawer(Gravity.LEFT);
+                            }
+                        },700);
+
+                        mProcessUserExists = false;
+                } else {
                     addUser();
+                        FirebaseUtil.getUserExistsRef().push().setValue(mUid);
+                    mProcessUserExists = false;
+
                 }
             }
-
+            }
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
     }
+
 
     public void addUser () {
         mProcessUser = true;
@@ -445,7 +466,19 @@ public class MainActivity extends AppCompatActivity
                             null
                     );
                     FirebaseUtil.getUserRef().push().setValue(user);
-                    Toast.makeText(MainActivity.this, "Hello " + mUsername, Toast.LENGTH_LONG).show();
+                    FirebaseUtil.getUserRef().removeEventListener(this);
+                    snackbar = Snackbar.make(constraintLayout, "Create a group to get started!", Snackbar.LENGTH_LONG);
+                    View snackBarView = snackbar.getView();
+                    snackBarView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.DarkColor));
+                    snackbar.show();
+
+                    drawer.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            drawer.openDrawer(Gravity.LEFT);
+                        }
+                    },1000);
+
                     mProcessUser = false;
                 }
             }

@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/cardView"
+    app:cardElevation="2dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="1dp"
+    android:layout_margin=".5dp"
     android:clickable="true"
     app:cardCornerRadius="1dp">
 
@@ -16,26 +17,26 @@
         android:orientation="vertical"
         android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:background="@drawable/custom_bg"
-        android:clickable="true"
-        android:transitionName="imageTransition"
-        android:adjustViewBounds="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/imageView"
+            android:background="@drawable/custom_bg"
+            android:clickable="true"
+            android:transitionName="imageTransition"
+            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_alignBottom="@+id/imageView"
-                android:layout_alignStart="@+id/imageView"
-                android:fontFamily="monospace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="10dp"
-                android:textColor="@color/AccentLighter"
-                android:textAllCaps="false"
-                android:textSize="20sp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_alignStart="@+id/imageView"
+            android:fontFamily="monospace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:textColor="@color/AccentLighter"
+            android:textAllCaps="false"
+            android:textSize="10sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,7 +46,7 @@
             android:layout_alignEnd="@+id/imageView"
             android:fontFamily="cursive"
             android:textColor="@color/AccentLighter"
-            android:textSize="15dp" />
+            android:textSize="7dp" />
 
     </RelativeLayout>
 

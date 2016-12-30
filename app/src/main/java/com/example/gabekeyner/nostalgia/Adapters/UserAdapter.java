@@ -6,11 +6,9 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment;
-import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
 import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.example.gabekeyner.nostalgia.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
@@ -31,7 +29,7 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
     }
 
     @Override
-    protected void populateViewHolder(Viewholder viewHolder, User model, int position) {
+    protected void populateViewHolder(Viewholder viewHolder, final User model, int position) {
 
             viewHolder.userProfileTextView.setText(model.getUserName());
         Glide.with(context)
@@ -44,9 +42,9 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
         viewHolder.userProfileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                mUsername = FirebaseUtil.getUserName();
-                mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
+                mUid = model.getUid();
+                mUsername = model.getUserName();
+                mPhotoUrl = model.getProfilePicture();
                 groupKey = GroupFragment.groupKey;
                 databaseReference = getGroupMemberRef();
                 DatabaseReference ref = databaseReference.push();

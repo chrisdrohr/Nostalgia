@@ -48,7 +48,7 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mCardView = (CardView) itemView.findViewById(R.id.cardView);
         mContext = itemView.getContext();
         detailImageView = (ImageView) itemView.findViewById(R.id.detialView);
-        detailTitle = (TextView) itemView.findViewById(R.id.commentDetailTitle);
+//        detailTitle = (TextView) itemView.findViewById(R.id.commentDetailTitle);
         mEditText = (EditText) itemView.findViewById(R.id.groupEditText);
         circleImageView = (CircleImageView) itemView.findViewById(R.id.addedUserCircleImageView);
         autoTypeTextView = (AutoTypeTextView) itemView.findViewById(R.id.deleteAutoText);

@@ -69,7 +69,9 @@ public class GroupsActivity extends AppCompatActivity{
                 startActivity(intent);
                 break;
             case R.id.discard:
-                FirebaseUtil.getGroupKeyRef().child(groupKey).removeValue();
+                FirebaseUtil.getGroupRef().child(groupKey).removeValue();
+                Intent discardIntent = new Intent(this, MainActivity.class);
+                startActivity(discardIntent);
                 break;
             default:
     }

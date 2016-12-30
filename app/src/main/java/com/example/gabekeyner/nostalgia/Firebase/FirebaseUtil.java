@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseUtil {
 
-    public static String groupKey;
+    public static String groupKey, mUid;
 
     public static DatabaseReference getBaseRef() {
         return FirebaseDatabase.getInstance().getReference();
@@ -57,7 +57,8 @@ public class FirebaseUtil {
     }
 
     public static DatabaseReference getUserExistsRef() {
-        return getBaseRef().child("users/exists");
+        mUid = getUid();
+        return getBaseRef().child("users/exists").child(mUid);
     }
     public static DatabaseReference getGroupRef () {
         return getBaseRef().child("groups");
