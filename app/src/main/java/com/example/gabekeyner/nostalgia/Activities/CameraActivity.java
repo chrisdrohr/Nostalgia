@@ -229,7 +229,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 .newsPaper()
                 .duration(4000)
                 .start();
-
         progressBar.setVisibility(View.VISIBLE);
         mUploadFab.setEnabled(false);
         final StorageReference photoRef = mStorageReference.child(mMediaUri.getLastPathSegment());

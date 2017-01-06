@@ -1,6 +1,8 @@
 package com.example.gabekeyner.nostalgia.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +31,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.gabekeyner.nostalgia.Adapters.NavGroupsAdapter;
 import com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment;
+import com.example.gabekeyner.nostalgia.DialogFragments.UploadFragment;
 import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
 import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.example.gabekeyner.nostalgia.R;
@@ -40,12 +44,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.sloop.fonts.FontsManager;
 
+import static com.example.gabekeyner.nostalgia.Adapters.NavGroupsAdapter.groupPhoto;
 import static com.example.gabekeyner.nostalgia.R.menu.main;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
+
+    private static final int RC_SIGN_IN = 0;
 
     public RecyclerView recyclerView;
     private CardView cardView;
@@ -53,8 +62,7 @@ public class MainActivity extends AppCompatActivity
     private String mUsername, mPhotoUrl, mUid, userKey;
     private Boolean mProcessUser = true;
     private DatabaseReference mDatabaseUserExists;
-    public static final String ANONYMOUS = "anonymous";
-    private ImageView userImageView, mBg;
+    private ImageView userImageView, mainBg;
     private TextView userTextView, mTitle;
     private GoogleApiClient mGoogleApiClient;
     private NavigationView navigationView;
@@ -63,9 +71,18 @@ public class MainActivity extends AppCompatActivity
     private Snackbar snackbar;
     private RelativeLayout relativeLayout;
     private ConstraintLayout constraintLayout;
+    private SharedPreferences sharedPreferences;
+    private static String groupKey = "groupKey";
+    private Uri mMediaUri;
+    private ProgressBar progressBar;
+    private final static int SELECT_PHOTO = 0;
+
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private StorageReference mStorageReference;
+    private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
+
     FloatingActionButton fab, fabPhoto, fabVideo, floatingActionButton1, floatingActionButton2, floatingActionButton3;
     Animation hide_fab, show_fab, show_fab2, show_fab3, rotate_anticlockwise, rotate_clockwise, stayhidden_fab;
     boolean isOpen = true;
@@ -83,9 +100,9 @@ public class MainActivity extends AppCompatActivity
 
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mStorageReference = mFirebaseStorage.getReference().child("posts");
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mDatabaseUserExists = FirebaseUtil.getUserExistsRef();
-        mDatabaseUserExists.keepSynced(true);
+
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, SignInActivity.class));
@@ -93,6 +110,8 @@ public class MainActivity extends AppCompatActivity
             return;
         } else {
             mUsername = FirebaseUtil.getUser().getUserName();
+            mDatabaseUserExists = FirebaseUtil.getUserExistsRef();
+            mDatabaseUserExists.keepSynced(true);
             if (mFirebaseUser.getPhotoUrl() != null) {
                 mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
             }
@@ -102,32 +121,46 @@ public class MainActivity extends AppCompatActivity
         fabAnimations();
         fabClickable();
         checkUser();
-        fabPhoto.startAnimation(stayhidden_fab);
-        fabVideo.startAnimation(stayhidden_fab);
-        fabPhoto.setClickable(false);
-        fabVideo.setClickable(false);
+
+        fab.setVisibility(View.INVISIBLE);
 
         fab.postDelayed(new Runnable() {
             @Override
             public void run() {
-                clickFab();
-            }
-        }, 2000);
+                ViewAnimator.animate(floatingActionButton2)
+                        .bounceOut()
+                        .descelerate()
+                        .duration(100)
+                        .thenAnimate(fabPhoto)
+                        .bounceOut()
+                        .descelerate()
+                        .duration(100)
+                        .thenAnimate(fabVideo)
+                        .bounceOut()
+                        .descelerate()
+                        .duration(100)
+                        .start();
+                isOpen = false;
+                fab.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        fab.setVisibility(View.VISIBLE);
+                        ViewAnimator.animate(fab)
+                                .slit()
+                                .duration(500)
+                                .start();
+                    }
+                }, 500);
 
-//        layoutManager = new LinearLayoutManager(context);
+            }
+        }, 500);
+
         cardView = (CardView) findViewById(R.id.cardView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         relativeLayout = (RelativeLayout) findViewById(R.id.content_main);
         constraintLayout = (ConstraintLayout) findViewById(R.id.mainActivityLayout);
-//        mBg = (ImageView) findViewById(R.id.mainActivityBg);
 
-//        Glide.with(this)
-//                .load(mFirebaseUser.getPhotoUrl())
-//                .crossFade()
-//                .centerCrop()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .priority(Priority.IMMEDIATE)
-//                .into(mBg);
+        mainBg = (ImageView) findViewById(R.id.mainBg);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(NavGroupsAdapter.groupName);
@@ -154,6 +187,14 @@ public class MainActivity extends AppCompatActivity
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
+
+        Glide.with(this)
+                .load(groupPhoto)
+                .centerCrop()
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(mainBg);
     }
 
     private void fabAnimations() {
@@ -167,10 +208,10 @@ public class MainActivity extends AppCompatActivity
         stayhidden_fab = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_stayhidden);
 
         //MY FLOATING ACTION BUTTONS
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab = (FloatingActionButton) findViewById(fab);
         floatingActionButton1 = (FloatingActionButton) findViewById(R.id.floatingActionButton1);
         floatingActionButton2 = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
-        floatingActionButton3 = (FloatingActionButton) findViewById(R.id.floatingActionButton3);
+//        floatingActionButton3 = (FloatingActionButton) findViewById(R.id.floatingActionButton3);
         fabPhoto = (FloatingActionButton) findViewById(R.id.fabPhoto);
         fabVideo = (FloatingActionButton) findViewById(R.id.fabVideo);
 
@@ -178,44 +219,7 @@ public class MainActivity extends AppCompatActivity
 
     private void fabClickable() {
 
-        floatingActionButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isOpen) {
-                    floatingActionButton2.startAnimation(rotate_anticlockwise);
 
-                    floatingActionButton1.startAnimation(hide_fab);
-                    floatingActionButton3.startAnimation(hide_fab);
-
-                    fabPhoto.startAnimation(show_fab2);
-                    fabVideo.startAnimation(show_fab3);
-
-                    fabPhoto.setClickable(true);
-                    fabVideo.setClickable(true);
-                    floatingActionButton2.setClickable(true);
-                    floatingActionButton1.setClickable(false);
-                    floatingActionButton3.setClickable(false);
-
-                    isOpen = false;
-
-                } else {
-                    fabPhoto.startAnimation(hide_fab);
-                    fabVideo.startAnimation(hide_fab);
-
-                    fabPhoto.setClickable(false);
-                    fabVideo.setClickable(false);
-
-                    floatingActionButton1.startAnimation(show_fab2);
-                    floatingActionButton3.startAnimation(show_fab3);
-
-                    floatingActionButton1.setClickable(true);
-                    floatingActionButton2.setClickable(true);
-                    floatingActionButton3.setClickable(true);
-
-                    isOpen = true;
-                }
-            }
-        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -224,17 +228,10 @@ public class MainActivity extends AppCompatActivity
                     ViewAnimator.animate(fab)
                             .rotation(0)
                             .duration(300)
+                            .andAnimate(floatingActionButton2, fabPhoto, fabVideo)
+                            .bounceOut()
+                            .duration(300)
                             .start();
-                    floatingActionButton1.startAnimation(hide_fab);
-                    floatingActionButton2.startAnimation(hide_fab);
-                    floatingActionButton3.startAnimation(hide_fab);
-
-                    fabPhoto.startAnimation(stayhidden_fab);
-                    fabVideo.startAnimation(stayhidden_fab);
-
-                    floatingActionButton1.setClickable(false);
-                    floatingActionButton2.setClickable(false);
-                    floatingActionButton3.setClickable(false);
 
                     isOpen = false;
 
@@ -243,40 +240,22 @@ public class MainActivity extends AppCompatActivity
                     ViewAnimator.animate(fab)
                             .rotation(540)
                             .duration(300)
+                            .andAnimate(floatingActionButton2, fabVideo, fabPhoto)
+                            .bounceIn()
+                            .duration(300)
                             .start();
-                    floatingActionButton1.startAnimation(show_fab2);
-                    floatingActionButton2.startAnimation(show_fab);
-                    floatingActionButton3.startAnimation(show_fab3);
-
-                    fabPhoto.startAnimation(stayhidden_fab);
-                    fabVideo.startAnimation(stayhidden_fab);
-
-                    floatingActionButton1.setClickable(true);
-                    floatingActionButton2.setClickable(true);
-                    floatingActionButton3.setClickable(true);
-
-                    fabPhoto.setClickable(false);
-                    fabVideo.setClickable(false);
 
                     isOpen = true;
                 }
             }
         });
-        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-                intent.putExtra(CameraActivity.ACTIVITY_INTENTION, CameraActivity.TAKE_PHOTO);
-                startActivity(intent);
-            }
-        });
+
         fabPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-                intent.putExtra(CameraActivity.ACTIVITY_INTENTION, CameraActivity.GALLERY_PICKER);
-                finishAfterTransition();
-                startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, SELECT_PHOTO);
             }
         });
         fabVideo.setOnClickListener(new View.OnClickListener() {
@@ -287,15 +266,32 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        floatingActionButton3.setOnClickListener(new View.OnClickListener() {
+        floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-                intent.putExtra(CameraActivity.ACTIVITY_INTENTION, CameraActivity.VIDEO_SHOOTER);
-                startActivity(intent);
+                openGroupsActivity();
             }
         });
     }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK && data != null) {
+//            mMediaUri = data.getData();
+//            groupBg.setImageURI(mMediaUri);
+//            progressBar.setVisibility(View.VISIBLE);
+//            final StorageReference photoRef = mStorageReference.child(mMediaUri.getLastPathSegment());
+//            photoRef.putFile(mMediaUri).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    Toast.makeText(MainActivity.this, "Photo uploaded!", Toast.LENGTH_SHORT).show();
+//                    progressBar.setVisibility(View.INVISIBLE);
+//
+//                }
+//            });
+//        }
+//    }
 
     private void clickFab() {
         fab.callOnClick();
@@ -327,8 +323,21 @@ public class MainActivity extends AppCompatActivity
                 .start();
     }
 
-//    @Override
-//    protected void onStart() {
+    @Override
+    protected void onStart() {
+//        SharedPreferences sharedPreferences = getSharedPreferences("groupKey", Context.MODE_PRIVATE);
+//        groupKey = sharedPreferences.getString("groupKey", "");
+//        if (groupKey.equals("")){
+//            Toast.makeText(this, "data not found", Toast.LENGTH_SHORT).show();
+//        }
+//        else {
+//
+//            Intent intent = new Intent(this, NavGroupsAdapter.class);
+//            intent.putExtra(sharedPreferences.getString("groupKey", groupKey), "groupKey");
+//            this.sendBroadcast(intent);
+//            this.startActivity(intent);
+//            Toast.makeText(this, "data found" + groupKey, Toast.LENGTH_SHORT).show();
+//        }
 //        Toast.makeText(this, "start", Toast.LENGTH_SHORT).show();
 //        drawer.postDelayed(new Runnable() {
 //            @Override
@@ -336,8 +345,8 @@ public class MainActivity extends AppCompatActivity
 //                drawer.openDrawer(Gravity.LEFT);
 //            }
 //        },1000);
-//        super.onStart();
-//    }
+        super.onStart();
+    }
 
     @Override
     protected void onPause() {
@@ -347,6 +356,18 @@ public class MainActivity extends AppCompatActivity
                 .duration(1000)
                 .start();
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+//        Intent intent = getIntent();
+//        groupKey = intent.getStringExtra("groupKey");
+//        SharedPreferences sharedPreferences = getSharedPreferences("groupKey", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("groupKey", groupKey);
+//        editor.apply();
+//        Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show();
+        super.onStop();
     }
 
     @Override
@@ -411,6 +432,11 @@ public class MainActivity extends AppCompatActivity
         groupFragment.show(getFragmentManager(), "Group Fragment");
     }
 
+    public void openUploadFragment () {
+        UploadFragment uploadFragment = new UploadFragment();
+        uploadFragment.show(getFragmentManager(), "Upload Fragment");
+    }
+
         public void checkUser () {
             mProcessUserExists = true;
         FirebaseUtil.getBaseRef().child("users/exists").addValueEventListener(new ValueEventListener() {
@@ -418,17 +444,17 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (mProcessUserExists) {
                     if (dataSnapshot.hasChild(mUid)) {
-                        snackbar = Snackbar.make(constraintLayout, "Welcome back!", Snackbar.LENGTH_SHORT);
-                        View snackBarView = snackbar.getView();
-                        snackBarView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.DarkColor));
-                        snackbar.show();
+//                        snackbar = Snackbar.make(constraintLayout, "Welcome back!", Snackbar.LENGTH_SHORT);
+//                        View snackBarView = snackbar.getView();
+//                        snackBarView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.DarkColor));
+//                        snackbar.show();
 
-                        drawer.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                drawer.openDrawer(Gravity.LEFT);
-                            }
-                        },700);
+//                        drawer.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                drawer.openDrawer(Gravity.LEFT);
+//                            }
+//                        },700);
 
                         mProcessUserExists = false;
                 } else {

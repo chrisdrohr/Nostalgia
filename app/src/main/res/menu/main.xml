@@ -6,32 +6,32 @@
         android:id="@+id/sign_out_menu"
         android:title="@string/sign_out"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/invite_menu"
-        android:title="@string/invite_menu_label"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/invite_menu"-->
+        <!--android:title="@string/invite_menu_label"-->
+        <!--app:showAsAction="never"/>-->
 
-    <item
-        android:id="@+id/fresh_config_menu"
-        android:title="@string/fresh_config"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/fresh_config_menu"-->
+        <!--android:title="@string/fresh_config"-->
+        <!--app:showAsAction="never"/>-->
 
-    <item
-        android:id="@+id/linearViewVertical"
-        android:icon="@drawable/ic_list_view"
-        android:title="Linear View"
-        android:orderInCategory="100"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/twoViewVertical"
-        android:icon="@drawable/view_dashboard"
-        android:title="Dual View"
-        android:orderInCategory="100"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/staggeredViewVertical"
-        android:title="Tri View"
-        android:icon="@drawable/ic_staggered_view"
-        android:orderInCategory="100"
-        app:showAsAction="always"/>
+    <!--<item-->
+        <!--android:id="@+id/linearViewVertical"-->
+        <!--android:icon="@drawable/ic_list_view"-->
+        <!--android:title="Linear View"-->
+        <!--android:orderInCategory="100"-->
+        <!--app:showAsAction="always"/>-->
+    <!--<item-->
+        <!--android:id="@+id/twoViewVertical"-->
+        <!--android:icon="@drawable/view_dashboard"-->
+        <!--android:title="Dual View"-->
+        <!--android:orderInCategory="100"-->
+        <!--app:showAsAction="always"/>-->
+    <!--<item-->
+        <!--android:id="@+id/staggeredViewVertical"-->
+        <!--android:title="Tri View"-->
+        <!--android:icon="@drawable/ic_staggered_view"-->
+        <!--android:orderInCategory="100"-->
+        <!--app:showAsAction="always"/>-->
 </menu>

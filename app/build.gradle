@@ -65,7 +65,7 @@ dependencies {
     compile 'com.github.ybq:Endless-RecyclerView:1.0.3'
     compile 'com.github.florent37:viewanimator:1.0.4'
     compile 'com.github.GcsSloop:FontsManager:v1.0.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'

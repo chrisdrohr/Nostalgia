@@ -9,7 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
 import com.example.gabekeyner.nostalgia.R;
@@ -25,10 +28,10 @@ public class GroupsActivity extends AppCompatActivity{
 
     public RecyclerView recyclerView;
     public AutoTypeTextView autoTypeTextViewGroupName;
-    private String mUsername, mPhotoUrl, mUid, groupName;
+    private String mUsername, mPhotoUrl, mUid, groupName, groupPhoto;
     private DatabaseReference databaseReference;
     private Toolbar toolbar;
-    private ImageView imageView;
+    private ImageView imageView, groupBg;
     public static Context mContext;
     public static String groupKey;
 
@@ -45,9 +48,11 @@ public class GroupsActivity extends AppCompatActivity{
         Bundle bundle = getIntent().getExtras();
         groupName = bundle.getString("groupName");
         groupKey = bundle.getString("groupKey");
+        groupPhoto = bundle.getString("groupPhoto");
 //        Toast.makeText(this, groupKey, Toast.LENGTH_SHORT).show();
 
         imageView = (ImageView) findViewById(R.id.userProfileImageView);
+        groupBg = (ImageView) findViewById(R.id.groupBg);
         autoTypeTextViewGroupName = (AutoTypeTextView) findViewById(R.id.autoTypeTextViewGroupName);
         autoTypeTextViewGroupName.setTextAutoTyping(groupName);
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -57,6 +62,16 @@ public class GroupsActivity extends AppCompatActivity{
 
         FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
         FontsManager.changeFonts(autoTypeTextViewGroupName);
+
+        Toast.makeText(GroupsActivity.this, groupPhoto, Toast.LENGTH_SHORT).show();
+
+        Glide.with(GroupsActivity.this)
+                .load(groupPhoto)
+                .centerCrop()
+                .priority(Priority.IMMEDIATE)
+                .thumbnail(0.5f)
+                .crossFade()
+                .into(groupBg);
     }
 
     @Override
@@ -67,11 +82,13 @@ public class GroupsActivity extends AppCompatActivity{
             case R.id.save:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                Toast.makeText(this, "Group Saved!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.discard:
                 FirebaseUtil.getGroupRef().child(groupKey).removeValue();
                 Intent discardIntent = new Intent(this, MainActivity.class);
                 startActivity(discardIntent);
+                Toast.makeText(this, "Group Discarded", Toast.LENGTH_SHORT).show();
                 break;
             default:
     }

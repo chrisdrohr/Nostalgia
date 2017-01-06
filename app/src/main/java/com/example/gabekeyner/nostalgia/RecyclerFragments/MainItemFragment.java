@@ -3,7 +3,6 @@ package com.example.gabekeyner.nostalgia.RecyclerFragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -41,6 +40,12 @@ public class MainItemFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mPostAdapter);
         mLayoutManager.setItemPrefetchEnabled(false);
+
+//        if () {
+//            Toast.makeText(getContext(), "null" + , Toast.LENGTH_SHORT).show();
+//        }else {
+//            Toast.makeText(getContext(), "/not", Toast.LENGTH_SHORT).show();
+//        }
         return rootView;
     }
 
@@ -49,22 +54,22 @@ public class MainItemFragment extends Fragment {
         int id = item.getItemId();
         //LAYOUTS & ORIENTATIONS
         switch (id) {
-            case R.id.linearViewVertical:
-                LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(getContext());
-                mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
-                mRecyclerView.setLayoutManager(mLinearLayoutManagerVertical);
-                mLinearLayoutManagerVertical.setItemPrefetchEnabled(false);
-                break;
-            case R.id.twoViewVertical:
-                StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                mRecyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
-                mStaggered2VerticalLayoutManager.setItemPrefetchEnabled(false);
-                break;
-            case R.id.staggeredViewVertical:
-                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-                mRecyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
-                mStaggeredVerticalLayoutManager.setItemPrefetchEnabled(false);
-                break;
+//            case R.id.linearViewVertical:
+//                LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(getContext());
+//                mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
+//                mRecyclerView.setLayoutManager(mLinearLayoutManagerVertical);
+//                mLinearLayoutManagerVertical.setItemPrefetchEnabled(false);
+//                break;
+//            case R.id.twoViewVertical:
+//                StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//                mRecyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
+//                mStaggered2VerticalLayoutManager.setItemPrefetchEnabled(false);
+//                break;
+//            case R.id.staggeredViewVertical:
+//                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+//                mRecyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
+//                mStaggeredVerticalLayoutManager.setItemPrefetchEnabled(false);
+//                break;
             default:
         }
         return super.onOptionsItemSelected(item);

@@ -56,6 +56,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView titleTxt, imageViewText;
     private ImageView imageView, commentImageView;
     private String mPostKey = null;
+    public static String post_image;
     private CardView imageCardView, commentImageCardView;
     private ImageButton mLikeButton;
     private Boolean mProcessLike = false;
@@ -80,12 +81,10 @@ public class DetailActivity extends AppCompatActivity {
         mDatabaseIntent = FirebaseUtil.getPostRef();
         mPostKey = getIntent().getExtras().getString("post_key");
         mDatabaseLike.keepSynced(true);
-//        titleTxt = (TextView) findViewById(R.id.commentDetailTitle);
         imageViewText = (TextView) findViewById(R.id.titleTextView);
         imageView = (ImageView) findViewById(R.id.detialView);
         imageCardView = (CardView) findViewById(R.id.cardViewDetail);
         mCommentRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCommentList);
-//        commentImageCardView = (CardView) findViewById(R.id.commentCardViewDetail);
         commentImageView = (ImageView) findViewById(R.id.commentDetialView);
         mCommentFab = (FloatingActionButton) findViewById(R.id.fabComment);
         mSendFab = (FloatingActionButton) findViewById(R.id.fabCommentSwitch);
@@ -98,7 +97,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String post_title = (String) dataSnapshot.child("title").getValue();
-                final String post_image = (String) dataSnapshot.child("imageURL").getValue();
+                post_image = (String) dataSnapshot.child("imageURL").getValue();
                 String post_uid = (String) dataSnapshot.child("uid").getValue();
 
                 if (mUid.equals(post_uid)) {
@@ -110,14 +109,6 @@ public class DetailActivity extends AppCompatActivity {
                             return false;
                         }
                     });
-//                    commentImageView.setOnLongClickListener(new View.OnLongClickListener() {
-//                        @Override
-//                        public boolean onLongClick(View v) {
-//                            showDeleteDialog();
-//                            return false;
-//                        }
-//                    });
-
                 }
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -156,13 +147,6 @@ public class DetailActivity extends AppCompatActivity {
 
                     }
                 });
-//               imageCardView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//
-//                    }
-//                });
 
                 //Bind Data
                 imageViewText.setText(post_title);
@@ -177,7 +161,6 @@ public class DetailActivity extends AppCompatActivity {
                 Glide.with(DetailActivity.this)
                         .load(post_image)
                         .thumbnail(0.5f)
-//                        .bitmapTransform(new SepiaFilterTransformation(DetailActivity.this))
                         .crossFade()
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)

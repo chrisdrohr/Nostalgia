@@ -4,6 +4,7 @@ package com.example.gabekeyner.nostalgia.Adapters;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -19,8 +20,10 @@ import com.google.firebase.database.Query;
 public class NavGroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
     private Context context;
     private BroadcastReceiver broadcastReceiver;
+    private SharedPreferences sharedPreferences;
     public static String groupKey = "groupKey";
     public static String groupName;
+    public static String groupPhoto;
 
     public NavGroupsAdapter(Class<Group> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
@@ -42,12 +45,17 @@ public class NavGroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> 
             public void onClick(View view) {
                 groupKey = model.getGroupId();
                 groupName = model.getGroupName();
+                groupPhoto = model.getGroupPhoto();
 //                Toast.makeText(context, "nav" + groupKey, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, FirebaseUtil.class);
                 intent.putExtra(groupKey, "groupKey");
                 context.sendBroadcast(intent);
                 notifyDataSetChanged();
                 context.startActivity(new Intent(context, MainActivity.class));
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString("groupKey", groupKey);
+//                editor.apply();
+//                Toast.makeText(context, "saved", Toast.LENGTH_SHORT).show();
             }
         });
     }

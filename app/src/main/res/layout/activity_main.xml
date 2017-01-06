@@ -48,13 +48,6 @@
 
         </RelativeLayout>
 
-        <!--<fragment-->
-            <!--android:id="@+id/recyclerViewFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--class="com.example.gabekeyner.nostalgia.NavDrawerGroupsFragment"-->
-            <!--tools:layout="@layout/nav_drawer_list_items">-->
-        <!--</fragment>-->
       </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

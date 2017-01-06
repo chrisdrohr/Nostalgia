@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash"
+    android:background="@color/AccentLighter"
     android:fitsSystemWindows="true"
     tools:context="com.example.gabekeyner.nostalgia.Activities.GroupsActivity">
 
@@ -13,6 +13,27 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:theme="@style/AppTheme.AppBarOverlay">-->
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:alpha=".2"
+        android:background="@color/AccentLighter"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbarGroup">
+
+        <ImageView
+            android:id="@+id/groupBg"
+            android:elevation="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarGroup"
@@ -36,10 +57,11 @@
         android:layout_height="0dp"
         android:id="@+id/includeGroups"
         android:layout_width="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarGroup"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/toolbarGroup" />
 
 </android.support.constraint.ConstraintLayout>

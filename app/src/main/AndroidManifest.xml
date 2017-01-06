@@ -4,10 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- permissions and features for the [ Camera ] capabilities -->
-    <!-- <uses-permission android:name="android.permission.CAMERA"/> -->
-    <uses-feature android:name="android.hardware.camera" />
+     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false"/>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- This code below is if you want to show a location of where this photo was taken at -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -84,6 +86,10 @@
             android:exported="true"
             android:label="my provider"
             android:syncable="true" />
+
+        <provider android:authorities="com.facebook.app.FacebookContentProvider1234"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

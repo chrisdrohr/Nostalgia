@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,9 +38,12 @@ public class CommentsFragment extends DialogFragment{
     private String mPhotoUrl, mUsername, mUid, commentPath;
     private TextView textView;
     private CardView cardView;
+    private ImageView commentBg;
+
     private AutoTypeTextView autoTypeTextView;
     private EditText mEditText;
     public static final String mPost_key = null;
+    public static String post_image;
     private FloatingActionButton mSendFab;
 
     @Override
@@ -52,10 +56,12 @@ public class CommentsFragment extends DialogFragment{
         textView = (TextView) view.findViewById(R.id.dialogTextView);
         cardView = (CardView) view.findViewById(R.id.cardViewprofile);
         mEditText = (EditText) view.findViewById(R.id.commentEditText);
+        commentBg = (ImageView) view.findViewById(R.id.comment_bg);
 
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        post_image = DetailActivity.post_image;
 
         Bundle bundle = getArguments();
         final String mPostKey = bundle.getString("postKey","");
@@ -105,9 +111,18 @@ public class CommentsFragment extends DialogFragment{
         });
 
         Glide.with(CommentsFragment.this)
+                .load(post_image)
+                .priority(Priority.IMMEDIATE)
+                .thumbnail(0.1f)
+                .crossFade()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(commentBg);
+
+        Glide.with(CommentsFragment.this)
                 .load(mPhotoUrl)
                 .priority(Priority.IMMEDIATE)
-                .thumbnail(0.5f)
+//                .thumbnail(0.1f)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
@@ -120,7 +135,7 @@ public class CommentsFragment extends DialogFragment{
                 .alpha(0,0)
                 .thenAnimate(userImageView)
                 .alpha(0,1)
-                .bounceIn()
+                .rollIn()
                 .duration(200)
                 .thenAnimate(textView)
                 .slideBottom()

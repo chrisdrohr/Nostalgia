@@ -1,17 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/AccentLighter"
     android:layout_width="match_parent"
     tools:context="com.example.gabekeyner.nostalgia.DialogFragments.CommentsFragment"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/comment_bg"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
 
     <android.support.v7.widget.CardView
-        app:cardBackgroundColor="@color/DarkColor"
+        app:cardBackgroundColor="@android:drawable/screen_background_dark_transparent"
+        android:elevation="2dp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
-        android:layout_width="250dp"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
         android:layout_height="130dp"
         android:id="@+id/cardViewprofile">
 
@@ -22,7 +27,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/dialogUserImageView"
                 app:border_width="2dp"
-                app:border_color="@color/AccentLighter"
+                app:border_color="@color/DarkColor"
                 android:layout_centerInParent="true"
                 app:border_overlay="true"
                 android:layout_width="80dp"
@@ -30,6 +35,7 @@
                 />
             <TextView
                 android:id="@+id/dialogTextView"
+                android:textColor="@color/tw__solid_white"
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dialogUserImageView"
@@ -57,7 +63,7 @@
         android:id="@+id/commentEditText"
         android:elevation="@dimen/cardview_default_radius"
         android:hint="    Write a comment..."
-        android:textColorHint="#FFFFFF"
+        android:textColorHint="@color/tw__solid_white"
         android:background="@color/DarkColor"
         style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
         android:inputType="textCapSentences"

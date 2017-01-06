@@ -4,22 +4,22 @@
     android:id="@+id/groupFragment"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/tw__transparent"
     tools:context="com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment">
 
     <ImageView
-        android:id="@+id/group_bg"
-        android:scaleType="centerCrop"
+        android:id="@+id/uploadImage"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="match_parent" />
 
-    <ImageButton
-        android:id="@+id/addGroupImage"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_menu_camera"
-        android:background="@color/tw__transparent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <!--<ImageButton-->
+        <!--android:id="@+id/addImage"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:src="@drawable/ic_menu_camera"-->
+        <!--android:background="@color/tw__transparent"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -31,9 +31,9 @@
 
     <EditText
         android:ems="10"
-        android:id="@+id/groupEditText"
+        android:id="@+id/uploadEditText"
         android:elevation="@dimen/cardview_default_radius"
-        android:hint="    Name your group"
+        android:hint="    Title your photo"
         android:textColorHint="@color/tw__solid_white"
         android:background="@color/DarkColor"
         style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
