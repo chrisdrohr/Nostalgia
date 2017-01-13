@@ -13,6 +13,7 @@ import com.example.gabekeyner.nostalgia.R;
 import com.example.gabekeyner.nostalgia.RecyclerFragments.CommentItemFragment;
 import com.example.gabekeyner.nostalgia.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.database.Query;
 
 public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
@@ -40,6 +41,10 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
 
 //        FOR ANIMATION
         if (position > previousPosition) {
+            ViewAnimator.animate(viewHolder.mCardView)
+                    .rollIn()
+                    .duration(500)
+                    .start();
             //We are scrolling down
             AnimationUtil.animate(viewHolder, false);
         } else { //We are scrolling up
@@ -48,7 +53,13 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         previousPosition = getItemCount();
         final int center = R.anim.rotate_clockwise;
         int lastPosition = -1;
-//        AnimationUtil.setAnimation(viewHolder.mCardView, previousPosition);
+
+        ViewAnimator.animate(viewHolder.mCardView)
+                .newsPaper()
+                .descelerate()
+                .duration(300)
+                .start();
+        AnimationUtil.setAnimation(viewHolder.mCardView, previousPosition);
 
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override

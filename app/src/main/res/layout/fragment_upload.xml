@@ -1,17 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/groupFragment"
+    android:id="@+id/uploadFragment"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/tw__transparent"
-    tools:context="com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment">
+    tools:context="com.example.gabekeyner.nostalgia.DialogFragments.UploadFragment">
 
     <ImageView
         android:id="@+id/uploadImage"
-        android:layout_centerInParent="true"
+        android:background="@drawable/splash"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="300dp" />
 
     <!--<ImageButton-->
         <!--android:id="@+id/addImage"-->
@@ -38,8 +38,7 @@
         android:background="@color/DarkColor"
         style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
         android:inputType="textCapSentences"
-        android:layout_below="@+id/cardViewprofile"
-        android:layout_alignBottom="@+id/group_bg"
+        android:layout_alignBottom="@+id/uploadImage"
         android:layout_height="40dp"
         android:layout_width="match_parent"
         android:layout_centerHorizontal="true" />

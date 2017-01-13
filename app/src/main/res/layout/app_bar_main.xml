@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainActivityLayout"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,16 +10,10 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/DarkColor"
         app:popupTheme="@style/AppTheme.PopupOverlay"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:titleTextColor="@color/AccentLighter"
         android:elevation="4dp"
         app:titleTextColor="@android:color/white" />
@@ -27,78 +21,51 @@
 
     <include
         layout="@layout/content_main"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        android:layout_height="0dp"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="match_parent"
         android:id="@+id/include"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_width="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="1.0" />
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="6dp"
-        app:fabSize="mini"
-        app:pressedTranslationZ="2dp"
-        app:srcCompat="@drawable/unfold_more_vector"
-        app:layout_constraintBottom_toBottomOf="@+id/include"
-        app:layout_constraintLeft_toLeftOf="@+id/include"
-        app:layout_constraintRight_toRightOf="@+id/include"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="10dp"
-        android:tint="@color/AccentLighter"
-        android:adjustViewBounds="true"
-        android:hapticFeedbackEnabled="true"
-        app:backgroundTint="@color/fabColor" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:elevation="6dp"-->
+        <!--app:fabSize="mini"-->
+        <!--app:pressedTranslationZ="2dp"-->
+        <!--app:srcCompat="@drawable/unfold_more_vector"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/include"-->
+        <!--app:layout_constraintLeft_toLeftOf="@+id/include"-->
+        <!--app:layout_constraintRight_toRightOf="@+id/include"-->
+        <!--tools:layout_constraintRight_creator="1"-->
+        <!--tools:layout_constraintLeft_creator="1"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:tint="@color/AccentLighter"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:hapticFeedbackEnabled="true"-->
+        <!--app:backgroundTint="@color/fabColor" />-->
 
     <!--<include layout="@layout/fab_layout"/>-->
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:clickable="true"
-        app:fabSize="normal"
-        android:id="@+id/floatingActionButton1"
-        app:layout_constraintBottom_toTopOf="@+id/fab"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        android:tint="@color/AccentLighter"
-        android:adjustViewBounds="true"
-        app:elevation="6dp"
-        app:backgroundTint="@color/fabColor"
-        android:visibility="invisible"
-        app:srcCompat="@drawable/camera_iris_vector" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:layout_width="70dp"-->
+        <!--android:layout_height="70dp"-->
+        <!--android:clickable="true"-->
+        <!--app:fabSize="normal"-->
+        <!--android:id="@+id/floatingActionButton1"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/fab"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--android:layout_marginBottom="32dp"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--tools:layout_constraintRight_creator="1"-->
+        <!--tools:layout_constraintLeft_creator="1"-->
+        <!--android:tint="@color/AccentLighter"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--app:elevation="6dp"-->
+        <!--app:backgroundTint="@color/fabColor"-->
+        <!--android:visibility="invisible"-->
+        <!--app:srcCompat="@drawable/camera_iris_vector" />-->
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:clickable="true"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/plus_vector"
-        android:id="@+id/floatingActionButton2"
-        app:layout_constraintRight_toLeftOf="@+id/floatingActionButton1"
-        android:layout_marginEnd="16dp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton1"
-        app:layout_constraintTop_toBottomOf="@+id/floatingActionButton1"
-        android:hapticFeedbackEnabled="true"
-        android:tint="@color/AccentLighter"
-        android:adjustViewBounds="true"
-        android:elevation="6dp"
-        app:backgroundTint="@color/fabColor" />
 
     <!--<android.support.design.widget.FloatingActionButton-->
         <!--android:clickable="true"-->
@@ -117,41 +84,55 @@
         <!--android:layout_width="70dp"-->
         <!--android:layout_height="70dp" />-->
 
+    <RelativeLayout
+        android:id="@+id/fabLayout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        android:background="@android:drawable/screen_background_light_transparent">
+
     <android.support.design.widget.FloatingActionButton
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
-        app:fabSize="normal"
-        android:id="@+id/fabPhoto"
-        app:layout_constraintBottom_toTopOf="@+id/fab"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintLeft_creator="1"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/plus_vector"
+        android:id="@+id/fabGroup"
+        android:layout_toLeftOf="@+id/fabPhoto"
         android:tint="@color/AccentLighter"
         android:adjustViewBounds="true"
+        android:elevation="6dp"
+        app:backgroundTint="@color/fabColor" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:fabSize="normal"
+        android:id="@+id/fabPhoto"
+        android:layout_centerInParent="true"
+        android:tint="@color/AccentLighter"
         app:elevation="6dp"
         app:backgroundTint="@color/fabColor"
-        app:srcCompat="@drawable/image_vector"
-        android:focusable="false" />
+        app:srcCompat="@drawable/image_vector" />
 
     <android.support.design.widget.FloatingActionButton
         android:clickable="true"
         app:srcCompat="@drawable/filmstrip_vector"
         android:id="@+id/fabVideo"
-        android:layout_marginStart="16dp"
-        app:layout_constraintLeft_toRightOf="@+id/floatingActionButton1"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton1"
-        app:layout_constraintTop_toBottomOf="@+id/floatingActionButton1"
+        app:fabSize="mini"
         app:backgroundTint="@color/fabColor"
+        android:layout_toRightOf="@+id/fabPhoto"
         android:tint="@color/AccentLighter"
-        android:adjustViewBounds="true"
         app:elevation="6dp"
-        android:layout_width="70dp"
-        android:layout_height="70dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

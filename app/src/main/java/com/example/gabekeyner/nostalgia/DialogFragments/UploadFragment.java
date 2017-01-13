@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
+import com.example.gabekeyner.nostalgia.ObjectClasses.Post;
 import com.example.gabekeyner.nostalgia.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
@@ -35,7 +39,7 @@ import static android.app.Activity.RESULT_OK;
 public class UploadFragment extends DialogFragment {
 
     private final static int SELECT_PHOTO = 0;
-    private String mUsername, mPhotoUrl, mUid, groupName, groupPhoto;
+    private String mUsername, mPhotoUrl, mUid, groupName, groupPhoto, postPhoto;
     private Context context;
     private TextView textView;
     private CardView cardView;
@@ -57,39 +61,44 @@ public class UploadFragment extends DialogFragment {
         final View view = inflater.inflate(R.layout.fragment_upload, null);
         builder.setView(view);
 
-//        cardView = (CardView) view.findViewById(R.id.cardViewprofile);
-//        imageButton = (ImageButton) view.findViewById(R.id.addGroupImage);
-//        circleUserImageView = (CircleImageView) view.findViewById(R.id.dialogUserImageView);
-//        textView = (TextView) view.findViewById(R.id.dialogTextView);
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         uploadImage = (ImageView) view.findViewById(R.id.uploadImage);
-
+        mEditText = (EditText) view.findViewById(R.id.uploadEditText);
+        postPhoto = mEditText.getText().toString();
         mStorageReference = mFirebaseStorage.getReference().child("posts");
-
         context = getActivity();
-
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
 
-//        imageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-//                photoPickerIntent.setType("image/*");
-//                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-//            }
-//        });
-
-
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Upload", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mEditText = (EditText) view.findViewById(R.id.groupEditText);
-                groupName = mEditText.getText().toString();
-
-
+                Toast.makeText(context, "Uploading photo...", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.VISIBLE);
+                final StorageReference photoRef = mStorageReference.child(mMediaUri.getLastPathSegment());
+                SimpleDateFormat time = new SimpleDateFormat("ddMMyyyy");
+                final String mTimestamp = time.format(new Date());
+                photoRef.putFile(mMediaUri).addOnSuccessListener((Activity) context, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Post post = new Post(
+                                taskSnapshot.getDownloadUrl().toString(),
+                                mEditText.getText().toString(),
+                                mUsername,
+                                mTimestamp,
+                                mUid);
+                        FirebaseUtil.getPostRef().push().setValue(post);
+                        Toast.makeText(context, "Photo uploaded!", Toast.LENGTH_SHORT).show();
+                        postPhoto = taskSnapshot.getDownloadUrl().toString();
+                        progressBar.setVisibility(View.INVISIBLE);
+                    }
+                });
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -109,18 +118,8 @@ public class UploadFragment extends DialogFragment {
         if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK && data != null) {
             mMediaUri = data.getData();
             uploadImage.setImageURI(mMediaUri);
-            progressBar.setVisibility(View.VISIBLE);
-            imageButton.setVisibility(View.INVISIBLE);
-            final StorageReference photoRef = mStorageReference.child(mMediaUri.getLastPathSegment());
-            photoRef.putFile(mMediaUri).addOnSuccessListener((Activity) context, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(context, "Group photo uploaded!", Toast.LENGTH_SHORT).show();
-                    groupPhoto = taskSnapshot.getDownloadUrl().toString();
-                    progressBar.setVisibility(View.INVISIBLE);
-
-                }
-            });
+        } else {
+            getDialog().dismiss();
         }
     }
 }
