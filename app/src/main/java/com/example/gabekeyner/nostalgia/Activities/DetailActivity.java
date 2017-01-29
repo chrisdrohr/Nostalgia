@@ -1,5 +1,6 @@
 package com.example.gabekeyner.nostalgia.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -38,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.sloop.fonts.FontsManager;
 
 import static com.example.gabekeyner.nostalgia.R.menu.detail;
+import static com.example.gabekeyner.nostalgia.Adapters.NavGroupsAdapter.groupPhoto;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -48,6 +50,7 @@ public class DetailActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private ConstraintLayout constraintLayout;
     private Snackbar snackbar;
+    private Context mContext;
     private Toolbar toolbar;
     private String mUsername, mPhotoUrl, mUid, commentPath, timeStamp;
 
@@ -90,7 +93,7 @@ public class DetailActivity extends AppCompatActivity {
         mSendFab = (FloatingActionButton) findViewById(R.id.fabCommentSwitch);
         mLikeButton = (ImageButton) findViewById(R.id.likeButton);
         relativeLayout = (RelativeLayout) findViewById(R.id.detailLayout);
-        constraintLayout = (ConstraintLayout) findViewById(R.id.mainActivityLayout);
+//        constraintLayout = (ConstraintLayout) findViewById(R.id.mainActivityLayout);
 
         //Receive Data
         mDatabaseIntent.child(mPostKey).addValueEventListener(new ValueEventListener() {
@@ -123,12 +126,6 @@ public class DetailActivity extends AppCompatActivity {
                                 .andAnimate(imageCardView)
                                 .alpha(1,0)
                                 .duration(200)
-//                                .andAnimate(commentImageView)
-//                                .alpha(0,1)
-//                                .duration(200)
-//                                .andAnimate(mCommentRecyclerView)
-//                                .translationX(-600,0)
-//                                .duration(200)
                                 .start();
                         ViewAnimator.animate(mCommentFab, mSendFab)
                                 .rollIn()
@@ -159,7 +156,7 @@ public class DetailActivity extends AppCompatActivity {
                         .into(imageView);
 
                 Glide.with(DetailActivity.this)
-                        .load(post_image)
+                        .load(groupPhoto)
                         .thumbnail(0.5f)
                         .crossFade()
                         .centerCrop()
@@ -277,7 +274,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void postComment() {
-
         snackbar = Snackbar.make(relativeLayout, "Comment Posted", 1000);
         View snackBarView = snackbar.getView();
         snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.DarkColor));
@@ -342,18 +338,9 @@ public class DetailActivity extends AppCompatActivity {
                         .andAnimate(mCommentFab, mSendFab)
                         .rollOut()
                         .duration(200)
-
-//                                .andAnimate(commentImageView)
-//                                .alpha(1,0)
-//                                .duration(300)
-
-//                                .andAnimate(mCommentRecyclerView)
-//                                .translationX(0,-600)
-//                                .duration(200)
                         .start();
 
                 imageCardView.setVisibility(View.VISIBLE);
-//                imageCardView.callOnClick();
                 break;
             default:
         }

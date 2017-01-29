@@ -5,7 +5,7 @@
     android:id="@+id/recyclerViewGroupsList"
     android:name="com.example.gabekeyner.nostalgia.GroupsItemFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:layoutManager="StaggeredGridLayoutManager"
     tools:context="com.example.gabekeyner.nostalgia.RecyclerFragments.GroupsItemFragment"
     tools:listitem="@layout/fragment_groups_item" />

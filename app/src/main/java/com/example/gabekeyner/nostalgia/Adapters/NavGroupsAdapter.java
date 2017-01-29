@@ -40,22 +40,17 @@ public class NavGroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> 
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)
                 .into(viewHolder.navDrawerImageView);
-        viewHolder.navDrawerTextView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.navDrawerImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 groupKey = model.getGroupId();
                 groupName = model.getGroupName();
                 groupPhoto = model.getGroupPhoto();
-//                Toast.makeText(context, "nav" + groupKey, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, FirebaseUtil.class);
                 intent.putExtra(groupKey, "groupKey");
                 context.sendBroadcast(intent);
                 notifyDataSetChanged();
                 context.startActivity(new Intent(context, MainActivity.class));
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putString("groupKey", groupKey);
-//                editor.apply();
-//                Toast.makeText(context, "saved", Toast.LENGTH_SHORT).show();
             }
         });
     }

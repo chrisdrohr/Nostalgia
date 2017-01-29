@@ -19,15 +19,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.gabekeyner.nostalgia.Activities.GroupsActivity;
 import com.example.gabekeyner.nostalgia.Adapters.UserAdapter;
 import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
 import com.example.gabekeyner.nostalgia.ObjectClasses.Group;
 import com.example.gabekeyner.nostalgia.ObjectClasses.User;
 import com.example.gabekeyner.nostalgia.R;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -57,6 +55,7 @@ public class GroupFragment extends DialogFragment {
     public static String groupKey = "groupKey";
     private ImageView groupBg;
     private Uri mMediaUri;
+    private Boolean mGroupProcess = false;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -73,6 +72,7 @@ public class GroupFragment extends DialogFragment {
         mUsername = FirebaseUtil.getUser().getUserName();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         groupBg = (ImageView) view.findViewById(R.id.group_bg);
+        mEditText = (EditText) view.findViewById(R.id.groupEditText);
 
         mStorageReference = mFirebaseStorage.getReference().child("posts");
 
@@ -81,34 +81,15 @@ public class GroupFragment extends DialogFragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
 
-        Glide.with(this)
-                .load(mPhotoUrl)
-                .priority(Priority.IMMEDIATE)
-                .centerCrop()
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(groupBg);
-//        textView.setText(mUsername);
-//        FontsManager.changeFonts(textView);
+//        Glide.with(this)
+//                .load()
+//                .priority(Priority.IMMEDIATE)
+//                .centerCrop()
+//                .thumbnail(0.5f)
+//                .crossFade()
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .into(groupBg);
 
-//        ViewAnimator.animate(cardView)
-//                .zoomIn()
-//                .duration(200)
-//                .andAnimate(circleUserImageView, textView, mEditText)
-//                .alpha(0,0)
-//                .thenAnimate(circleUserImageView)
-//                .alpha(0,1)
-//                .bounceIn()
-//                .duration(200)
-//                .thenAnimate(textView)
-//                .slideBottom()
-//                .duration(100)
-//                .thenAnimate(mEditText)
-//                .slideBottom()
-//                .descelerate()
-//                .duration(150)
-//                .start();
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,43 +99,18 @@ public class GroupFragment extends DialogFragment {
             }
         });
 
+        hideEditText();
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+        builder.setPositiveButton("Create Group", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mEditText = (EditText) view.findViewById(R.id.groupEditText);
-                groupName = mEditText.getText().toString();
+                if (mGroupProcess){
+                    intent();
+                } else {
+                    Toast.makeText(context, "Upload a group photo to begin", Toast.LENGTH_SHORT).show();
+                }
 
-                databaseReference = FirebaseUtil.getGroupRef();
-                DatabaseReference ref = databaseReference.push();
-                groupKey = FirebaseUtil.getGroupRef().child(groupKey).toString();
-                groupKey = ref.getKey();
-                final Group group = new Group(
-                        mUsername,
-                        groupName,
-                        groupPhoto,
-                        groupKey);
-//                getGroupRef().push().setValue(group);
-                ref.setValue(group);
-                groupKey = ref.getKey();
-//                ref.push().child("groupId").setValue(groupKey);
-
-                User user = new User(
-                        mUsername,
-                        mPhotoUrl,
-                        mUid,
-                        groupKey,
-                        null);
-                getGroupMemberRef().push().setValue(user);
-                Intent groupNameIntent = new Intent(context, UserAdapter.class);
-                groupNameIntent.putExtra("groupKey", groupKey);
-                context.sendBroadcast(groupNameIntent,"groupKey");
-
-                Intent intent = new Intent(context, GroupsActivity.class);
-                intent.putExtra("groupName",mEditText.getText().toString());
-                intent.putExtra("groupKey", groupKey);
-                intent.putExtra("groupPhoto", groupPhoto);
-                context.startActivity(intent);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -183,9 +139,53 @@ public class GroupFragment extends DialogFragment {
                     Toast.makeText(context, "Group photo uploaded!", Toast.LENGTH_SHORT).show();
                     groupPhoto = taskSnapshot.getDownloadUrl().toString();
                     progressBar.setVisibility(View.INVISIBLE);
-
+                    mGroupProcess = true;
+                    showEditText();
                 }
             });
         }
+    }
+
+    public void intent () {
+        groupName = mEditText.getText().toString();
+        databaseReference = FirebaseUtil.getGroupRef();
+        DatabaseReference ref = databaseReference.push();
+        groupKey = FirebaseUtil.getGroupRef().child(groupKey).toString();
+        groupKey = ref.getKey();
+        final Group group = new Group(
+                mUsername,
+                groupName,
+                groupPhoto,
+                groupKey);
+        ref.setValue(group);
+        groupKey = ref.getKey();
+        User user = new User(
+                mUsername,
+                mPhotoUrl,
+                mUid,
+                groupKey,
+                null);
+        getGroupMemberRef().push().setValue(user);
+        Intent groupNameIntent = new Intent(context, UserAdapter.class);
+        groupNameIntent.putExtra("groupKey", groupKey);
+        context.sendBroadcast(groupNameIntent,"groupKey");
+
+        Intent intent = new Intent(context, GroupsActivity.class);
+        intent.putExtra("groupName",mEditText.getText().toString());
+        intent.putExtra("groupKey", groupKey);
+        intent.putExtra("groupPhoto", groupPhoto);
+        context.startActivity(intent);
+    }
+    public void showEditText () {
+        ViewAnimator.animate(mEditText)
+                .slideBottom()
+                .duration(500)
+                .start();
+    }
+    public void hideEditText () {
+        ViewAnimator.animate(mEditText)
+                .fadeOut()
+                .duration(500)
+                .start();
     }
 }

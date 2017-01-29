@@ -9,6 +9,7 @@
     <ImageView
         android:id="@+id/group_bg"
         android:scaleType="centerCrop"
+        android:src="@drawable/mbg"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
@@ -17,8 +18,8 @@
         android:id="@+id/addGroupImage"
         android:layout_centerInParent="true"
         android:src="@drawable/ic_menu_camera"
-        android:background="@color/tw__transparent"
-        android:layout_width="wrap_content"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <ProgressBar
@@ -43,5 +44,37 @@
         android:layout_height="40dp"
         android:layout_width="match_parent"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_alignBottom="@+id/group_bg"
+        android:text="Click the camera icon to upload a group photo"
+        android:textAlignment="center"
+        android:textColor="@color/AccentLighter"
+        android:elevation="6dp"
+        android:background="@android:drawable/screen_background_dark_transparent"
+        android:padding="10dp"
+        android:textSize="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--<RelativeLayout-->
+        <!--android:layout_below="@+id/groupEditText"-->
+        <!--android:background="@android:drawable/screen_background_light_transparent"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:clickable="true"-->
+            <!--app:fabSize="mini"-->
+            <!--app:srcCompat="@drawable/plus_vector"-->
+            <!--android:id="@+id/fabGroup"-->
+            <!--android:tint="@color/AccentLighter"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--android:elevation="6dp"-->
+            <!--app:backgroundTint="@color/fabColor" />-->
+
+    <!--</RelativeLayout>-->
 
 </RelativeLayout>

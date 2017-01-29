@@ -21,6 +21,7 @@ public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
     private BroadcastReceiver broadcastReceiver;
     public static String groupKey = "groupKey";
     public static String groupName;
+    public static String groupPhoto;
 
     public GroupsAdapter(Class<Group> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
@@ -42,7 +43,7 @@ public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
             public void onClick(View view) {
                 groupKey = model.getGroupId();
                 groupName = model.getGroupName();
-//                Toast.makeText(context, "nav" + groupKey, Toast.LENGTH_SHORT).show();
+                groupPhoto = model.getGroupPhoto();
                 Intent intent = new Intent(context, FirebaseUtil.class);
                 intent.putExtra(groupKey, "groupKey");
                 context.sendBroadcast(intent);

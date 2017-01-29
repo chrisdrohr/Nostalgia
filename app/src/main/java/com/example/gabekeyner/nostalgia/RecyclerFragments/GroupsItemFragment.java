@@ -25,8 +25,13 @@ public class GroupsItemFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mGroupsAdapter = new GroupsAdapter(Group.class, R.layout.fragment_groups_item, Viewholder.class, FirebaseUtil.getGroupRef(), getContext());
-        mLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL);
+        mGroupsAdapter = new GroupsAdapter(
+                Group.class,
+                R.layout.fragment_groups_item,
+                Viewholder.class,
+                FirebaseUtil.getGroupRef(),
+                getContext());
+        mLayoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
         super.onCreate(savedInstanceState);
     }
 
@@ -38,7 +43,6 @@ public class GroupsItemFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewGroupsList);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mGroupsAdapter);
-        mLayoutManager.setItemPrefetchEnabled(false);
         return rootView;
     }
 

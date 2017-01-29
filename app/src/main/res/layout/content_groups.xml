@@ -13,6 +13,7 @@
         android:name="com.example.gabekeyner.nostalgia.RecyclerFragments.UserItemFragment"
         android:id="@+id/userItemFragment"
         android:elevation="4dp"
+        android:layout_above="@+id/addedUserItemFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

@@ -49,7 +49,6 @@ public class GroupsActivity extends AppCompatActivity{
         groupName = bundle.getString("groupName");
         groupKey = bundle.getString("groupKey");
         groupPhoto = bundle.getString("groupPhoto");
-//        Toast.makeText(this, groupKey, Toast.LENGTH_SHORT).show();
 
         imageView = (ImageView) findViewById(R.id.userProfileImageView);
         groupBg = (ImageView) findViewById(R.id.groupBg);

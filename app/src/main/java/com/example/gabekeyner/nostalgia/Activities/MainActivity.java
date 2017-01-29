@@ -193,10 +193,6 @@ public class MainActivity extends AppCompatActivity
                     .descelerate()
                     .duration(150)
                     .start();
-//            snackbar = Snackbar.make(relativeLayout, FirebaseUtil.getGroupRef().child("groupName").getKey(), Snackbar.LENGTH_SHORT);
-//            snackBarView = snackbar.getView();
-//            snackBarView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.DarkColor));
-//            snackbar.show();
         }
 
 
@@ -366,6 +362,11 @@ public class MainActivity extends AppCompatActivity
         UploadFragment uploadFragment = new UploadFragment();
         uploadFragment.show(getFragmentManager(), "Upload Fragment");
     }
+
+//    public void showGroups () {
+//        GroupsItemFragment groupsItemFragment = new GroupsItemFragment();
+//        getSupportFragmentManager().beginTransaction().add(R.id.content_main, groupsItemFragment).commit();
+//    }
 
         public void checkUser () {
             mProcessUserExists = true;

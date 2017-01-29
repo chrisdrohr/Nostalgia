@@ -25,7 +25,12 @@ public class NavGroupsItemFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mNavGroupsAdapter = new NavGroupsAdapter(Group.class, R.layout.fragment_nav_groups_item, Viewholder.class, FirebaseUtil.getGroupRef(), getContext());
+        mNavGroupsAdapter = new NavGroupsAdapter(
+                Group.class,
+                R.layout.fragment_nav_groups_item,
+                Viewholder.class,
+                FirebaseUtil.getGroupRef(),
+                getContext());
         mLayoutManager = new LinearLayoutManager(getContext());
         super.onCreate(savedInstanceState);
 

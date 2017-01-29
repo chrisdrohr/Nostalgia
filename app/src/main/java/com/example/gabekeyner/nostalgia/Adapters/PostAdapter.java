@@ -39,6 +39,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(viewHolder.mImageView);
 
+
 //        FOR ANIMATION
         if (position > previousPosition) {
             ViewAnimator.animate(viewHolder.mCardView)
@@ -64,10 +65,6 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ViewAnimator.animate(viewHolder.mCardView)
-//                        .bounce()
-//                        .duration(20)
-//                        .start();
                 Intent commentIntent = new Intent(context, CommentItemFragment.class);
                 commentIntent.putExtra("post_key", post_key);
                 context.sendBroadcast(commentIntent,"post_key");
@@ -76,13 +73,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
                 intent.putExtra("post_key", post_key);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-//                Toast.makeText(context, "post adapter" + post_key, Toast.LENGTH_SHORT).show();
-//                viewHolder.mImageView.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                    }
-//                },1);
+//                Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
             }
         });
     }

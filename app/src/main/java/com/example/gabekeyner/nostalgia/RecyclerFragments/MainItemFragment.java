@@ -40,12 +40,6 @@ public class MainItemFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mPostAdapter);
         mLayoutManager.setItemPrefetchEnabled(false);
-
-//        if () {
-//            Toast.makeText(getContext(), "null" + , Toast.LENGTH_SHORT).show();
-//        }else {
-//            Toast.makeText(getContext(), "/not", Toast.LENGTH_SHORT).show();
-//        }
         return rootView;
     }
 

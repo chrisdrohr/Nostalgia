@@ -11,22 +11,29 @@
     tools:context="com.example.gabekeyner.nostalgia.Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
         <ImageView
             android:id="@+id/mainBg"
             android:elevation="0dp"
+            android:alpha=".5"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/spacer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="20dp"/>-->
 
     <fragment
         android:name="com.example.gabekeyner.nostalgia.RecyclerFragments.MainItemFragment"
         android:id="@+id/mainItemFragment"
         android:layout_width="match_parent"
+        android:layout_marginBottom="66dp"
         android:layout_height="match_parent"/>
 
     <!--<fragment-->
@@ -34,6 +41,5 @@
         <!--android:id="@+id/groupsItemFragment"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"/>-->
-
 
 </RelativeLayout>
