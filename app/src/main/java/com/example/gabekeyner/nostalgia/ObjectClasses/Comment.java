@@ -9,14 +9,16 @@ public class Comment {
     private String postKey;
     private String timestamp;
     private String uid;
+    private String commentKey;
 
-    public Comment(String text, String user, String photoUrl, String postKey, String timestamp, String uid) {
+    public Comment(String text, String user, String photoUrl, String postKey, String timestamp, String uid, String commentKey) {
         this.text = text;
         this.user = user;
         this.photoUrl = photoUrl;
         this.postKey = postKey;
         this.timestamp = timestamp;
         this.uid = uid;
+        this.commentKey = commentKey;
     }
 
     public Comment() {
@@ -64,5 +66,13 @@ public class Comment {
 
     public String getUid() {
         return uid;
+    }
+
+    public String getCommentKey() {
+        return commentKey;
+    }
+
+    public void setCommentKey(String commentKey) {
+        this.commentKey = commentKey;
     }
 }

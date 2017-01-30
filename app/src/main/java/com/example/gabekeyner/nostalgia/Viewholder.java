@@ -2,11 +2,13 @@ package com.example.gabekeyner.nostalgia;
 
 
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
@@ -23,17 +25,17 @@ public class Viewholder extends RecyclerView.ViewHolder {
     public ImageView mImageView;
     public TextView mUsername, groupsUsername;
     public ImageView profilePicture;
-    public CardView mCardView;
+    public CardView mCardView, mCardViewDeleteComment, mCardViewCommentDetails, mCardViewComment;
     public Context mContext;
     public ImageView detailImageView, userProfileImageView, groupsImageView;
     public TextView detailTitle, userProfileTextView, groupsTextView;
     public EditText mEditText;
     public AutoTypeTextView autoTypeTextView;
     public CircleImageView circleImageView;
-
+    public FloatingActionButton fabDelete, fabCancel;
     public CircleImageView navDrawerImageView;
     public TextView navDrawerTextView;
-
+    public RelativeLayout layoutDeletComment, layoutCommentItems;
     public TextView commentTextView;
     public TextView commentNameTextView;
     public CircleImageView commentImageView, addedUserImageView;
@@ -65,6 +67,17 @@ public class Viewholder extends RecyclerView.ViewHolder {
 
         groupsTextView = (TextView) itemView.findViewById(R.id.groupsTextView);
         groupsImageView = (ImageView) itemView.findViewById(R.id.groupsImageView);
+
+        fabCancel = (FloatingActionButton) itemView.findViewById(R.id.fabCancel);
+        fabDelete = (FloatingActionButton) itemView.findViewById(R.id.fabDelete);
+
+        mCardViewDeleteComment = (CardView) itemView.findViewById(R.id.cardView_deleteComment);
+        mCardViewCommentDetails = (CardView) itemView.findViewById(R.id.commentDetailCardView);
+        mCardViewComment = (CardView) itemView.findViewById(R.id.commentCardView);
+
+        layoutDeletComment = (RelativeLayout) itemView.findViewById(R.id.layout_deleteComment);
+        layoutCommentItems = (RelativeLayout) itemView.findViewById(R.id.layoutCommentItems);
+
     }
 
 

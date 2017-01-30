@@ -31,7 +31,12 @@ public class CommentItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         mPostKey = getActivity().getIntent().getStringExtra("post_key");
 //        Toast.makeText(getContext(), mPostKey, Toast.LENGTH_SHORT).show();
-        mCommentAdapter = new CommentAdapter(Comment.class, R.layout.fragment_comment_item, Viewholder.class, FirebaseUtil.getCommentsRef().child(mPostKey), getContext());
+        mCommentAdapter = new CommentAdapter(
+                Comment.class,
+                R.layout.fragment_comment_item,
+                Viewholder.class,
+                FirebaseUtil.getCommentsRef().child(mPostKey),
+                getContext());
         mLayoutManager = new LinearLayoutManager(context);
         mLayoutManager.setStackFromEnd(true);
         super.onCreate(savedInstanceState);

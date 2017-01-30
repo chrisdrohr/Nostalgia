@@ -30,7 +30,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
 
     @Override
     public void populateViewHolder(final Viewholder viewHolder, final Post model, final int position) {
-        post_key = getRef(position).getKey();
+        final String post_key = getRef(position).getKey();
         viewHolder.mTitle.setText(model.getTitle());
         viewHolder.mUsername.setText("-" + model.getUser());
         Glide.with(context)
@@ -69,6 +69,10 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
                 Intent commentIntent = new Intent(context, CommentItemFragment.class);
                 commentIntent.putExtra("post_key", post_key);
                 context.sendBroadcast(commentIntent,"post_key");
+
+                Intent postKeyIntent = new Intent(context, CommentAdapter.class);
+                commentIntent.putExtra("post_key", post_key);
+                context.sendBroadcast(postKeyIntent,"post_key");
 
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("post_key", post_key);

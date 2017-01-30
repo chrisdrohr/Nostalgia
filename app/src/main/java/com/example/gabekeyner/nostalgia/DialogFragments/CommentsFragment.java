@@ -26,6 +26,7 @@ import com.example.gabekeyner.nostalgia.ObjectClasses.Comment;
 import com.example.gabekeyner.nostalgia.R;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,10 +36,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CommentsFragment extends DialogFragment{
 
     private CircleImageView userImageView;
-    private String mPhotoUrl, mUsername, mUid, commentPath;
+    private String mPhotoUrl, mUsername, mUid, commentPath, mCommentKey;
     private TextView textView;
     private CardView cardView;
     private ImageView commentBg;
+    private DatabaseReference databaseReference;
 
     private AutoTypeTextView autoTypeTextView;
     private EditText mEditText;
@@ -76,16 +78,21 @@ public class CommentsFragment extends DialogFragment{
         mSendFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                databaseReference = FirebaseUtil.getCommentsRef().child(mPostKey);
+                DatabaseReference ref = databaseReference.push();
+                mCommentKey = ref.getKey();
                 Comment comment = new
                         Comment(mEditText.getText().toString(),
                         mUsername,
                         mPhotoUrl,
                         mPostKey,
                         mCurrentTimestamp,
-                        mUid
+                        mUid,
+                        mCommentKey
                 );
-                FirebaseUtil.getCommentsRef().child(mPostKey)
-                        .push().setValue(comment);
+                ref.setValue(comment);
+//                FirebaseUtil.getCommentsRef().child(mPostKey)
+//                        .push().setValue(comment);
                 mEditText.setText("");
             }
         });
@@ -131,20 +138,20 @@ public class CommentsFragment extends DialogFragment{
 
         ViewAnimator.animate(cardView)
                 .zoomIn()
-                .duration(200)
+                .duration(100)
                 .andAnimate(userImageView, textView, mEditText)
                 .alpha(0,0)
                 .thenAnimate(userImageView)
                 .alpha(0,1)
                 .rollIn()
-                .duration(200)
+                .duration(100)
                 .thenAnimate(textView)
                 .slideBottom()
                 .duration(100)
                 .thenAnimate(mEditText)
                 .slideBottom()
                 .descelerate()
-                .duration(150)
+                .duration(100)
                 .start();
 
         builder.setView(view);
