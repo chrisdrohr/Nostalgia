@@ -38,6 +38,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.sloop.fonts.FontsManager;
 
+import jp.wasabeef.glide.transformations.GrayscaleTransformation;
+
 import static com.example.gabekeyner.nostalgia.R.menu.detail;
 import static com.example.gabekeyner.nostalgia.Adapters.NavGroupsAdapter.groupPhoto;
 
@@ -159,7 +161,7 @@ public class DetailActivity extends AppCompatActivity {
                         .load(groupPhoto)
                         .thumbnail(0.5f)
                         .crossFade()
-                        .centerCrop()
+                        .bitmapTransform(new GrayscaleTransformation(DetailActivity.this))
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .priority(Priority.NORMAL)
                         .into(commentImageView);
@@ -242,15 +244,11 @@ public class DetailActivity extends AppCompatActivity {
         ViewAnimator.animate(toolbar,recyclerView)
                 .alpha(1,1)
                 .start();
-        ViewAnimator.animate(mCommentRecyclerView,relativeLayout)
+        ViewAnimator.animate(mCommentRecyclerView)
                 .translationX(1000,0)
                 .duration(100)
                 .andAnimate(imageCardView,commentImageCardView,mCommentFab,mSendFab)
                 .alpha(0,0)
-                .thenAnimate(commentImageCardView)
-                .alpha(1,1)
-                .translationX(1000, 0)
-                .duration(100)
                 .thenAnimate(imageCardView)
                 .alpha(1,1)
                 .translationX(1000,0)
@@ -274,16 +272,16 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void postComment() {
-        snackbar = Snackbar.make(relativeLayout, "Comment Posted", 1000);
-        View snackBarView = snackbar.getView();
-        snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.DarkColor));
-        snackbar.show();
+//        snackbar = Snackbar.make(relativeLayout, "Comment Posted", 1000);
+//        View snackBarView = snackbar.getView();
+//        snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.DarkColor));
+//        snackbar.show();
         ViewAnimator.animate(mCommentFab, mSendFab)
                 .tada()
-                .duration(1000)
-                .andAnimate(mCommentFab, mSendFab)
-                .translationY(0,-200)
-                .duration(200)
+                .duration(500)
+//                .andAnimate(mCommentFab, mSendFab)
+//                .translationY(0,-200)
+//                .duration(200)
                 .thenAnimate(mCommentFab)
                 .scale(1,0)
                 .duration(100)

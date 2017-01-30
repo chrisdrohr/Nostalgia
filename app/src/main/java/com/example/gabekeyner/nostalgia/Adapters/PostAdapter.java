@@ -21,6 +21,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     private static final String TAG = PostAdapter.class.getSimpleName();
     private Context context;
     int previousPosition = 0;
+    public static String post_key = "post_key";
 
     public PostAdapter(Class<Post> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
@@ -29,7 +30,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
 
     @Override
     public void populateViewHolder(final Viewholder viewHolder, final Post model, final int position) {
-        final String post_key = getRef(position).getKey();
+        post_key = getRef(position).getKey();
         viewHolder.mTitle.setText(model.getTitle());
         viewHolder.mUsername.setText("-" + model.getUser());
         Glide.with(context)

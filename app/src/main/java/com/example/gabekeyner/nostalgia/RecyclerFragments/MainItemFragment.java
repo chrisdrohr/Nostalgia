@@ -25,7 +25,7 @@ public class MainItemFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mPostAdapter = new PostAdapter(Post.class, R.layout.card_view, Viewholder.class, FirebaseUtil.getPostRef(), getContext());
+        mPostAdapter = new PostAdapter(Post.class, R.layout.card_view, Viewholder.class, FirebaseUtil.getPostRef().orderByChild("timestamp"), getContext());
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 //        mLayoutManager.setItemPrefetchEnabled(false);
         super.onCreate(savedInstanceState);
@@ -40,6 +40,20 @@ public class MainItemFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mPostAdapter);
         mLayoutManager.setItemPrefetchEnabled(false);
+
+//        mPostAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+//            @Override
+//            public void onItemRangeInserted(int positionStart, int itemCount) {
+//                super.onItemRangeInserted(positionStart, itemCount);
+//                int [] number = {Integer.MAX_VALUE};
+//                int postCount = mPostAdapter.getItemCount();
+//                int[] lastPostPosition = mLayoutManager.findLastVisibleItemPositions(number);
+//                if (lastPostPosition.length >= -1 ||
+//                        (positionStart >= (postCount - 1))) {
+//                    mRecyclerView.scrollToPosition(positionStart);
+//                }
+//            }
+//        });
         return rootView;
     }
 

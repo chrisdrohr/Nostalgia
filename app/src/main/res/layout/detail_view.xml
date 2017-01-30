@@ -101,6 +101,7 @@
             <ImageView
                 android:id="@+id/commentDetialView"
                 android:elevation="0dp"
+                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:layout_editor_absoluteY="8dp"

@@ -8,13 +8,15 @@ public class Comment {
     private String photoUrl;
     private String postKey;
     private String timestamp;
+    private String uid;
 
-    public Comment(String text, String user, String photoUrl, String postKey, String timestamp) {
+    public Comment(String text, String user, String photoUrl, String postKey, String timestamp, String uid) {
         this.text = text;
         this.user = user;
         this.photoUrl = photoUrl;
         this.postKey = postKey;
         this.timestamp = timestamp;
+        this.uid = uid;
     }
 
     public Comment() {
@@ -60,4 +62,7 @@ public class Comment {
         this.timestamp = timestamp;
     }
 
+    public String getUid() {
+        return uid;
+    }
 }

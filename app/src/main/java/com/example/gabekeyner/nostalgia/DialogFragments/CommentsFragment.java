@@ -81,7 +81,8 @@ public class CommentsFragment extends DialogFragment{
                         mUsername,
                         mPhotoUrl,
                         mPostKey,
-                        mCurrentTimestamp
+                        mCurrentTimestamp,
+                        mUid
                 );
                 FirebaseUtil.getCommentsRef().child(mPostKey)
                         .push().setValue(comment);
