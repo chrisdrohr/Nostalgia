@@ -2,9 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/groupFragment"
+    android:background="@color/AccentLighter"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     tools:context="com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment">
+
+    <RelativeLayout
+        android:id="@+id/topPanel"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
 
     <ImageView
         android:id="@+id/group_bg"
@@ -12,7 +19,7 @@
         android:src="@drawable/mbg"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="match_parent" />
 
     <ImageButton
         android:id="@+id/addGroupImage"
@@ -50,31 +57,46 @@
         android:text="Click the camera icon to upload a group photo"
         android:textAlignment="center"
         android:textColor="@color/AccentLighter"
-        android:elevation="6dp"
         android:background="@android:drawable/screen_background_dark_transparent"
         android:padding="10dp"
         android:textSize="15sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!--<RelativeLayout-->
-        <!--android:layout_below="@+id/groupEditText"-->
-        <!--android:background="@android:drawable/screen_background_light_transparent"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
+    </RelativeLayout>
 
-        <!--<android.support.design.widget.FloatingActionButton-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:clickable="true"-->
-            <!--app:fabSize="mini"-->
-            <!--app:srcCompat="@drawable/plus_vector"-->
-            <!--android:id="@+id/fabGroup"-->
-            <!--android:tint="@color/AccentLighter"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:elevation="6dp"-->
-            <!--app:backgroundTint="@color/fabColor" />-->
+    <RelativeLayout
+        android:layout_below="@+id/topPanel"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <!--</RelativeLayout>-->
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            android:layout_margin="5dp"
+            app:srcCompat="@drawable/close_circle"
+            android:id="@+id/fabCancelGroup"
+            android:tint="@color/AccentLighter"
+            android:adjustViewBounds="true"
+            android:elevation="6dp"
+            app:backgroundTint="@color/fabColor" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:layout_toEndOf="@+id/fabCancelGroup"
+            android:layout_margin="5dp"
+            app:srcCompat="@drawable/plus_vector"
+            android:id="@+id/fabCreateGroup"
+            android:tint="@color/AccentLighter"
+            android:adjustViewBounds="true"
+            android:elevation="6dp"
+            app:backgroundTint="@color/fabColor" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

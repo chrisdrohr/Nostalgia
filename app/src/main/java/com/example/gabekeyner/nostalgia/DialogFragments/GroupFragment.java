@@ -5,10 +5,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +51,7 @@ public class GroupFragment extends DialogFragment {
     private EditText mEditText;
     private DatabaseReference databaseReference;
     private StorageReference mStorageReference;
+    private FloatingActionButton fabCancelGroup, fabCreateGroup;
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
     public static String groupKey = "groupKey";
     private ImageView groupBg;
@@ -73,6 +74,8 @@ public class GroupFragment extends DialogFragment {
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         groupBg = (ImageView) view.findViewById(R.id.group_bg);
         mEditText = (EditText) view.findViewById(R.id.groupEditText);
+        fabCancelGroup = (FloatingActionButton) view.findViewById(R.id.fabCancelGroup);
+        fabCreateGroup = (FloatingActionButton) view.findViewById(R.id.fabCreateGroup);
 
         mStorageReference = mFirebaseStorage.getReference().child("posts");
 
@@ -101,24 +104,34 @@ public class GroupFragment extends DialogFragment {
 
         hideEditText();
 
-
-        builder.setPositiveButton("Create Group", new DialogInterface.OnClickListener() {
+        fabCreateGroup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
+//                if (mGroupProcess){
+//                    intent();
+//                } else {
+//                    Toast.makeText(context, "Upload a group photo to begin", Toast.LENGTH_SHORT).show();
+//                }
                 if (mGroupProcess){
                     intent();
                 } else {
                     Toast.makeText(context, "Upload a group photo to begin", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        fabCancelGroup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+            public void onClick(View view) {
+                dismiss();
+//                dialog.dismiss();
             }
         });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         return alertDialog;

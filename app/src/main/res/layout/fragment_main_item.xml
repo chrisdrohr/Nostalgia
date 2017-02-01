@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:id="@+id/cardView"
     app:cardElevation="2dp"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin=".5dp"
     android:clickable="true"
@@ -12,18 +12,13 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:background="@color/AccentLight"
-        android:onClick="transition"
         android:orientation="vertical"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageView"
-            android:background="@drawable/custom_bg"
             android:clickable="true"
-            android:transitionName="imageTransition"
-            android:adjustViewBounds="true"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView

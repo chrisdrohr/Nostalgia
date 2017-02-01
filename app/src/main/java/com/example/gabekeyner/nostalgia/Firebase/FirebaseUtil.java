@@ -36,12 +36,8 @@ public class FirebaseUtil {
     public static DatabaseReference getDeletePostRef() {
         return FirebaseDatabase.getInstance().getReference().child("posts");
     }
-//    public static DatabaseReference getPostRef() {
-//        return FirebaseDatabase.getInstance().getReference().child("posts");
-//    }
 
     public static DatabaseReference getPostRef () {
-
         return getGroupKeyRef().child("posts");
     }
 
