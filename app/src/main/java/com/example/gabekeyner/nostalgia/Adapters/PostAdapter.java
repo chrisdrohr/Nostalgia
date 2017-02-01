@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.gabekeyner.nostalgia.Activities.DetailActivity;
 import com.example.gabekeyner.nostalgia.AnimationUtil;
+import com.example.gabekeyner.nostalgia.Fragments.CommentFragment;
 import com.example.gabekeyner.nostalgia.ObjectClasses.Post;
 import com.example.gabekeyner.nostalgia.R;
 import com.example.gabekeyner.nostalgia.RecyclerFragments.CommentItemFragment;
@@ -73,6 +74,10 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
                 Intent postKeyIntent = new Intent(context, CommentAdapter.class);
                 commentIntent.putExtra("post_key", post_key);
                 context.sendBroadcast(postKeyIntent,"post_key");
+
+                Intent postKey = new Intent(context, CommentFragment.class);
+                postKey.putExtra("post_key", post_key);
+                context.sendBroadcast(postKey,"post_key");
 
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("post_key", post_key);

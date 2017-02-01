@@ -35,7 +35,7 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
         viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
 
         ViewAnimator.animate(viewHolder.layoutCommentItems)
-                .slideRight()
+                .slideBottom()
                 .descelerate()
                 .duration(300)
                 .start();

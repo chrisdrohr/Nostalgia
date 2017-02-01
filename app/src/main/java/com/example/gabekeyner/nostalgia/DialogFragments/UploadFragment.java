@@ -5,18 +5,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
@@ -24,15 +21,12 @@ import com.example.gabekeyner.nostalgia.ObjectClasses.Post;
 import com.example.gabekeyner.nostalgia.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -41,15 +35,11 @@ public class UploadFragment extends DialogFragment {
     private final static int SELECT_PHOTO = 0;
     private String mUsername, mPhotoUrl, mUid, groupName, groupPhoto, postPhoto;
     private Context context;
-    private TextView textView;
-    private CardView cardView;
-    private CircleImageView circleUserImageView;
     private ProgressBar progressBar;
-    private ImageButton imageButton;
     private EditText mEditText;
-    private DatabaseReference databaseReference;
     private StorageReference mStorageReference;
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
+    private FloatingActionButton mFabUpload, mFabCancel;
     public static String groupKey = "groupKey";
     private ImageView uploadImage;
     private Uri mMediaUri;
@@ -70,15 +60,18 @@ public class UploadFragment extends DialogFragment {
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         uploadImage = (ImageView) view.findViewById(R.id.uploadImage);
         mEditText = (EditText) view.findViewById(R.id.uploadEditText);
+        mFabCancel = (FloatingActionButton) view.findViewById(R.id.fabCancelUpload);
+        mFabUpload = (FloatingActionButton) view.findViewById(R.id.fabUpload);
         postPhoto = mEditText.getText().toString();
         mStorageReference = mFirebaseStorage.getReference().child("posts");
         context = getActivity();
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
 
-        builder.setPositiveButton("Upload", new DialogInterface.OnClickListener() {
+        mFabUpload.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
+                dismiss();
                 Toast.makeText(context, "Uploading photo...", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.VISIBLE);
                 final StorageReference photoRef = mStorageReference.child(mMediaUri.getLastPathSegment());
@@ -101,10 +94,10 @@ public class UploadFragment extends DialogFragment {
                 });
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        mFabCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+            public void onClick(View view) {
+                dismiss();
             }
         });
         AlertDialog alertDialog = builder.create();

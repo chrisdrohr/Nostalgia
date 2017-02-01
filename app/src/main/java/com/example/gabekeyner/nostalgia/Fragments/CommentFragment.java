@@ -1,107 +1,141 @@
 package com.example.gabekeyner.nostalgia.Fragments;
 
-import android.content.Context;
+import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.dragankrstic.autotypetextview.AutoTypeTextView;
+import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
+import com.example.gabekeyner.nostalgia.ObjectClasses.Comment;
 import com.example.gabekeyner.nostalgia.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CommentFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CommentFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CommentFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-    private OnFragmentInteractionListener mListener;
+public class CommentFragment extends Fragment implements View.OnClickListener{
+
+    private CircleImageView userImageView;
+    private String mPhotoUrl, mUsername, mUid, commentPath, mCommentKey;
+    private TextView textView;
+    private CardView cardView;
+    private ImageView commentBg;
+    private DatabaseReference databaseReference;
+    private AutoTypeTextView autoTypeTextView;
+    private EditText mEditText;
+    private String mPostKey;
+    public static String post_image;
+    private FloatingActionButton mSendFab;
 
     public CommentFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CommentFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CommentFragment newInstance(String param1, String param2) {
-        CommentFragment fragment = new CommentFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
+        mUsername = FirebaseUtil.getUser().getUserName();
+        mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        post_image = DetailActivity.post_image;
+        mPostKey = getActivity().getIntent().getExtras().getString("post_key");
+
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_comment, container, false);
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_comment, container, false);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        mSendFab = (FloatingActionButton) view.findViewById(R.id.fabSend);
+        mEditText = (EditText) view.findViewById(R.id.commentEditText);
+
+        mSendFab.setOnClickListener(this);
+
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() > 0) {
+                    mSendFab.setEnabled(true);
+                } else {
+                    mSendFab.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        return view;
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void onClick(View view) {
+//        Bundle bundle = getArguments();
+//        final String mPostKey = bundle.getString("postKey","");
+        commentPath = FirebaseUtil.getBaseRef().child("posts").getKey();
+        SimpleDateFormat time = new SimpleDateFormat("MM/dd-hh:mm");
+        final String mCurrentTimestamp = time.format(new Date());
+        databaseReference = FirebaseUtil.getCommentsRef().child(mPostKey);
+        DatabaseReference ref = databaseReference.push();
+        mCommentKey = ref.getKey();
+        Comment comment = new
+                Comment(mEditText.getText().toString(),
+                mUsername,
+                mPhotoUrl,
+                mPostKey,
+                mCurrentTimestamp,
+                mUid,
+                mCommentKey
+        );
+        ref.setValue(comment);
+//                FirebaseUtil.getCommentsRef().child(mPostKey)
+//                        .push().setValue(comment);
+        mEditText.setText("");
+
+
+//        ((DetailActivity)getActivity()).postComment();
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        if (context instanceof OnFragmentInteractionListener) {
+//            mListener = (OnFragmentInteractionListener) context;
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
+//    }
+
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mListener = null;
+//    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

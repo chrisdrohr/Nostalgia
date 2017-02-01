@@ -13,14 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="300dp" />
 
-    <!--<ImageButton-->
-        <!--android:id="@+id/addImage"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:src="@drawable/ic_menu_camera"-->
-        <!--android:background="@color/tw__transparent"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,5 +34,39 @@
         android:layout_height="40dp"
         android:layout_width="match_parent"
         android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:layout_below="@+id/uploadEditText"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            android:layout_margin="5dp"
+            app:srcCompat="@drawable/close"
+            android:id="@+id/fabCancelUpload"
+            android:tint="@color/AccentLighter"
+            android:adjustViewBounds="true"
+            android:elevation="6dp"
+            app:backgroundTint="@color/fabColor" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            android:layout_toEndOf="@+id/fabCancelUpload"
+            android:layout_margin="5dp"
+            app:srcCompat="@drawable/plus_vector"
+            android:id="@+id/fabUpload"
+            android:tint="@color/AccentLighter"
+            android:adjustViewBounds="true"
+            android:elevation="6dp"
+            app:backgroundTint="@color/fabColor" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

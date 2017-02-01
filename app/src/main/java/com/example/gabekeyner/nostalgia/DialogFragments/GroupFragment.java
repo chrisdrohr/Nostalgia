@@ -113,26 +113,14 @@ public class GroupFragment extends DialogFragment {
                 } else {
                     intent();
                 }
-//                if (mGroupProcess){
-//                    intent();
-//                } else {
-//                    Toast.makeText(context, "Upload a group photo to begin", Toast.LENGTH_SHORT).show();
-//                }
             }
         });
         fabCancelGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
-//                dialog.dismiss();
             }
         });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         return alertDialog;

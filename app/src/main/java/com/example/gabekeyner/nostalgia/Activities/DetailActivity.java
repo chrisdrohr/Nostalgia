@@ -26,7 +26,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.gabekeyner.nostalgia.DialogFragments.CommentsFragment;
 import com.example.gabekeyner.nostalgia.DialogFragments.DeleteDialogFragment;
 import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
 import com.example.gabekeyner.nostalgia.R;
@@ -40,8 +39,8 @@ import com.sloop.fonts.FontsManager;
 
 import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 
-import static com.example.gabekeyner.nostalgia.R.menu.detail;
 import static com.example.gabekeyner.nostalgia.Adapters.NavGroupsAdapter.groupPhoto;
+import static com.example.gabekeyner.nostalgia.R.menu.detail;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -58,11 +57,11 @@ public class DetailActivity extends AppCompatActivity {
 
     // Firebase instance variables
     private DatabaseReference mDatabaseLike, mDatabaseIntent;
-    private TextView titleTxt, imageViewText;
+    private TextView imageViewText;
     private ImageView imageView, commentImageView;
-    private String mPostKey = null;
+    public static String mPostKey = null;
     public static String post_image;
-    private CardView imageCardView, commentImageCardView;
+    private CardView imageCardView;
     private ImageButton mLikeButton;
     private Boolean mProcessLike = false;
     private FragmentManager fragmentManager = getSupportFragmentManager();
@@ -91,11 +90,8 @@ public class DetailActivity extends AppCompatActivity {
         imageCardView = (CardView) findViewById(R.id.cardViewDetail);
         mCommentRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCommentList);
         commentImageView = (ImageView) findViewById(R.id.commentDetialView);
-        mCommentFab = (FloatingActionButton) findViewById(R.id.fabComment);
-        mSendFab = (FloatingActionButton) findViewById(R.id.fabCommentSwitch);
         mLikeButton = (ImageButton) findViewById(R.id.likeButton);
         relativeLayout = (RelativeLayout) findViewById(R.id.detailLayout);
-//        constraintLayout = (ConstraintLayout) findViewById(R.id.mainActivityLayout);
 
         //Receive Data
         mDatabaseIntent.child(mPostKey).addValueEventListener(new ValueEventListener() {
@@ -122,20 +118,9 @@ public class DetailActivity extends AppCompatActivity {
                                 .translationY(0,-500)
                                 .alpha(1,0)
                                 .duration(200)
-                                .andAnimate(titleTxt)
-                                .translationX(0,-800)
-                                .duration(200)
                                 .andAnimate(imageCardView)
                                 .alpha(1,0)
                                 .duration(200)
-                                .start();
-                        ViewAnimator.animate(mCommentFab, mSendFab)
-                                .rollIn()
-                                .bounceIn()
-                                .duration(800)
-                                .thenAnimate(mLikeButton)
-                                .flash()
-                                .duration(400)
                                 .start();
                         imageView.postDelayed(new Runnable() {
                             @Override
@@ -193,12 +178,12 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         //Open Comment Fragment
-        mCommentFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showCommentDialog();
-            }
-        });
+//        mCommentFab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showCommentDialog();
+//            }
+//        });
 
         mLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,7 +232,7 @@ public class DetailActivity extends AppCompatActivity {
         ViewAnimator.animate(mCommentRecyclerView)
                 .translationX(1000,0)
                 .duration(100)
-                .andAnimate(imageCardView,commentImageCardView,mCommentFab,mSendFab)
+                .andAnimate(imageCardView)
                 .alpha(0,0)
                 .thenAnimate(imageCardView)
                 .alpha(1,1)
@@ -261,42 +246,6 @@ public class DetailActivity extends AppCompatActivity {
     void showDeleteDialog() {
         DeleteDialogFragment deleteDialogFragment = new DeleteDialogFragment();
         deleteDialogFragment.show(fragmentManager, "Delete Dialog Fragment");
-    }
-
-    void showCommentDialog() {
-        CommentsFragment commentsFragment = new CommentsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("postKey", getIntent().getExtras().getString("post_key"));
-        commentsFragment.setArguments(bundle);
-        commentsFragment.show(fragmentManager, "Comments Fragment");
-    }
-
-    public void postComment() {
-//        snackbar = Snackbar.make(relativeLayout, "Comment Posted", 1000);
-//        View snackBarView = snackbar.getView();
-//        snackBarView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.DarkColor));
-//        snackbar.show();
-        ViewAnimator.animate(mCommentFab, mSendFab)
-                .tada()
-                .duration(500)
-//                .andAnimate(mCommentFab, mSendFab)
-//                .translationY(0,-200)
-//                .duration(200)
-                .thenAnimate(mCommentFab)
-                .scale(1,0)
-                .duration(100)
-                .thenAnimate(mSendFab)
-                .startDelay(300)
-                .translationX(0,500)
-                .descelerate()
-                .duration(600)
-                .thenAnimate(mCommentFab, mSendFab)
-                .translationY(-200, 0)
-                .duration(800)
-                .thenAnimate(mCommentFab)
-                .bounceIn()
-                .duration(650)
-                .start();
     }
 
     public void doPositiveClick() {
@@ -327,14 +276,6 @@ public class DetailActivity extends AppCompatActivity {
                         .andAnimate(imageView)
                         .translationY(-500,0)
                         .alpha(0,1)
-                        .duration(200)
-
-                        .andAnimate(titleTxt)
-                        .bounceIn()
-                        .duration(200)
-
-                        .andAnimate(mCommentFab, mSendFab)
-                        .rollOut()
                         .duration(200)
                         .start();
 
