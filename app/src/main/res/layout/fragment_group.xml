@@ -77,7 +77,7 @@
             android:clickable="true"
             app:fabSize="mini"
             android:layout_margin="5dp"
-            app:srcCompat="@drawable/close_circle"
+            app:srcCompat="@drawable/close"
             android:id="@+id/fabCancelGroup"
             android:tint="@color/AccentLighter"
             android:adjustViewBounds="true"

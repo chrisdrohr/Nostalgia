@@ -55,6 +55,7 @@ public class GroupFragment extends DialogFragment {
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
     public static String groupKey = "groupKey";
     private ImageView groupBg;
+    private Dialog dialog;
     private Uri mMediaUri;
     private Boolean mGroupProcess = false;
 
@@ -107,16 +108,16 @@ public class GroupFragment extends DialogFragment {
         fabCreateGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mEditText.getText().toString().matches("") || !mGroupProcess){
+                    Toast.makeText(context, "Upload a group photo and name your group to continue", Toast.LENGTH_SHORT).show();
+                } else {
+                    intent();
+                }
 //                if (mGroupProcess){
 //                    intent();
 //                } else {
 //                    Toast.makeText(context, "Upload a group photo to begin", Toast.LENGTH_SHORT).show();
 //                }
-                if (mGroupProcess){
-                    intent();
-                } else {
-                    Toast.makeText(context, "Upload a group photo to begin", Toast.LENGTH_SHORT).show();
-                }
             }
         });
         fabCancelGroup.setOnClickListener(new View.OnClickListener() {
