@@ -38,7 +38,7 @@
             android:layout_height="match_parent">
 
             <fragment
-                android:name="com.example.gabekeyner.nostalgia.RecyclerFragments.NavGroupsItemFragment"
+                android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.NavGroupsItemFragment"
                 android:id="@+id/navGroupsItemFragment"
                 android:scrollbars="vertical"
                 android:layout_gravity="center_horizontal"

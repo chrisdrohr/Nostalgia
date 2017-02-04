@@ -58,13 +58,14 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/detialView"
-                android:layout_alignParentEnd="true">
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/detialView">
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:elevation="2dp"
                 android:id="@+id/likeButton"
                 android:layout_toRightOf="@+id/shareButton"
                 android:src="@drawable/heart_outline"
@@ -72,12 +73,23 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:elevation="2dp"
                 android:padding="10dp"
                 android:id="@+id/shareButton"
                 android:src="@drawable/share_vector"
                 android:background="@android:color/transparent"/>
 
             </RelativeLayout>
+
+            <com.facebook.share.widget.ShareButton
+                android:id="@+id/fbShareButton"
+                android:layout_margin="10dp"
+                android:elevation="2dp"
+                android:background="@android:color/transparent"
+                android:layout_below="@+id/detialView"
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
         </RelativeLayout>
@@ -114,7 +126,7 @@
     <!--</android.support.v7.widget.CardView>-->
 
     <fragment
-        android:name="com.example.gabekeyner.nostalgia.RecyclerFragments.CommentItemFragment"
+        android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.CommentItemFragment"
         android:id="@+id/commentItemFragment"
         android:layout_above="@+id/commentFragment"
         android:layout_width="match_parent"
@@ -137,7 +149,7 @@
 
     
    <fragment
-       android:name="com.example.gabekeyner.nostalgia.Fragments.CommentFragment"
+       android:name="com.example.rohrlabs.nostalgia.Fragments.CommentFragment"
        android:id="@+id/commentFragment"
        android:layout_alignParentBottom="true"
        android:layout_width="match_parent"

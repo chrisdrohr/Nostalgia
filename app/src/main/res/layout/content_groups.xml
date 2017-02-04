@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.gabekeyner.nostalgia.Activities.GroupsActivity"
+    tools:context="com.example.rohrlabs.nostalgia.Activities.GroupsActivity"
     tools:showIn="@layout/activity_groups">
 
     <fragment
-        android:name="com.example.gabekeyner.nostalgia.RecyclerFragments.UserItemFragment"
+        android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.UserItemFragment"
         android:id="@+id/userItemFragment"
         android:elevation="4dp"
         android:layout_above="@+id/addedUserItemFragment"
@@ -28,7 +28,7 @@
         android:textAlignment="center" />
 
     <fragment
-        android:name="com.example.gabekeyner.nostalgia.RecyclerFragments.AddedUserItemFragment"
+        android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.AddedUserItemFragment"
         android:id="@+id/addedUserItemFragment"
         android:elevation="4dp"
         android:layout_alignParentBottom="true"

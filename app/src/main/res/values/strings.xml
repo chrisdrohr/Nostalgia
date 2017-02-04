@@ -9,7 +9,8 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
 
-    <string name="facebook_app_id" translate="false">1794619410813914 </string>
+    <string name="facebook_app_id">889727847797594</string>
+    <string name="fb_login_protocol_scheme">fb889727847797594</string>
 
     <string name="title_activity_detail">DetailActivity</string>
     <string name="sign_out">Sign Out</string>
@@ -42,5 +43,6 @@
     </string-array>
     <string name="fu__font_defualt_font_family">aref</string>
     <string name="title_activity_detail_">DetailActivity_</string>
+
 
 </resources>

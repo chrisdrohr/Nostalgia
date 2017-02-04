@@ -7,5 +7,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layoutManager="StaggeredGridLayoutManager"
-    tools:context="com.example.gabekeyner.nostalgia.RecyclerFragments.GroupsItemFragment"
+    tools:context="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupsItemFragment"
     tools:listitem="@layout/fragment_groups_item" />

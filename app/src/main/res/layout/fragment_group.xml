@@ -5,7 +5,7 @@
     android:background="@color/AccentLighter"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context="com.example.gabekeyner.nostalgia.DialogFragments.GroupFragment">
+    tools:context="com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment">
 
     <RelativeLayout
         android:id="@+id/topPanel"

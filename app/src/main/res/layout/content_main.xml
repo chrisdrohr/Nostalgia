@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/splash"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.gabekeyner.nostalgia.Activities.MainActivity"
+    tools:context="com.example.rohrlabs.nostalgia.Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <!--<RelativeLayout-->
@@ -30,7 +30,7 @@
         <!--android:layout_height="20dp"/>-->
 
     <fragment
-        android:name="com.example.gabekeyner.nostalgia.RecyclerFragments.MainItemFragment"
+        android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.MainItemFragment"
         android:id="@+id/mainItemFragment"
         android:layout_width="match_parent"
         android:layout_marginBottom="66dp"

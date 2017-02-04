@@ -29,8 +29,49 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "889770797099-012boc6pmb9t4imdgh1bp0elhljjdpi9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889770797099:android:30e134f41c3727aa",
+        "android_client_info": {
+          "package_name": "com.example.rohrlabs.nostalgia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "889770797099-012boc6pmb9t4imdgh1bp0elhljjdpi9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN_poVH3h_8lUNMDwtv28uLaFWSeS_T2U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "889770797099-012boc6pmb9t4imdgh1bp0elhljjdpi9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

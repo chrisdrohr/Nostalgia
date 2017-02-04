@@ -6,7 +6,7 @@
     android:id="@+id/activity_camera"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gabekeyner.nostalgia.Activities.CameraActivity"
+    tools:context="com.example.rohrlabs.nostalgia.Activities.CameraActivity"
     android:background="@drawable/splash">
 
     <EditText
