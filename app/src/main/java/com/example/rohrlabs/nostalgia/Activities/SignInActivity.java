@@ -36,6 +36,7 @@ public class SignInActivity extends AppCompatActivity implements
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
+    public static boolean mFbSignIn, mGSignIn = false;
 
     //Google
     private SignInButton mSignInButton;
@@ -160,6 +161,8 @@ public class SignInActivity extends AppCompatActivity implements
                     Log.w(TAG, "signInWithCredential", task.getException());
                     Toast.makeText(SignInActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }else {
+                    mGSignIn = true;
+                    mFbSignIn = false;
                     startMainActivity();
                     finish();
                 }
@@ -175,6 +178,8 @@ public class SignInActivity extends AppCompatActivity implements
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                mFbSignIn = true;
+                mGSignIn = false;
                 startMainActivity();
                 finish();
                 if (!task.isSuccessful()) {

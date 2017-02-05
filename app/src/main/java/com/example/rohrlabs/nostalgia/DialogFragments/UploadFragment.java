@@ -116,4 +116,10 @@ public class UploadFragment extends DialogFragment {
             getDialog().dismiss();
         }
     }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+
+    }
 }

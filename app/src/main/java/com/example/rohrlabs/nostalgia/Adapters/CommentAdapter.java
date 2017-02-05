@@ -28,11 +28,17 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
 
     @Override
     protected void populateViewHolder(final Viewholder viewHolder, final Comment model, final int position) {
-        viewHolder.commentTextView.setText(model.getText());
-        viewHolder.commentAutoTypeTextView.setTextAutoTyping(model.getUser());
-        viewHolder.commentTimestampAutoTextView.setTextAutoTyping(model.getTimestamp());
-        viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
-        viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
+        mUid = FirebaseUtil.getUid();
+        if (mUid.equals(model.getUid())) {
+            viewHolder.mTextViewCommentUser.setText(model.getText());
+        } else {
+            viewHolder.commentTextView.setText(model.getText());
+            viewHolder.commentAutoTypeTextView.setTextAutoTyping(model.getUser());
+            viewHolder.commentTimestampAutoTextView.setTextAutoTyping(model.getTimestamp());
+            viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
+            viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
+        }
+
 
         ViewAnimator.animate(viewHolder.layoutCommentItems)
                 .slideBottom()
@@ -41,7 +47,7 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
                 .start();
         FontsManager.changeFonts(viewHolder.commentTextView);
         FontsManager.changeFonts(viewHolder.commentNameTextView);
-        mUid = FirebaseUtil.getUid();
+
 
             viewHolder.commentTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,14 +80,14 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
         });
 
         if (mUid.equals(model.getUid())){
-            viewHolder.commentTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            viewHolder.mCardViewCommentUser.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     mPostKey = model.getPostKey();
                     mCommentKey = model.getCommentKey();
 
                     ViewAnimator.animate(viewHolder.layoutDeletComment)
-                            .slideLeft()
+                            .slideRight()
                             .descelerate()
                             .duration(300)
                             .start();
@@ -121,6 +127,7 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
                         .start();
                 viewHolder.mCardViewComment.setVisibility(View.VISIBLE);
                 viewHolder.layoutDeletComment.setVisibility(View.INVISIBLE);
+                viewHolder.mCardViewComment.setVisibility(View.GONE);
             }
         });
 
@@ -132,10 +139,21 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
                             .getDrawable(context,
                                     R.drawable.ic_account_circle_black_36dp));
         } else {
+            if (mUid.equals(model.getUid())){
+                viewHolder.mCardViewCommentUser.setVisibility(View.VISIBLE);
+                viewHolder.mCardViewComment.setVisibility(View.INVISIBLE);
+                viewHolder.commentImageView.setVisibility(View.INVISIBLE);
+
+            }else
             Glide.with(context)
                     .load(model.getPhotoUrl())
                     .priority(Priority.NORMAL)
                     .into(viewHolder.commentImageView);
+            if (!mUid.equals(model.getUid())){
+                viewHolder.mCardViewCommentUser.setVisibility(View.INVISIBLE);
+                viewHolder.mCardViewComment.setVisibility(View.VISIBLE);
+                viewHolder.commentImageView.setVisibility(View.VISIBLE);
+            }
         }
     }
 

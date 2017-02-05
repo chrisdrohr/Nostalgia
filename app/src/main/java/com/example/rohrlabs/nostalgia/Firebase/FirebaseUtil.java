@@ -62,6 +62,7 @@ public class FirebaseUtil {
 
     public static DatabaseReference getGroupMemberRef () {
         groupKey = GroupFragment.groupKey;
+        groupKey = NavGroupsAdapter.groupKey;
         return getBaseRef().child("groups").child(groupKey).child("members");
     }
 }

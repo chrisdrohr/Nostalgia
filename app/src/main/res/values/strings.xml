@@ -43,6 +43,8 @@
     </string-array>
     <string name="fu__font_defualt_font_family">aref</string>
     <string name="title_activity_detail_">DetailActivity_</string>
+    <string name="delete_group">Delete Group</string>
+    <string name="group_members">Group Members</string>
 
 
 </resources>

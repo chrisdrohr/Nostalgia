@@ -25,7 +25,7 @@ public class Viewholder extends RecyclerView.ViewHolder {
     public ImageView mImageView;
     public TextView mUsername, groupsUsername;
     public ImageView profilePicture;
-    public CardView mCardView, mCardViewDeleteComment, mCardViewCommentDetails, mCardViewComment;
+    public CardView mCardView, mCardViewDeleteComment, mCardViewCommentDetails, mCardViewComment ,mCardViewCommentUser;
     public Context mContext;
     public ImageView detailImageView, userProfileImageView, groupsImageView;
     public TextView detailTitle, userProfileTextView, groupsTextView;
@@ -33,17 +33,22 @@ public class Viewholder extends RecyclerView.ViewHolder {
     public AutoTypeTextView autoTypeTextView;
     public CircleImageView circleImageView;
     public FloatingActionButton fabDelete, fabCancel;
-    public CircleImageView navDrawerImageView;
+    public CircleImageView navDrawerImageView, mCircleImageViewGroupMember;
     public TextView navDrawerTextView;
     public RelativeLayout layoutDeletComment, layoutCommentItems;
-    public TextView commentTextView;
+    public TextView commentTextView, mTextViewCommentUser;
     public TextView commentNameTextView;
     public CircleImageView commentImageView, addedUserImageView;
-    public AutoTypeTextView commentAutoTypeTextView, commentTimestampAutoTextView, addedUserAutoTypeTextView;
+    public AutoTypeTextView commentAutoTypeTextView, commentTimestampAutoTextView, addedUserAutoTypeTextView, mAutoTypeTextViewGroupMember;
 
 
     public Viewholder(View itemView) {
         super(itemView);
+
+        mAutoTypeTextViewGroupMember = (AutoTypeTextView) itemView.findViewById(R.id.autoTypeTextViewGroupMember);
+        mCircleImageViewGroupMember = (CircleImageView) itemView.findViewById(R.id.circleImageViewGroupMember);
+
+
         mTitle = (TextView) itemView.findViewById(R.id.textView);
         mUsername = (TextView) itemView.findViewById(R.id.usernameTextView);
         mImageView = (ImageView) itemView.findViewById(R.id.imageView);
@@ -74,6 +79,10 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mCardViewDeleteComment = (CardView) itemView.findViewById(R.id.cardView_deleteComment);
         mCardViewCommentDetails = (CardView) itemView.findViewById(R.id.commentDetailCardView);
         mCardViewComment = (CardView) itemView.findViewById(R.id.commentCardView);
+        mCardViewCommentUser = (CardView) itemView.findViewById(R.id.commentCardViewUser);
+
+        mTextViewCommentUser = (TextView) itemView.findViewById(R.id.commentTextViewUser);
+
 
         layoutDeletComment = (RelativeLayout) itemView.findViewById(R.id.layout_deleteComment);
         layoutCommentItems = (RelativeLayout) itemView.findViewById(R.id.layoutCommentItems);

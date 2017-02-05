@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -39,6 +40,7 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
 import com.github.florent37.viewanimator.ViewAnimator;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     private static final int RC_SIGN_IN = 0;
 
     public RecyclerView recyclerView;
-    private CardView cardView;
+    private CardView cardView, mCardViewGroupMembers;
     private Toolbar toolbar;
     private String mUsername, mPhotoUrl, mUid, userKey;
     private Boolean mProcessUser = true;
@@ -80,13 +82,15 @@ public class MainActivity extends AppCompatActivity
     private Uri mMediaUri;
     private ProgressBar progressBar;
     private final static int SELECT_PHOTO = 0;
+    public static boolean mFbSignIn, mGSignIn = false;
+    private RelativeLayout mLayoutDeleteGroup;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private StorageReference mStorageReference;
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
-    private FloatingActionButton fabPhoto, fabVideo,fabGroup;
+    private FloatingActionButton fabPhoto, fabVideo,fabGroup, mFabGroupMembers, mFabGroupDelete, mFabGroupCancel;
     private AccessToken mAccessToken;
     private Profile mProfile;
     private ProfileTracker mProfileTracker;
@@ -118,9 +122,27 @@ public class MainActivity extends AppCompatActivity
         mStorageReference = mFirebaseStorage.getReference().child("posts");
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
-        if (mFirebaseUser == null || mAccessToken == null) {
+//        if (SignInActivity.mFbSignIn && !SignInActivity.mGSignIn) {
+//            Toast.makeText(this, "FB" + SignInActivity.mFbSignIn, Toast.LENGTH_SHORT).show();
+//
+//        } if (SignInActivity.mGSignIn && SignInActivity.mFbSignIn) {
+//            Toast.makeText(this, "google" + SignInActivity.mGSignIn, Toast.LENGTH_SHORT).show();
+//            mUsername = FirebaseUtil.getUser().getUserName();
+//            mDatabaseUserExists = FirebaseUtil.getUserExistsRef();
+//            mDatabaseUserExists.keepSynced(true);
+//            mDatabaseUserExists = FirebaseUtil.getUserExistsRef();
+//            mDatabaseUserExists.keepSynced(true);
+//            mUid = FirebaseUtil.getUid();
+//            if (mFirebaseUser.getPhotoUrl() != null) {
+//                mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
+//            }
+//        }else {
+//            startActivity(new Intent(this, SignInActivity.class));
+//            finish();
+//        }
+
+        if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
-//            Toast.makeText(this, mProfile.getFirstName(), Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, SignInActivity.class));
             finish();
             return;
@@ -128,19 +150,23 @@ public class MainActivity extends AppCompatActivity
             mUsername = FirebaseUtil.getUser().getUserName();
             mDatabaseUserExists = FirebaseUtil.getUserExistsRef();
             mDatabaseUserExists.keepSynced(true);
+            mUid = FirebaseUtil.getUid();
             if (mFirebaseUser.getPhotoUrl() != null) {
                 mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
             }
         }
-        mDatabaseUserExists = FirebaseUtil.getUserExistsRef();
-        mDatabaseUserExists.keepSynced(true);
-        mUid = FirebaseUtil.getUid();
+
         System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
         fabAnimations();
         fabClickable();
         checkUser();
 
         cardView = (CardView) findViewById(R.id.cardView);
+        mFabGroupMembers = (FloatingActionButton) findViewById(R.id.fabExit);
+        mLayoutDeleteGroup = (RelativeLayout) findViewById(R.id.layout_deleteGroup);
+        mFabGroupDelete = (FloatingActionButton) findViewById(R.id.fabDelete);
+        mFabGroupCancel = (FloatingActionButton) findViewById(R.id.fabCancelGroupDelete);
+        mCardViewGroupMembers = (CardView) findViewById(R.id.cardViewGroupMembers);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         relativeLayout = (RelativeLayout) findViewById(R.id.content_main);
         fabLayout = (RelativeLayout) findViewById(R.id.fabLayout);
@@ -171,7 +197,6 @@ public class MainActivity extends AppCompatActivity
         Glide.with(this)
                 .load(mPhotoUrl)
                 .centerCrop()
-                .thumbnail(0.5f)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
@@ -185,7 +210,8 @@ public class MainActivity extends AppCompatActivity
                 .into(mainBg);
     }
     private void firstOpen() {
-        if (FirebaseUtil.groupKey == groupKey){
+//        Toast.makeText(this, NavGroupsAdapter.groupKey, Toast.LENGTH_SHORT).show();
+        if (NavGroupsAdapter.groupKey.equals(groupKey)){
             drawer.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -215,8 +241,6 @@ public class MainActivity extends AppCompatActivity
                     .duration(150)
                     .start();
         }
-
-
     }
 
     private void fabAnimations() {
@@ -224,7 +248,6 @@ public class MainActivity extends AppCompatActivity
         fabGroup = (FloatingActionButton) findViewById(R.id.fabGroup);
         fabPhoto = (FloatingActionButton) findViewById(R.id.fabPhoto);
         fabVideo = (FloatingActionButton) findViewById(R.id.fabVideo);
-
     }
 
     private void fabClickable() {
@@ -334,13 +357,112 @@ public class MainActivity extends AppCompatActivity
             case R.id.sign_out_menu:
                 mFirebaseAuth.signOut();
                 startActivity(new Intent(this, SignInActivity.class));
-//                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                 return true;
-
+            case R.id.group_member_menu:
+                groupMembers();
+                return true;
+            case R.id.delete_group_menu:
+                deleteGroup();
+                return true;
             default:
         }
         return super.onOptionsItemSelected(item);
     }
+    public void groupMembers () {
+        mFabGroupMembers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewAnimator.animate(mCardViewGroupMembers)
+                        .fadeOut()
+                        .descelerate()
+                        .duration(300)
+                        .start();
+                mCardViewGroupMembers.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCardViewGroupMembers.setVisibility(View.GONE);
+                    }
+                },300);
+            }
+        });
+        if (!mCardViewGroupMembers.isShown()){
+            ViewAnimator.animate(mCardViewGroupMembers)
+                    .newsPaper()
+                    .descelerate()
+                    .duration(300)
+                    .start();
+            mCardViewGroupMembers.setVisibility(View.VISIBLE);
+        } else {
+            ViewAnimator.animate(mCardViewGroupMembers)
+                    .fadeOut()
+                    .descelerate()
+                    .duration(300)
+                    .start();
+            mCardViewGroupMembers.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mCardViewGroupMembers.setVisibility(View.GONE);
+                }
+            },300);
+
+        }
+    }
+
+    public void deleteGroup () {
+        groupKey = NavGroupsAdapter.groupKey;
+        mFabGroupMembers.setVisibility(View.GONE);
+        mFabGroupDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Group Deleted", Toast.LENGTH_SHORT).show();
+                FirebaseUtil.getGroupRef().child(groupKey).removeValue();
+                drawer.openDrawer(Gravity.LEFT);
+                mCardViewGroupMembers.setVisibility(View.GONE);
+            }
+        });
+        mFabGroupCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewAnimator.animate(mCardViewGroupMembers)
+                        .fadeOut()
+                        .descelerate()
+                        .duration(300)
+                        .start();
+                mCardViewGroupMembers.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCardViewGroupMembers.setVisibility(View.GONE);
+                        mLayoutDeleteGroup.setVisibility(View.GONE);
+                    }
+                },300);
+            }
+        });
+        if (!mCardViewGroupMembers.isShown()){
+            ViewAnimator.animate(mCardViewGroupMembers)
+                    .newsPaper()
+                    .descelerate()
+                    .duration(300)
+                    .start();
+            mCardViewGroupMembers.setVisibility(View.VISIBLE);
+            mLayoutDeleteGroup.setVisibility(View.VISIBLE);
+        } else {
+            ViewAnimator.animate(mCardViewGroupMembers)
+                    .fadeOut()
+                    .descelerate()
+                    .duration(300)
+                    .start();
+            mCardViewGroupMembers.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mCardViewGroupMembers.setVisibility(View.GONE);
+                    mLayoutDeleteGroup.setVisibility(View.GONE);
+                }
+            },300);
+
+        }
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -372,18 +494,6 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (mProcessUserExists) {
                     if (dataSnapshot.hasChild(mUid)) {
-//                        snackbar = Snackbar.make(constraintLayout, "Welcome back!", Snackbar.LENGTH_SHORT);
-//                        View snackBarView = snackbar.getView();
-//                        snackBarView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.DarkColor));
-//                        snackbar.show();
-
-//                        drawer.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                drawer.openDrawer(Gravity.LEFT);
-//                            }
-//                        },700);
-
                         mProcessUserExists = false;
                 } else {
                     addUser();

@@ -190,4 +190,10 @@ public class GroupFragment extends DialogFragment {
                 .duration(500)
                 .start();
     }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        FirebaseUtil.getGroupRef().child(groupKey).removeValue();
+    }
 }

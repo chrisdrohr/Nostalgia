@@ -6,6 +6,18 @@
         android:id="@+id/sign_out_menu"
         android:title="@string/sign_out"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/delete_group_menu"
+        android:title="@string/delete_group"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/group_member_menu"
+        android:title="@string/group_members"
+        android:icon="@drawable/account_multiple"
+        app:showAsAction="ifRoom"/>
+
     <!--<item-->
         <!--android:id="@+id/invite_menu"-->
         <!--android:title="@string/invite_menu_label"-->

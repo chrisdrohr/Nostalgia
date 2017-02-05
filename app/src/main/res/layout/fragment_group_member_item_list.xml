@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recyclerViewGroupMemberList"
+    android:name="com.example.gabekeyner.nostalgia.GroupMembersFragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layoutManager="StaggeredGridLayoutManager"
+    tools:context="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupMembersFragment"
+    tools:listitem="@layout/fragment_group_member_item" />
