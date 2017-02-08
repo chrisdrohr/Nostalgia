@@ -12,7 +12,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
-import static com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil.getGroupMemberRef;
+import static com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil.getGroupRef;
 
 public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
 
@@ -46,8 +46,8 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
                 mUsername = model.getUserName();
                 mPhotoUrl = model.getProfilePicture();
                 groupKey = GroupFragment.groupKey;
-                databaseReference = getGroupMemberRef();
-                DatabaseReference ref = databaseReference.push();
+                databaseReference = getGroupRef();
+                DatabaseReference ref = databaseReference.child(groupKey).child("members").child(model.getUid());
 
                 User user = new User(
                         mUsername,
@@ -55,6 +55,7 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
                         mUid,
                         groupKey,
                         null);
+//                Toast.makeText(context, groupKey, Toast.LENGTH_SHORT).show();
                 ref.setValue(user);
                 userKey = ref.getKey();
 //                getGroupMemberRef().child(groupKey).push().setValue(user);

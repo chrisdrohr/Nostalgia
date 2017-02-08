@@ -35,7 +35,7 @@ public class GroupMembersFragment extends Fragment {
                 Viewholder.class,
                 getContext(),
                 FirebaseUtil.getGroupMemberRef());
-        mLayoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+        mLayoutManager = new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL);
         super.onCreate(savedInstanceState);
     }
 

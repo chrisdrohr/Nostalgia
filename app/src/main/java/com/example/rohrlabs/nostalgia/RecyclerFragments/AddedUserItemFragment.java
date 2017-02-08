@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rohrlabs.nostalgia.Adapters.AddedUserAdapter;
+import com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.example.rohrlabs.nostalgia.R;
@@ -28,7 +29,7 @@ public class AddedUserItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         groupKey = getActivity().getIntent().getStringExtra("groupKey");
 
-        mAddedUserAdapter = new AddedUserAdapter(User.class, R.layout.fragment_added_user_item, Viewholder.class, FirebaseUtil.getGroupMemberRef(), getContext());
+        mAddedUserAdapter = new AddedUserAdapter(User.class, R.layout.fragment_added_user_item, Viewholder.class, FirebaseUtil.getGroupRef().child(GroupFragment.groupKey).child("members"), getContext());
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         super.onCreate(savedInstanceState);
     }

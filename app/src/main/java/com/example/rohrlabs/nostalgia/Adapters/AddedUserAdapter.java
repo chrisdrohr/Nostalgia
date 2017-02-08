@@ -59,7 +59,7 @@ public class AddedUserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> 
                 if (v != null) {
                     groupKey = GroupFragment.groupKey;
                     userKey = getRef(position).getKey();
-                    FirebaseUtil.getGroupMemberRef().child(userKey).removeValue();
+                    FirebaseUtil.getGroupRef().child(groupKey).child("members").child(userKey).removeValue();
                     notifyItemChanged(position);
                     return false;
                 }

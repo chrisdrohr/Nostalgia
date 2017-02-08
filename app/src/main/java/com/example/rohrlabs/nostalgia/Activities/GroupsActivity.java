@@ -62,7 +62,7 @@ public class GroupsActivity extends AppCompatActivity{
         FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
         FontsManager.changeFonts(autoTypeTextViewGroupName);
 
-        Toast.makeText(GroupsActivity.this, groupPhoto, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(GroupsActivity.this, groupPhoto, Toast.LENGTH_SHORT).show();
 
         Glide.with(GroupsActivity.this)
                 .load(groupPhoto)

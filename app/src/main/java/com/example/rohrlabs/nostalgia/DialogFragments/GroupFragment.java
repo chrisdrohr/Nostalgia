@@ -36,7 +36,7 @@ import com.google.firebase.storage.UploadTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
-import static com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil.getGroupMemberRef;
+import static com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil.getGroupRef;
 
 public class GroupFragment extends DialogFragment {
 
@@ -49,7 +49,7 @@ public class GroupFragment extends DialogFragment {
     private ProgressBar progressBar;
     private ImageButton imageButton;
     private EditText mEditText;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, ref;
     private StorageReference mStorageReference;
     private FloatingActionButton fabCancelGroup, fabCreateGroup;
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
@@ -111,7 +111,8 @@ public class GroupFragment extends DialogFragment {
                 if (mEditText.getText().toString().matches("") || !mGroupProcess){
                     Toast.makeText(context, "Upload a group photo and name your group to continue", Toast.LENGTH_SHORT).show();
                 } else {
-                    intent();
+//                    intent();
+                    getKey();
                 }
             }
         });
@@ -148,26 +149,33 @@ public class GroupFragment extends DialogFragment {
         }
     }
 
+    public void getKey () {
+        databaseReference = FirebaseUtil.getGroupRef();
+        ref = databaseReference.push();
+        groupKey = ref.getKey();
+        intent();
+    }
+
     public void intent () {
         groupName = mEditText.getText().toString();
-        databaseReference = FirebaseUtil.getGroupRef();
-        DatabaseReference ref = databaseReference.push();
-        groupKey = FirebaseUtil.getGroupRef().child(groupKey).toString();
-        groupKey = ref.getKey();
+
         final Group group = new Group(
                 mUsername,
                 groupName,
                 groupPhoto,
                 groupKey);
         ref.setValue(group);
+
         groupKey = ref.getKey();
+
         User user = new User(
                 mUsername,
                 mPhotoUrl,
                 mUid,
                 groupKey,
                 null);
-        getGroupMemberRef().push().setValue(user);
+//        Toast.makeText(context, groupKey, Toast.LENGTH_SHORT).show();
+        getGroupRef().child(groupKey).child("members").child(mUid).setValue(user);
         Intent groupNameIntent = new Intent(context, UserAdapter.class);
         groupNameIntent.putExtra("groupKey", groupKey);
         context.sendBroadcast(groupNameIntent,"groupKey");

@@ -82,14 +82,14 @@
                 
                 <TextView
                     android:text="Delete group?"
-                    android:textSize="20sp"
-                    android:textColor="@color/fabColor"
-                    android:paddingTop="5dp"
+                    android:textColor="@color/AccentLighter"
                     android:paddingRight="10dp"
                     android:layout_margin="5dp"
                     android:layout_toLeftOf="@+id/fabCancelGroupDelete"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textStyle="normal|bold" />
 
                 <android.support.design.widget.FloatingActionButton
                     android:layout_width="wrap_content"
