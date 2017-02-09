@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -328,13 +329,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onStop() {
-//        Intent intent = getIntent();
-//        groupKey = intent.getStringExtra("groupKey");
-//        SharedPreferences sharedPreferences = getSharedPreferences("groupKey", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("groupKey", groupKey);
-//        editor.apply();
-//        Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show();
+
         super.onStop();
     }
 

@@ -85,15 +85,6 @@ public class GroupFragment extends DialogFragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
 
-//        Glide.with(this)
-//                .load()
-//                .priority(Priority.IMMEDIATE)
-//                .centerCrop()
-//                .thumbnail(0.5f)
-//                .crossFade()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(groupBg);
-
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

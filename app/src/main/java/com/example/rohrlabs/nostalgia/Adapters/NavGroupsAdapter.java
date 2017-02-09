@@ -35,7 +35,6 @@ public class NavGroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> 
         viewHolder.navDrawerTextView.setText(model.getGroupName());
         Glide.with(context)
                 .load(model.getGroupPhoto())
-                .thumbnail(0.1f)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)
