@@ -166,7 +166,7 @@ public class GroupFragment extends DialogFragment {
                 groupKey,
                 null);
 //        Toast.makeText(context, groupKey, Toast.LENGTH_SHORT).show();
-        getGroupRef().child(groupKey).child("members").child(mUid).setValue(user);
+        getGroupRef().child(groupKey).child(mUid).setValue(user);
         Intent groupNameIntent = new Intent(context, UserAdapter.class);
         groupNameIntent.putExtra("groupKey", groupKey);
         context.sendBroadcast(groupNameIntent,"groupKey");

@@ -44,34 +44,25 @@ public class CommentFragment extends Fragment implements View.OnClickListener{
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        post_image = DetailActivity.post_image;
         mPostKey = getActivity().getIntent().getExtras().getString("post_key");
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_comment, container, false);
-
         mSendFab = (FloatingActionButton) view.findViewById(R.id.fabSend);
         mEditText = (EditText) view.findViewById(R.id.commentEditText);
-
         mSendFab.setOnClickListener(this);
-
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().trim().length() > 0) {
@@ -80,20 +71,15 @@ public class CommentFragment extends Fragment implements View.OnClickListener{
                     mSendFab.setEnabled(false);
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
-
         return view;
     }
 
     @Override
     public void onClick(View view) {
-//        Bundle bundle = getArguments();
-//        final String mPostKey = bundle.getString("postKey","");
         commentPath = FirebaseUtil.getBaseRef().child("posts").getKey();
         SimpleDateFormat time = new SimpleDateFormat("MM/dd-hh:mm");
         final String mCurrentTimestamp = time.format(new Date());
@@ -110,8 +96,6 @@ public class CommentFragment extends Fragment implements View.OnClickListener{
                 mCommentKey
         );
         ref.setValue(comment);
-//                FirebaseUtil.getCommentsRef().child(mPostKey)
-//                        .push().setValue(comment);
         mEditText.setText("");
 
 

@@ -1,6 +1,7 @@
 package com.example.rohrlabs.nostalgia.RecyclerFragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ public class MainItemFragment extends Fragment {
     private static final String TAG = "MainItemFragment";
     private RecyclerView mRecyclerView;
     private PostAdapter mPostAdapter;
+    private Context mContext;
     private StaggeredGridLayoutManager mLayoutManager;
 
     @Override
@@ -31,7 +33,7 @@ public class MainItemFragment extends Fragment {
                 Viewholder.class,
                 FirebaseUtil.getPostRef(),
                 getContext());
-        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         super.onCreate(savedInstanceState);
     }
 
@@ -43,6 +45,30 @@ public class MainItemFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewMainList);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mPostAdapter);
+
+        mPostAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int mCount = mPostAdapter.getItemCount();
+                if (mCount > 4 && mCount < 12){
+//                    Toast.makeText(getActivity(), String.format("if" + mCount), Toast.LENGTH_SHORT).show();
+                    mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mPostAdapter);
+                }else if (mCount < 4){
+//                    Toast.makeText(getActivity(), String.format("else" + mCount), Toast.LENGTH_SHORT).show();
+                    mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mPostAdapter);
+                } else if (mCount > 12) {
+//                    Toast.makeText(getActivity(), String.format("else if" + mCount), Toast.LENGTH_SHORT).show();
+                    mLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mPostAdapter);
+                }
+            }
+        });
         mLayoutManager.setItemPrefetchEnabled(false);
         return rootView;
     }

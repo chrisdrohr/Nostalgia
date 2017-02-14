@@ -260,9 +260,9 @@ public class MainActivity extends AppCompatActivity
         fabVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-                intent.putExtra(CameraActivity.ACTIVITY_INTENTION, CameraActivity.GALLERY_VIDEO_PICKER);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+//                intent.putExtra(CameraActivity.ACTIVITY_INTENTION, CameraActivity.GALLERY_VIDEO_PICKER);
+//                startActivity(intent);
             }
         });
         fabGroup.setOnClickListener(new View.OnClickListener() {
@@ -287,9 +287,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        ViewAnimator.animate(fabPhoto, fabVideo, fabGroup, cardView)
-                .newsPaper()
-                .duration(300)
+        ViewAnimator.animate(fabLayout)
+                .slideBottom()
+                .duration(500)
+//                .thenAnimate(fabPhoto,fabVideo,fabGroup,cardView)
+//                .newsPaper()
+//                .duration(500)
                 .start();
     }
 
@@ -329,7 +332,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onStop() {
-
+        ViewAnimator.animate(fabLayout)
+                .fadeOut()
+                .duration(100)
+                .start();
         super.onStop();
     }
 
