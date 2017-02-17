@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rohrlabs.nostalgia.Activities.MainActivity;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Group;
@@ -30,15 +29,14 @@ public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
 
     @Override
     protected void populateViewHolder(final Viewholder viewHolder, final Group model, final int position) {
-        viewHolder.groupsTextView.setText(model.getGroupName());
+        viewHolder.mTextViewGroupName.setText(model.getGroupName());
         Glide.with(context)
                 .load(model.getGroupPhoto())
-                .thumbnail(0.1f)
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
                 .priority(Priority.IMMEDIATE)
-                .into(viewHolder.groupsImageView);
-        viewHolder.groupsImageView.setOnClickListener(new View.OnClickListener() {
+                .into(viewHolder.mImageViewGroup);
+        viewHolder.mImageViewGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 groupKey = model.getGroupId();

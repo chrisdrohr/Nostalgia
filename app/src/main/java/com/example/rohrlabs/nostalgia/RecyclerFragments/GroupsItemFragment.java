@@ -2,8 +2,8 @@ package com.example.rohrlabs.nostalgia.RecyclerFragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,7 @@ public class GroupsItemFragment extends Fragment {
     private static final String TAG = "GroupsItemFragment";
     private RecyclerView mRecyclerView;
     private GroupsAdapter mGroupsAdapter;
-    private StaggeredGridLayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
 
     public GroupsItemFragment() {
     }
@@ -27,11 +27,11 @@ public class GroupsItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         mGroupsAdapter = new GroupsAdapter(
                 Group.class,
-                R.layout.fragment_groups_item,
+                R.layout.group_card_view,
                 Viewholder.class,
                 FirebaseUtil.getGroupRef(),
                 getContext());
-        mLayoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+        mLayoutManager = new LinearLayoutManager(getContext());
         super.onCreate(savedInstanceState);
     }
 

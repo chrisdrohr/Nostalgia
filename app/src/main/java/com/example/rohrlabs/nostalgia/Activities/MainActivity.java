@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity
     private final static int SELECT_PHOTO = 0;
     public static boolean mFbSignIn, mGSignIn = false;
     private RelativeLayout mLayoutDeleteGroup;
+    private FrameLayout mLayoutGroupFragment;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -170,6 +172,7 @@ public class MainActivity extends AppCompatActivity
         relativeLayout = (RelativeLayout) findViewById(R.id.content_main);
         fabLayout = (RelativeLayout) findViewById(R.id.fabLayout);
         mainBg = (ImageView) findViewById(R.id.mainBg);
+//        mLayoutGroupFragment = (FrameLayout) findViewById(R.id.layoutGroupFragment);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(NavGroupsAdapter.groupName);

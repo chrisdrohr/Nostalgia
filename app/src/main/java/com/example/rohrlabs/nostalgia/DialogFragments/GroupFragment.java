@@ -141,7 +141,7 @@ public class GroupFragment extends DialogFragment {
     }
 
     public void getKey () {
-        databaseReference = FirebaseUtil.getGroupRef();
+        databaseReference = getGroupRef();
         ref = databaseReference.push();
         groupKey = ref.getKey();
         intent();
@@ -149,7 +149,6 @@ public class GroupFragment extends DialogFragment {
 
     public void intent () {
         groupName = mEditText.getText().toString();
-
         final Group group = new Group(
                 mUsername,
                 groupName,
@@ -167,6 +166,7 @@ public class GroupFragment extends DialogFragment {
                 null);
 //        Toast.makeText(context, groupKey, Toast.LENGTH_SHORT).show();
         getGroupRef().child(groupKey).child(mUid).setValue(user);
+//        FirebaseUtil.getGroupMemberRef().child(groupKey).setValue(user);
         Intent groupNameIntent = new Intent(context, UserAdapter.class);
         groupNameIntent.putExtra("groupKey", groupKey);
         context.sendBroadcast(groupNameIntent,"groupKey");
@@ -193,6 +193,6 @@ public class GroupFragment extends DialogFragment {
     @Override
     public void dismiss() {
         super.dismiss();
-        FirebaseUtil.getGroupRef().child(groupKey).removeValue();
+        getGroupRef().child(groupKey).removeValue();
     }
 }

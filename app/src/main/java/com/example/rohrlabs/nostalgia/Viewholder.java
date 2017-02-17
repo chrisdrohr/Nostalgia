@@ -23,8 +23,8 @@ public class Viewholder extends RecyclerView.ViewHolder {
 
     public TextView mTitle;
     public ImageView mImageView;
-    public TextView mUsername, groupsUsername;
-    public ImageView profilePicture;
+    public TextView mUsername, mTextViewGroupName;
+    public ImageView profilePicture, mImageViewGroup;
     public CardView mCardView, mCardViewDeleteComment, mCardViewCommentDetails, mCardViewComment ,mCardViewCommentUser;
     public Context mContext;
     public ImageView detailImageView, userProfileImageView, groupsImageView;
@@ -52,10 +52,11 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mTitle = (TextView) itemView.findViewById(R.id.textView);
         mUsername = (TextView) itemView.findViewById(R.id.usernameTextView);
         mImageView = (ImageView) itemView.findViewById(R.id.imageView);
+        mImageViewGroup = (ImageView) itemView.findViewById(R.id.imageViewGroup);
+        mTextViewGroupName = (TextView) itemView.findViewById(R.id.textViewGroup);
         mCardView = (CardView) itemView.findViewById(R.id.cardView);
         mContext = itemView.getContext();
         detailImageView = (ImageView) itemView.findViewById(R.id.detialView);
-//        detailTitle = (TextView) itemView.findViewById(R.id.commentDetailTitle);
         mEditText = (EditText) itemView.findViewById(R.id.groupEditText);
         circleImageView = (CircleImageView) itemView.findViewById(R.id.addedUserCircleImageView);
         autoTypeTextView = (AutoTypeTextView) itemView.findViewById(R.id.deleteAutoText);
@@ -70,8 +71,8 @@ public class Viewholder extends RecyclerView.ViewHolder {
         userProfileImageView = (ImageView) itemView.findViewById(R.id.userProfileImageView);
         userProfileTextView = (TextView) itemView.findViewById(R.id.userProfileTextView);
 
-        groupsTextView = (TextView) itemView.findViewById(R.id.groupsTextView);
-        groupsImageView = (ImageView) itemView.findViewById(R.id.groupsImageView);
+//        groupsTextView = (TextView) itemView.findViewById(R.id.groupsTextView);
+//        groupsImageView = (ImageView) itemView.findViewById(R.id.groupsImageView);
 
         fabCancel = (FloatingActionButton) itemView.findViewById(R.id.fabCancel);
         fabDelete = (FloatingActionButton) itemView.findViewById(R.id.fabDelete);

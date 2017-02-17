@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recyclerViewGroupsList"
-    android:name="com.example.gabekeyner.nostalgia.GroupsItemFragment"
+    android:name="com.example.gabekeyner.nostalgia.RecyclerFragments.GroupsItemFragment"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layoutManager="StaggeredGridLayoutManager"
+    android:layout_height="match_parent"
+    app:layoutManager="LinearLayoutManager"
     tools:context="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupsItemFragment"
-    tools:listitem="@layout/fragment_groups_item" />
+    tools:listitem="@layout/group_card_view" />

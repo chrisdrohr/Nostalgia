@@ -11,10 +11,6 @@
     tools:context="com.example.rohrlabs.nostalgia.Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-
         <ImageView
             android:id="@+id/mainBg"
             android:elevation="0dp"
@@ -22,12 +18,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    <!--</RelativeLayout>-->
-
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/spacer"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="20dp"/>-->
+    <FrameLayout
+        android:id="@+id/layoutGroupFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <fragment
+            android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupsItemFragment"
+            android:id="@+id/groupItemFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
 
     <fragment
         android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.MainItemFragment"
@@ -52,12 +52,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        <fragment
-            android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupMembersFragment"
-            android:id="@+id/groupMemberFragment"
-            android:layout_width="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_height="wrap_content"/>
+            <fragment
+                android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupMembersFragment"
+                android:id="@+id/groupMemberFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"
