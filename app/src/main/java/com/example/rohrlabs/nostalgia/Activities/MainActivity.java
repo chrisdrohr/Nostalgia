@@ -1,14 +1,14 @@
 package com.example.rohrlabs.nostalgia.Activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,12 +16,12 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,37 +54,40 @@ import com.google.firebase.storage.StorageReference;
 import com.sloop.fonts.FontsManager;
 
 import static com.example.rohrlabs.nostalgia.Adapters.NavGroupsAdapter.groupPhoto;
+import static com.example.rohrlabs.nostalgia.R.id.textView;
 import static com.example.rohrlabs.nostalgia.R.menu.main;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    private static final int RC_SIGN_IN = 0;
+//    private static final int RC_SIGN_IN = 0;
 
     public RecyclerView recyclerView;
-    private CardView cardView, mCardViewGroupMembers;
+    private CardView mCardViewGroupMembers;
     private Toolbar toolbar;
     private String mUsername, mPhotoUrl, mUid, userKey;
     private Boolean mProcessUser = true;
     private DatabaseReference mDatabaseUserExists;
     private ImageView userImageView, mainBg;
-    private TextView userTextView, mTitle;
+    private TextView userTextView, mTitle, mTextViewLabel;
     private GoogleApiClient mGoogleApiClient;
     private NavigationView navigationView;
     private Boolean mProcessUserExists = false;
     private DrawerLayout drawer;
-    private Snackbar snackbar;
-    private View snackBarView;
+//    private Snackbar snackbar;
+//    private View snackBarView;
     private RelativeLayout relativeLayout, fabLayout;
-    private ConstraintLayout constraintLayout;
-    private SharedPreferences sharedPreferences;
+//    private ConstraintLayout constraintLayout;
+//    private SharedPreferences sharedPreferences;
     private static String groupKey = "groupKey";
-    private Uri mMediaUri;
-    private ProgressBar progressBar;
-    private final static int SELECT_PHOTO = 0;
+//    private Uri mMediaUri;
+//    private ProgressBar progressBar;
+//    private final static int SELECT_PHOTO = 0;
     public static boolean mFbSignIn, mGSignIn = false;
     private RelativeLayout mLayoutDeleteGroup;
-    private FrameLayout mLayoutGroupFragment;
+//    private FrameLayout mLayoutGroupFragment;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView = (RecyclerView)findViewById(R.id.recyclerViewMainList);
 
         FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
-        mTitle = (TextView) findViewById(R.id.textView);
+        mTitle = (TextView) findViewById(textView);
         FontsManager.changeFonts(mTitle);
 
         // Initialize Firebase Auth
@@ -162,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         fabClickable();
         checkUser();
 
-        cardView = (CardView) findViewById(R.id.cardView);
+//        cardView = (CardView) findViewById(cardView);
         mFabGroupMembers = (FloatingActionButton) findViewById(R.id.fabExit);
         mLayoutDeleteGroup = (RelativeLayout) findViewById(R.id.layout_deleteGroup);
         mFabGroupDelete = (FloatingActionButton) findViewById(R.id.fabDelete);
@@ -183,12 +186,80 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
 
         toggle.syncState();
+        mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         firstOpen();
         userInfoDisplay();
+    }
+
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static MainActivity.PlaceholderFragment newInstance(int sectionNumber) {
+            MainActivity.PlaceholderFragment fragment = new MainActivity.PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.content_main, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            return rootView;
+        }
+    }
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return MainActivity.PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "SECTION 1";
+                case 1:
+                    return "SECTION 2";
+                case 2:
+                    return "SECTION 3";
+            }
+            return null;
+        }
     }
 
     private void userInfoDisplay () {
