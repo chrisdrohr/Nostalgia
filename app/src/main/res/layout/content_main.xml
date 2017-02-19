@@ -10,36 +10,6 @@
     tools:context="com.example.rohrlabs.nostalgia.Activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <!--<TextView-->
-        <!--android:id="@+id/section_label"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/mainBg"-->
-            <!--android:elevation="0dp"-->
-            <!--android:alpha=".5"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
-
-    <!--<FrameLayout-->
-        <!--android:id="@+id/layoutGroupFragment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-        <!--<fragment-->
-            <!--android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupsItemFragment"-->
-            <!--android:id="@+id/groupItemFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"/>-->
-    <!--</FrameLayout>-->
-
-    <!--<fragment-->
-        <!--android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.MainItemFragment"-->
-        <!--android:id="@+id/mainItemFragment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_marginBottom="66dp"-->
-        <!--android:layout_height="match_parent"/>-->
-
     <android.support.v7.widget.CardView
         android:id="@+id/cardViewGroupMembers"
         android:visibility="gone"
@@ -121,10 +91,6 @@
                     app:backgroundTint="@color/fabColor" />
 
             </RelativeLayout>
-
-
-
-
 
         </RelativeLayout>
 

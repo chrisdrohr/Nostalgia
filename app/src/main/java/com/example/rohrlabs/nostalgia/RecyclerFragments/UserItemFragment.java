@@ -29,8 +29,13 @@ public class UserItemFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mUserAdapter = new UserAdapter(User.class, R.layout.fragment_user_item, Viewholder.class, FirebaseUtil.getUserRef(), getContext());
-        mLayoutManager = new GridLayoutManager(getContext(), 3);
+        mUserAdapter = new UserAdapter(
+                User.class,
+                R.layout.fragment_user_item,
+                Viewholder.class,
+                FirebaseUtil.getUserRef(),
+                getActivity());
+        mLayoutManager = new GridLayoutManager(getActivity(), 3);
         super.onCreate(savedInstanceState);
     }
 

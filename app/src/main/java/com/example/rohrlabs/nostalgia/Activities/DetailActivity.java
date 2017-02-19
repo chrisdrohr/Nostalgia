@@ -134,7 +134,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     void showDeleteDialog() {
         DeleteDialogFragment deleteDialogFragment = new DeleteDialogFragment();
-        deleteDialogFragment.show(fragmentManager, "Delete Dialog Fragment");
+        deleteDialogFragment.show(getFragmentManager(), "Delete Dialog Fragment");
     }
 
     public void doPositiveClick() {

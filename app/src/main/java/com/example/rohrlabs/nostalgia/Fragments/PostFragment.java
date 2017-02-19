@@ -2,7 +2,6 @@ package com.example.rohrlabs.nostalgia.Fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,9 @@ import com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.DialogFragments.UploadFragment;
 import com.example.rohrlabs.nostalgia.R;
 
-public class PostFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
+public class PostFragment extends android.app.Fragment implements View.OnClickListener{
 
+    private static final String TAG = "PostFragment";
     private FloatingActionButton mFabPhoto, mFabGroup, mFabVideo;
     private ImageView mImageViewGroupBg;
     public static String groupPhoto;
@@ -78,10 +78,21 @@ public class PostFragment extends android.support.v4.app.Fragment implements Vie
     }
 
     public void openUploadFragment () {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         UploadFragment uploadFragment = new UploadFragment();
-        uploadFragment.show(fragmentManager, "Upload Fragment");
+        uploadFragment.show(getFragmentManager(),"Upload Fragment");
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        UploadFragment uploadFragment = new UploadFragment();
+//        uploadFragment.show(fragmentManager, "Upload Fragment");
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        Fragment fragment = (fragmentManager.findFragmentByTag(TAG));
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.remove(fragment).commit();
     }
 
 }

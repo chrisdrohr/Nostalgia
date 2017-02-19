@@ -3,6 +3,7 @@ package com.example.rohrlabs.nostalgia.DialogFragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -31,7 +32,7 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
-public class UploadFragment extends android.support.v4.app.DialogFragment {
+public class UploadFragment extends DialogFragment {
 
     private final static int SELECT_PHOTO = 0;
     private String mUsername, mPhotoUrl, mUid, groupName, groupPhoto, postPhoto;

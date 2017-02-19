@@ -1,5 +1,6 @@
 package com.example.rohrlabs.nostalgia.RecyclerFragments;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +18,7 @@ import com.example.rohrlabs.nostalgia.ObjectClasses.Post;
 import com.example.rohrlabs.nostalgia.R;
 import com.example.rohrlabs.nostalgia.Viewholder;
 
-public class MainItemFragment extends android.support.v4.app.Fragment {
+public class MainItemFragment extends Fragment{
 
     private static final String TAG = "MainItemFragment";
     private RecyclerView mRecyclerView;
@@ -36,7 +37,7 @@ public class MainItemFragment extends android.support.v4.app.Fragment {
                     R.layout.card_view,
                     Viewholder.class,
                     FirebaseUtil.getBaseRef().child("groups").child(mGroupkey).child("posts"),
-                    getContext());
+                    getActivity());
         } else {
             Toast.makeText(getActivity(), "Choose a Group", Toast.LENGTH_SHORT).show();
         }

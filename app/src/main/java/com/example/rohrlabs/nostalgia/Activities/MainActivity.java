@@ -26,11 +26,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.Adapters.ViewPagerAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
+import com.example.rohrlabs.nostalgia.Fragments.ChatFragment;
 import com.example.rohrlabs.nostalgia.Fragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.Fragments.PostFragment;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.RecyclerFragments.ChatFragment;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
@@ -183,18 +183,20 @@ public class MainActivity extends AppCompatActivity
 //        toggle.syncState();
         mViewPager = (ViewPager) findViewById(R.id.viewPagerContainer);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mViewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
 
         mViewPagerAdapter.addFragments(new GroupFragment(), "Groups");
-        mViewPagerAdapter.addFragments(new PostFragment(), "Posts");
-        mViewPagerAdapter.addFragments(new ChatFragment(), "Chat");
+        if (mGroupKey != null) {
+            mViewPagerAdapter.addFragments(new PostFragment(), "Posts");
+            mViewPagerAdapter.addFragments(new ChatFragment(), "Chat");
+        }
+
         mViewPager.setAdapter(mViewPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Toast.makeText(MainActivity.this, mGroupKey = GroupsAdapter.mGroupKey, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -204,8 +206,6 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Toast.makeText(MainActivity.this, "r", Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -282,35 +282,6 @@ public class MainActivity extends AppCompatActivity
 //        }
     }
 
-//    private void initializeViews() {
-//        fabGroup = (FloatingActionButton) findViewById(R.id.fabGroup);
-//        fabPhoto = (FloatingActionButton) findViewById(R.id.fabPhoto);
-//        fabVideo = (FloatingActionButton) findViewById(R.id.fabVideo);
-//    }
-
-//    private void fabClickable() {
-//        fabPhoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                openUploadFragment();
-//            }
-//        });
-//        fabVideo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-////                intent.putExtra(CameraActivity.ACTIVITY_INTENTION, CameraActivity.GALLERY_VIDEO_PICKER);
-////                startActivity(intent);
-//            }
-//        });
-//        fabGroup.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openGroupsActivity();
-//            }
-//        });
-//    }
-
     @Override
     public void onBackPressed() {
         // Handles the Navigation Drawer Opening / Closing
@@ -381,6 +352,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void groupMembers () {
+        Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show();
         mFabGroupMembers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

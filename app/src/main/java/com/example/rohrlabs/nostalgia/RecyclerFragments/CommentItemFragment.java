@@ -1,5 +1,6 @@
 package com.example.rohrlabs.nostalgia.RecyclerFragments;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +15,7 @@ import com.example.rohrlabs.nostalgia.ObjectClasses.Comment;
 import com.example.rohrlabs.nostalgia.R;
 import com.example.rohrlabs.nostalgia.Viewholder;
 
-public class CommentItemFragment extends android.support.v4.app.Fragment {
+public class CommentItemFragment extends Fragment {
 
     private static final String TAG = "CommentItemFragment";
     private RecyclerView mRecyclerView;

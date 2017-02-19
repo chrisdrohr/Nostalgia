@@ -38,64 +38,15 @@
                 android:layout_height="wrap_content">
 
             </android.support.design.widget.TabLayout>
+
             <!--<include-->
                 <!--layout="@layout/content_main"-->
                 <!--android:layout_height="match_parent"-->
                 <!--android:id="@+id/include"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_below="@+id/toolbar" />-->
+                <!--android:layout_width="match_parent" />-->
+
         </android.support.v4.view.ViewPager>
 
-        <!--<RelativeLayout-->
-            <!--android:elevation="8dp"-->
-            <!--android:id="@+id/fabLayout"-->
-            <!--android:visibility="visible"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:padding="5dp"-->
-            <!--android:background="@android:drawable/screen_background_light_transparent">-->
-
-            <!--<android.support.design.widget.FloatingActionButton-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:clickable="true"-->
-                <!--app:fabSize="mini"-->
-                <!--app:srcCompat="@drawable/plus_vector"-->
-                <!--android:id="@+id/fabGroup"-->
-                <!--android:layout_toLeftOf="@+id/fabPhoto"-->
-                <!--android:tint="@color/AccentLighter"-->
-                <!--android:adjustViewBounds="true"-->
-                <!--android:elevation="6dp"-->
-                <!--app:backgroundTint="@color/fabColor" />-->
-
-            <!--<android.support.design.widget.FloatingActionButton-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:clickable="true"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--app:fabSize="normal"-->
-                <!--android:id="@+id/fabPhoto"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:tint="@color/AccentLighter"-->
-                <!--app:elevation="6dp"-->
-                <!--app:backgroundTint="@color/fabColor"-->
-                <!--app:srcCompat="@drawable/image_vector" />-->
-
-            <!--<android.support.design.widget.FloatingActionButton-->
-                <!--android:clickable="true"-->
-                <!--app:srcCompat="@drawable/filmstrip_vector"-->
-                <!--android:id="@+id/fabVideo"-->
-                <!--app:fabSize="mini"-->
-                <!--app:backgroundTint="@color/fabColor"-->
-                <!--android:layout_toRightOf="@+id/fabPhoto"-->
-                <!--android:tint="@color/AccentLighter"-->
-                <!--app:elevation="6dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content" />-->
-
-        <!--</RelativeLayout>-->
     </android.support.design.widget.AppBarLayout>
 
 </RelativeLayout>

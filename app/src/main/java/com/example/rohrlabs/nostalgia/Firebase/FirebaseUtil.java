@@ -10,11 +10,19 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseUtil {
 
-    public static String mGroupKey = "mGroupKey";
+    public static String mGroupKey;
     public static String mUid;
     public static DatabaseReference getBaseRef() {
         return FirebaseDatabase.getInstance().getReference();
     }
+
+    public static DatabaseReference getChatRef() {
+        if (mGroupKey != null) {
+            return getGroupKeyRef().child("chat");
+        }
+        return null;
+    }
+
     public static DatabaseReference getGroupKeyRef() {
         mGroupKey = GroupFragment.mGroupKey;
         mGroupKey = GroupsAdapter.mGroupKey;
@@ -68,7 +76,7 @@ public class FirebaseUtil {
 
     public static DatabaseReference getGroupMemberRef () {
         mGroupKey = GroupFragment.mGroupKey;
-//        mGroupKey = NavGroupsAdapter.mGroupKey;
+        mGroupKey = GroupsAdapter.mGroupKey;
         return getBaseRef().child("members");
     }
 }

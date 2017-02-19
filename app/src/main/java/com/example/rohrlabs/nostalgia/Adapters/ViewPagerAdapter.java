@@ -1,27 +1,25 @@
 package com.example.rohrlabs.nostalgia.Adapters;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter{
+public class ViewPagerAdapter extends FragmentStatePagerAdapter{
 
-    private ArrayList<Fragment> mFragments = new ArrayList<>();
+    private ArrayList<android.app.Fragment> mFragments = new ArrayList<>();
     private ArrayList<String> mTitles = new ArrayList<>();
 
-    public void addFragments (Fragment mFragments, String mTitles){
+    public void addFragments (android.app.Fragment mFragments, String mTitles){
         this.mFragments.add(mFragments);
         this.mTitles.add(mTitles);
     }
 
-    public ViewPagerAdapter(FragmentManager fm) {
+    public ViewPagerAdapter(android.app.FragmentManager fm) {
         super(fm);
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public android.app.Fragment getItem(int position) {
         return mFragments.get(position);
     }
 

@@ -2,16 +2,15 @@ package com.example.rohrlabs.nostalgia.Fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.rohrlabs.nostalgia.R;
 
-public class GroupFragment extends android.support.v4.app.Fragment implements View.OnClickListener{
+public class GroupFragment extends android.app.Fragment implements View.OnClickListener{
 
+    private static final String TAG = "GroupFragment";
     private FloatingActionButton mFabAddGroup;
 
 
@@ -39,16 +38,23 @@ public class GroupFragment extends android.support.v4.app.Fragment implements Vi
         switch (id) {
             case R.id.fabAddGroup:
                 openGroupsActivity();
-                Toast.makeText(getActivity(), "fj", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "fj", Toast.LENGTH_SHORT).show();
                 break;
             default:
         }
     }
 
     public void openGroupsActivity () {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment groupFragment = new com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment();
-        groupFragment.show(fragmentManager, "Group Fragment");
+        groupFragment.show(getFragmentManager(), "Group Fragment");
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        Fragment fragment = (fragmentManager.findFragmentByTag(TAG));
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.remove(fragment).commit();
+    }
 }
