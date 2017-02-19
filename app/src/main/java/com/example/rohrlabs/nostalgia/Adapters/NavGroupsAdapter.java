@@ -21,7 +21,7 @@ public class NavGroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> 
     private Context context;
     private BroadcastReceiver broadcastReceiver;
     private SharedPreferences sharedPreferences;
-    public static String groupKey = "groupKey";
+    public static String groupKey = "mGroupKey";
     public static String groupName;
     public static String groupPhoto;
 
@@ -46,7 +46,7 @@ public class NavGroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> 
                 groupName = model.getGroupName();
                 groupPhoto = model.getGroupPhoto();
                 Intent intent = new Intent(context, FirebaseUtil.class);
-                intent.putExtra(groupKey, "groupKey");
+                intent.putExtra(groupKey, "mGroupKey");
                 context.sendBroadcast(intent);
                 notifyDataSetChanged();
                 context.startActivity(new Intent(context, MainActivity.class));

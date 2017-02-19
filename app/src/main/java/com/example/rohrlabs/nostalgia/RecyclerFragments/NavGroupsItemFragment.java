@@ -1,6 +1,5 @@
 package com.example.rohrlabs.nostalgia.RecyclerFragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.Adapters.NavGroupsAdapter;
+import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Group;
 import com.example.rohrlabs.nostalgia.R;
 import com.example.rohrlabs.nostalgia.Viewholder;
 
-public class NavGroupsItemFragment extends Fragment {
+public class NavGroupsItemFragment extends android.support.v4.app.Fragment {
     private static final String TAG = "NavGroupsItemFragment";
     private RecyclerView mRecyclerView;
     private NavGroupsAdapter mNavGroupsAdapter;
@@ -41,9 +40,9 @@ public class NavGroupsItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_nav_groups_item_list, container, false);
         rootView.setTag(TAG);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewNavGroupslist);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mNavGroupsAdapter);
+//        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewNavGroupslist);
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mRecyclerView.setAdapter(mNavGroupsAdapter);
         return rootView;
     }
 

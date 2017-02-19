@@ -14,30 +14,30 @@ import com.example.rohrlabs.nostalgia.ObjectClasses.Comment;
 import com.example.rohrlabs.nostalgia.R;
 import com.example.rohrlabs.nostalgia.Viewholder;
 
-public class CommentItemFragment extends android.support.v4.app.Fragment {
+public class ChatFragment extends android.support.v4.app.Fragment {
 
     private static final String TAG = "CommentItemFragment";
     private RecyclerView mRecyclerView;
     private Context context;
-    private String mPostKey;
+    private String mKey;
     private CommentAdapter mCommentAdapter;
     private LinearLayoutManager mLayoutManager;
 
-    public CommentItemFragment() {
+    public ChatFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mPostKey = getActivity().getIntent().getStringExtra("post_key");
+//        mPostKey = getActivity().getIntent().getStringExtra("post_key");
 //        Toast.makeText(getContext(), mPostKey, Toast.LENGTH_SHORT).show();
         mCommentAdapter = new CommentAdapter(
                 Comment.class,
                 R.layout.fragment_comment_item,
                 Viewholder.class,
-                FirebaseUtil.getCommentsRef().child(mPostKey),
+                FirebaseUtil.getCommentsRef(),
                 getContext());
-        mLayoutManager = new LinearLayoutManager(context);
-        mLayoutManager.setStackFromEnd(true);
+//        mLayoutManager = new LinearLayoutManager(getActivity());
+//        mLayoutManager.setStackFromEnd(true);
         super.onCreate(savedInstanceState);
     }
 
@@ -47,7 +47,8 @@ public class CommentItemFragment extends android.support.v4.app.Fragment {
         View rootView = inflater.inflate(R.layout.fragment_comment_item_list, container, false);
         rootView.setTag(TAG);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewCommentList);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         mRecyclerView.setAdapter(mCommentAdapter);
         mCommentAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override

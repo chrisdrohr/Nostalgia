@@ -1,40 +1,55 @@
 package com.example.rohrlabs.nostalgia.RecyclerFragments;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.Adapters.PostAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Post;
 import com.example.rohrlabs.nostalgia.R;
 import com.example.rohrlabs.nostalgia.Viewholder;
 
-public class MainItemFragment extends Fragment {
+public class MainItemFragment extends android.support.v4.app.Fragment {
 
     private static final String TAG = "MainItemFragment";
     private RecyclerView mRecyclerView;
     private PostAdapter mPostAdapter;
     private Context mContext;
+    public static String mGroupkey;
     private StaggeredGridLayoutManager mLayoutManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mPostAdapter = new PostAdapter(
-                Post.class,
-                R.layout.card_view,
-                Viewholder.class,
-                FirebaseUtil.getPostRef(),
-                getContext());
+        mGroupkey = GroupsAdapter.mGroupKey;
+
+        if (mGroupkey != null) {
+            mPostAdapter = new PostAdapter(
+                    Post.class,
+                    R.layout.card_view,
+                    Viewholder.class,
+                    FirebaseUtil.getBaseRef().child("groups").child(mGroupkey).child("posts"),
+                    getContext());
+        } else {
+            Toast.makeText(getActivity(), "Choose a Group", Toast.LENGTH_SHORT).show();
+        }
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+//        mPostAdapter.notifyDataSetChanged();
+//        mGroupkey = GroupsAdapter.mGroupKey;
+//        mGroupkey = FirebaseUtil.mGroupKey;
+        super.onResume();
     }
 
     @Nullable
@@ -45,58 +60,35 @@ public class MainItemFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewMainList);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mPostAdapter);
-
-        mPostAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                int mCount = mPostAdapter.getItemCount();
-                if (mCount > 4 && mCount < 12){
+//        mRecyclerView.invalidate();
+        if (mPostAdapter != null) {
+            mPostAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    super.onItemRangeInserted(positionStart, itemCount);
+                    int mCount = mPostAdapter.getItemCount();
+                    if (mCount > 4 && mCount < 12){
 //                    Toast.makeText(getActivity(), String.format("if" + mCount), Toast.LENGTH_SHORT).show();
-                    mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-                    mRecyclerView.setLayoutManager(mLayoutManager);
-                    mRecyclerView.setAdapter(mPostAdapter);
-                }else if (mCount < 4){
+                        mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mPostAdapter);
+                    }else if (mCount < 4){
 //                    Toast.makeText(getActivity(), String.format("else" + mCount), Toast.LENGTH_SHORT).show();
-                    mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-                    mRecyclerView.setLayoutManager(mLayoutManager);
-                    mRecyclerView.setAdapter(mPostAdapter);
-                } else if (mCount > 12) {
+                        mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mPostAdapter);
+                    } else if (mCount > 12) {
 //                    Toast.makeText(getActivity(), String.format("else if" + mCount), Toast.LENGTH_SHORT).show();
-                    mLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-                    mRecyclerView.setLayoutManager(mLayoutManager);
-                    mRecyclerView.setAdapter(mPostAdapter);
+                        mLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mPostAdapter);
+                    }
                 }
-            }
-        });
-        mLayoutManager.setItemPrefetchEnabled(false);
-        return rootView;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        //LAYOUTS & ORIENTATIONS
-        switch (id) {
-//            case R.id.linearViewVertical:
-//                LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(getContext());
-//                mLinearLayoutManagerVertical.setOrientation(LinearLayoutManager.VERTICAL);
-//                mRecyclerView.setLayoutManager(mLinearLayoutManagerVertical);
-//                mLinearLayoutManagerVertical.setItemPrefetchEnabled(false);
-//                break;
-//            case R.id.twoViewVertical:
-//                StaggeredGridLayoutManager mStaggered2VerticalLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//                mRecyclerView.setLayoutManager(mStaggered2VerticalLayoutManager);
-//                mStaggered2VerticalLayoutManager.setItemPrefetchEnabled(false);
-//                break;
-//            case R.id.staggeredViewVertical:
-//                StaggeredGridLayoutManager mStaggeredVerticalLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-//                mRecyclerView.setLayoutManager(mStaggeredVerticalLayoutManager);
-//                mStaggeredVerticalLayoutManager.setItemPrefetchEnabled(false);
-//                break;
-            default:
+            });
+            mLayoutManager.setItemPrefetchEnabled(false);
         }
-        return super.onOptionsItemSelected(item);
+
+        return rootView;
     }
 }
 

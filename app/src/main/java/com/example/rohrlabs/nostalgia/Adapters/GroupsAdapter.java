@@ -18,7 +18,7 @@ import com.google.firebase.database.Query;
 public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
     private Context context;
     private BroadcastReceiver broadcastReceiver;
-    public static String groupKey = "groupKey";
+    public static String mGroupKey;
     public static String groupName;
     public static String groupPhoto;
 
@@ -39,13 +39,21 @@ public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
         viewHolder.mImageViewGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                groupKey = model.getGroupId();
+                mGroupKey = model.getGroupId();
                 groupName = model.getGroupName();
                 groupPhoto = model.getGroupPhoto();
                 Intent intent = new Intent(context, FirebaseUtil.class);
-                intent.putExtra(groupKey, "groupKey");
+                intent.putExtra(mGroupKey, "mGroupKey");
                 context.sendBroadcast(intent);
                 notifyDataSetChanged();
+
+//                Intent intentPost = new Intent(context, MainItemFragment.class);
+//                intentPost.putExtra(mGroupKey, "mGroupKey");
+//                context.sendBroadcast(intentPost);
+//                notifyDataSetChanged();
+//
+//                Toast.makeText(context, mGroupKey + " adapter", Toast.LENGTH_SHORT).show();
+
                 context.startActivity(new Intent(context, MainActivity.class));
             }
         });

@@ -1,6 +1,5 @@
 package com.example.rohrlabs.nostalgia.RecyclerFragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +13,10 @@ import com.example.rohrlabs.nostalgia.ObjectClasses.Group;
 import com.example.rohrlabs.nostalgia.R;
 import com.example.rohrlabs.nostalgia.Viewholder;
 
-public class GroupsItemFragment extends Fragment {
+public class GroupsItemFragment extends android.support.v4.app.Fragment {
     private static final String TAG = "GroupsItemFragment";
     private RecyclerView mRecyclerView;
     private GroupsAdapter mGroupsAdapter;
-    private LinearLayoutManager mLayoutManager;
 
     public GroupsItemFragment() {
     }
@@ -31,7 +29,6 @@ public class GroupsItemFragment extends Fragment {
                 Viewholder.class,
                 FirebaseUtil.getGroupRef(),
                 getContext());
-        mLayoutManager = new LinearLayoutManager(getContext());
         super.onCreate(savedInstanceState);
     }
 
@@ -41,7 +38,7 @@ public class GroupsItemFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_groups_item_list, container, false);
         rootView.setTag(TAG);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewGroupsList);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mGroupsAdapter);
         return rootView;
     }

@@ -87,6 +87,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
         FontsManager.changeFonts(this);
 
+        mContext = getApplicationContext();
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
         mDatabaseLike = FirebaseUtil.getLikesRef();
@@ -112,9 +113,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onResume() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMainList);
+//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMainList);
 
-        ViewAnimator.animate(toolbar,recyclerView)
+        ViewAnimator.animate(toolbar)
                 .alpha(1,1)
                 .start();
         ViewAnimator.animate(mCommentRecyclerView)
@@ -253,6 +254,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 post_title = (String) dataSnapshot.child("title").getValue();
                 post_image = (String) dataSnapshot.child("imageURL").getValue();
                 String post_uid = (String) dataSnapshot.child("uid").getValue();
+
+                Toast.makeText(mContext, mPostKey + "pods", Toast.LENGTH_SHORT).show();
+
 
                 if (mUid.equals(post_uid)) {
                     //Open Dialog Fragment

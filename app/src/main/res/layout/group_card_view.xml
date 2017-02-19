@@ -24,9 +24,10 @@
 
             <TextView
                 android:id="@+id/textViewGroup"
+                android:textColor="@color/AccentLighter"
                 android:layout_margin="10dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:layout_below="@+id/imageViewGroup"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_alignBottom="@+id/imageViewGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="10dp"/>

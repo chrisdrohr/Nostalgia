@@ -13,7 +13,7 @@ import com.google.firebase.database.Query;
 
 public class GroupMembersAdapter extends FirebaseRecyclerAdapter<User,Viewholder> {
     private Context context;
-    public static String groupKey = "groupKey";
+    public static String groupKey = "mGroupKey";
     public static String groupName;
     public static String groupPhoto;
 

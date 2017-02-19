@@ -47,7 +47,7 @@ public class GroupsActivity extends AppCompatActivity{
 
         Bundle bundle = getIntent().getExtras();
         groupName = bundle.getString("groupName");
-        groupKey = bundle.getString("groupKey");
+        groupKey = bundle.getString("mGroupKey");
         groupPhoto = bundle.getString("groupPhoto");
 
         imageView = (ImageView) findViewById(R.id.userProfileImageView);

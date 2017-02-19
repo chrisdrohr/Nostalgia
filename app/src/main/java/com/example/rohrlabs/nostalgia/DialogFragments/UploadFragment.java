@@ -3,7 +3,6 @@ package com.example.rohrlabs.nostalgia.DialogFragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Post;
 import com.example.rohrlabs.nostalgia.R;
@@ -31,7 +31,7 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
-public class UploadFragment extends DialogFragment {
+public class UploadFragment extends android.support.v4.app.DialogFragment {
 
     private final static int SELECT_PHOTO = 0;
     private String mUsername, mPhotoUrl, mUid, groupName, groupPhoto, postPhoto;
@@ -41,7 +41,7 @@ public class UploadFragment extends DialogFragment {
     private StorageReference mStorageReference;
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
     private FloatingActionButton mFabUpload, mFabCancel;
-    public static String groupKey = "groupKey";
+    public static String mGroupKey = "mGroupKey";
     private ImageView uploadImage;
     private Uri mMediaUri;
 
@@ -56,6 +56,7 @@ public class UploadFragment extends DialogFragment {
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
 
+        mGroupKey = GroupsAdapter.mGroupKey;
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -87,7 +88,7 @@ public class UploadFragment extends DialogFragment {
                                 mUsername,
                                 mTimestamp,
                                 mUid);
-                        FirebaseUtil.getPostRef().push().setValue(post);
+                        FirebaseUtil.getBaseRef().child("groups").child(mGroupKey).child("posts").push().setValue(post);
                         Toast.makeText(context, "Photo uploaded!", Toast.LENGTH_SHORT).show();
                         postPhoto = taskSnapshot.getDownloadUrl().toString();
                         progressBar.setVisibility(View.INVISIBLE);
@@ -122,4 +123,7 @@ public class UploadFragment extends DialogFragment {
         super.dismiss();
 
     }
+
+
+
 }

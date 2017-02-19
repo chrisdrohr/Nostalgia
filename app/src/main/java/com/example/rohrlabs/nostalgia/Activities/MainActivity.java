@@ -4,23 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,12 +23,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.rohrlabs.nostalgia.Adapters.NavGroupsAdapter;
-import com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment;
-import com.example.rohrlabs.nostalgia.DialogFragments.UploadFragment;
+import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
+import com.example.rohrlabs.nostalgia.Adapters.ViewPagerAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
+import com.example.rohrlabs.nostalgia.Fragments.PostFragment;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.example.rohrlabs.nostalgia.R;
+import com.example.rohrlabs.nostalgia.RecyclerFragments.ChatFragment;
+import com.example.rohrlabs.nostalgia.RecyclerFragments.GroupsItemFragment;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
@@ -53,7 +50,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sloop.fonts.FontsManager;
 
-import static com.example.rohrlabs.nostalgia.Adapters.NavGroupsAdapter.groupPhoto;
 import static com.example.rohrlabs.nostalgia.R.id.textView;
 import static com.example.rohrlabs.nostalgia.R.menu.main;
 
@@ -79,14 +75,15 @@ public class MainActivity extends AppCompatActivity
     private RelativeLayout relativeLayout, fabLayout;
 //    private ConstraintLayout constraintLayout;
 //    private SharedPreferences sharedPreferences;
-    private static String groupKey = "groupKey";
+    private static String mGroupKey = "mGroupKey";
 //    private Uri mMediaUri;
 //    private ProgressBar progressBar;
 //    private final static int SELECT_PHOTO = 0;
     public static boolean mFbSignIn, mGSignIn = false;
     private RelativeLayout mLayoutDeleteGroup;
 //    private FrameLayout mLayoutGroupFragment;
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPagerAdapter mViewPagerAdapter;
+    private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
     // Firebase instance variables
@@ -110,12 +107,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
         AppEventsLogger.activateApp(this.getApplicationContext());
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.app_bar_main);
 
 //        mProfile.getCurrentProfile();
 //        Toast.makeText(this, mProfile.toString(), Toast.LENGTH_LONG).show();
 
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerViewMainList);
+//        recyclerView = (RecyclerView)findViewById(R.id.recyclerViewMainList);
 
         FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
         mTitle = (TextView) findViewById(textView);
@@ -161,105 +158,73 @@ public class MainActivity extends AppCompatActivity
         }
 
         System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
-        fabAnimations();
-        fabClickable();
+//        initializeViews();
+//        fabClickable();
         checkUser();
 
-//        cardView = (CardView) findViewById(cardView);
         mFabGroupMembers = (FloatingActionButton) findViewById(R.id.fabExit);
         mLayoutDeleteGroup = (RelativeLayout) findViewById(R.id.layout_deleteGroup);
         mFabGroupDelete = (FloatingActionButton) findViewById(R.id.fabDelete);
         mFabGroupCancel = (FloatingActionButton) findViewById(R.id.fabCancelGroupDelete);
         mCardViewGroupMembers = (CardView) findViewById(R.id.cardViewGroupMembers);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        relativeLayout = (RelativeLayout) findViewById(R.id.content_main);
-        fabLayout = (RelativeLayout) findViewById(R.id.fabLayout);
-        mainBg = (ImageView) findViewById(R.id.mainBg);
-//        mLayoutGroupFragment = (FrameLayout) findViewById(R.id.layoutGroupFragment);
+//        relativeLayout = (RelativeLayout) findViewById(R.id.content_main);
+//        fabLayout = (RelativeLayout) findViewById(R.id.fabLayout);
+//        mainBg = (ImageView) findViewById(R.id.mainBg);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(NavGroupsAdapter.groupName);
+//        getSupportActionBar().setTitle(NavGroupsAdapter.groupName);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+//        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
 
-        toggle.syncState();
-        mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+//        toggle.syncState();
+        mViewPager = (ViewPager) findViewById(R.id.viewPagerContainer);
+        mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mViewPagerAdapter.addFragments(new GroupsItemFragment(), "Groups");
+        mViewPagerAdapter.addFragments(new PostFragment(), "Posts");
+        mViewPagerAdapter.addFragments(new ChatFragment(), "Chat");
+        mViewPager.setAdapter(mViewPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
 
-        firstOpen();
-        userInfoDisplay();
-    }
-
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static MainActivity.PlaceholderFragment newInstance(int sectionNumber) {
-            MainActivity.PlaceholderFragment fragment = new MainActivity.PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.content_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return MainActivity.PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Toast.makeText(MainActivity.this, mGroupKey = GroupsAdapter.mGroupKey, Toast.LENGTH_SHORT).show();
             }
-            return null;
-        }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+//                Toast.makeText(MainActivity.this, "u", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Toast.makeText(MainActivity.this, "r", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
+
+
+//        navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+
+//        firstOpen();
+//        userInfoDisplay();
+
+
+
+
+
+
+
     }
 
     private void userInfoDisplay () {
@@ -275,24 +240,24 @@ public class MainActivity extends AppCompatActivity
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(userImageView);
 
-        Glide.with(this)
-                .load(groupPhoto)
-                .centerCrop()
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(mainBg);
+//        Glide.with(this)
+//                .load(groupPhoto)
+//                .centerCrop()
+//                .thumbnail(0.5f)
+//                .crossFade()
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .into(mainBg);
     }
     private void firstOpen() {
-//        Toast.makeText(this, NavGroupsAdapter.groupKey, Toast.LENGTH_SHORT).show();
-        if (NavGroupsAdapter.groupKey.equals(groupKey)){
-            drawer.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                drawer.openDrawer(Gravity.LEFT);
-            }
-        },1000);
-        } else {
+//        Toast.makeText(this, NavGroupsAdapter.mGroupKey, Toast.LENGTH_SHORT).show();
+//        if (NavGroupsAdapter.mGroupKey.equals(mGroupKey)){
+//            drawer.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                drawer.openDrawer(Gravity.LEFT);
+//            }
+//        },1000);
+//        } else {
             ViewAnimator.animate(fabLayout)
                     .slideBottom()
                     .duration(600)
@@ -314,38 +279,37 @@ public class MainActivity extends AppCompatActivity
                     .descelerate()
                     .duration(150)
                     .start();
-        }
+//        }
     }
 
-    private void fabAnimations() {
-        //MY FLOATING ACTION BUTTONS
-        fabGroup = (FloatingActionButton) findViewById(R.id.fabGroup);
-        fabPhoto = (FloatingActionButton) findViewById(R.id.fabPhoto);
-        fabVideo = (FloatingActionButton) findViewById(R.id.fabVideo);
-    }
+//    private void initializeViews() {
+//        fabGroup = (FloatingActionButton) findViewById(R.id.fabGroup);
+//        fabPhoto = (FloatingActionButton) findViewById(R.id.fabPhoto);
+//        fabVideo = (FloatingActionButton) findViewById(R.id.fabVideo);
+//    }
 
-    private void fabClickable() {
-        fabPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openUploadFragment();
-            }
-        });
-        fabVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-//                intent.putExtra(CameraActivity.ACTIVITY_INTENTION, CameraActivity.GALLERY_VIDEO_PICKER);
-//                startActivity(intent);
-            }
-        });
-        fabGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openGroupsActivity();
-            }
-        });
-    }
+//    private void fabClickable() {
+//        fabPhoto.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                openUploadFragment();
+//            }
+//        });
+//        fabVideo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+////                intent.putExtra(CameraActivity.ACTIVITY_INTENTION, CameraActivity.GALLERY_VIDEO_PICKER);
+////                startActivity(intent);
+//            }
+//        });
+//        fabGroup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openGroupsActivity();
+//            }
+//        });
+//    }
 
     @Override
     public void onBackPressed() {
@@ -364,35 +328,7 @@ public class MainActivity extends AppCompatActivity
         ViewAnimator.animate(fabLayout)
                 .slideBottom()
                 .duration(500)
-//                .thenAnimate(fabPhoto,fabVideo,fabGroup,cardView)
-//                .newsPaper()
-//                .duration(500)
                 .start();
-    }
-
-    @Override
-    protected void onStart() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("groupKey", Context.MODE_PRIVATE);
-//        groupKey = sharedPreferences.getString("groupKey", "");
-//        if (groupKey.equals("")){
-//            Toast.makeText(this, "data not found", Toast.LENGTH_SHORT).show();
-//        }
-//        else {
-//
-//            Intent intent = new Intent(this, NavGroupsAdapter.class);
-//            intent.putExtra(sharedPreferences.getString("groupKey", groupKey), "groupKey");
-//            this.sendBroadcast(intent);
-//            this.startActivity(intent);
-//            Toast.makeText(this, "data found" + groupKey, Toast.LENGTH_SHORT).show();
-//        }
-//        Toast.makeText(this, "start", Toast.LENGTH_SHORT).show();
-//        drawer.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                drawer.openDrawer(Gravity.LEFT);
-//            }
-//        },1000);
-        super.onStart();
     }
 
     @Override
@@ -443,6 +379,7 @@ public class MainActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void groupMembers () {
         mFabGroupMembers.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -484,13 +421,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void deleteGroup () {
-        groupKey = NavGroupsAdapter.groupKey;
+        mGroupKey = GroupsAdapter.mGroupKey;
         mFabGroupMembers.setVisibility(View.GONE);
         mFabGroupDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "Group Deleted", Toast.LENGTH_SHORT).show();
-                FirebaseUtil.getGroupRef().child(groupKey).removeValue();
+                FirebaseUtil.getGroupRef().child(mGroupKey).removeValue();
                 drawer.openDrawer(Gravity.LEFT);
                 mCardViewGroupMembers.setVisibility(View.GONE);
             }
@@ -537,7 +474,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -545,21 +481,22 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
          if (id == R.id.nav_create_group) {
             // Handle the New Grouup action  action
-             openGroupsActivity();
+//             openGroupsActivity();
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void openGroupsActivity () {
-        GroupFragment groupFragment = new GroupFragment();
-        groupFragment.show(getFragmentManager(), "Group Fragment");
-    }
 
-    public void openUploadFragment () {
-        UploadFragment uploadFragment = new UploadFragment();
-        uploadFragment.show(getFragmentManager(), "Upload Fragment");
-    }
+//    public void openGroupsActivity () {
+//        GroupFragment groupFragment = new GroupFragment();
+//        groupFragment.show(getFragmentManager(), "Group Fragment");
+//    }
+//
+//    public void openUploadFragment () {
+//        UploadFragment uploadFragment = new UploadFragment();
+//        uploadFragment.show(getFragmentManager(), "Upload Fragment");
+//    }
 
         public void checkUser () {
             mProcessUserExists = true;

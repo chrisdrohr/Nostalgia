@@ -17,7 +17,7 @@ import static com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil.getGroupRef;
 public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
 
     private Context context;
-    public static String groupKey = "groupKey";
+    public static String groupKey = "mGroupKey";
     public static String userKey = "userKey";
     private String mUsername, mPhotoUrl, mUid, groupName;
     private DatabaseReference databaseReference;
@@ -45,7 +45,7 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
                 mUid = model.getUid();
                 mUsername = model.getUserName();
                 mPhotoUrl = model.getProfilePicture();
-                groupKey = GroupFragment.groupKey;
+                groupKey = GroupFragment.mGroupKey;
                 databaseReference = getGroupRef();
                 DatabaseReference ref = databaseReference.child(groupKey).child(model.getUid());
 
@@ -55,10 +55,10 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
                         mUid,
                         groupKey,
                         null);
-//                Toast.makeText(context, groupKey, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, mGroupKey, Toast.LENGTH_SHORT).show();
                 ref.setValue(user);
                 userKey = ref.getKey();
-//                getGroupMemberRef().child(groupKey).push().setValue(user);
+//                getGroupMemberRef().child(mGroupKey).push().setValue(user);
             }
         });
     }

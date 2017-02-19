@@ -1,6 +1,6 @@
 package com.example.rohrlabs.nostalgia.Firebase;
 
-import com.example.rohrlabs.nostalgia.Adapters.NavGroupsAdapter;
+import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -10,15 +10,21 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseUtil {
 
-    public static String groupKey, mUid;
-
+    public static String mGroupKey = "mGroupKey";
+    public static String mUid;
     public static DatabaseReference getBaseRef() {
         return FirebaseDatabase.getInstance().getReference();
     }
     public static DatabaseReference getGroupKeyRef() {
-        groupKey = GroupFragment.groupKey;
-        groupKey = NavGroupsAdapter.groupKey;
-        return FirebaseDatabase.getInstance().getReference().child("groups").child(groupKey);
+        mGroupKey = GroupFragment.mGroupKey;
+        mGroupKey = GroupsAdapter.mGroupKey;
+//        mGroupKey = NavGroupsAdapter.mGroupKey;
+        if (mGroupKey != null) {
+            return FirebaseDatabase.getInstance().getReference().child("groups").child(mGroupKey);
+
+        }else {
+            return null;
+        }
     }
 
     public static User getUser () {
@@ -61,8 +67,8 @@ public class FirebaseUtil {
     }
 
     public static DatabaseReference getGroupMemberRef () {
-        groupKey = GroupFragment.groupKey;
-        groupKey = NavGroupsAdapter.groupKey;
+        mGroupKey = GroupFragment.mGroupKey;
+//        mGroupKey = NavGroupsAdapter.mGroupKey;
         return getBaseRef().child("members");
     }
 }

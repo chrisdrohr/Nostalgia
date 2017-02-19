@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +54,7 @@ public class GroupFragment extends DialogFragment {
     private StorageReference mStorageReference;
     private FloatingActionButton fabCancelGroup, fabCreateGroup;
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
-    public static String groupKey = "groupKey";
+    public static String mGroupKey = "mGroupKey";
     private ImageView groupBg;
     private Dialog dialog;
     private Uri mMediaUri;
@@ -143,7 +144,7 @@ public class GroupFragment extends DialogFragment {
     public void getKey () {
         databaseReference = getGroupRef();
         ref = databaseReference.push();
-        groupKey = ref.getKey();
+        mGroupKey = ref.getKey();
         intent();
     }
 
@@ -153,27 +154,27 @@ public class GroupFragment extends DialogFragment {
                 mUsername,
                 groupName,
                 groupPhoto,
-                groupKey);
+                mGroupKey);
         ref.setValue(group);
 
-        groupKey = ref.getKey();
+        mGroupKey = ref.getKey();
 
         User user = new User(
                 mUsername,
                 mPhotoUrl,
                 mUid,
-                groupKey,
+                mGroupKey,
                 null);
-//        Toast.makeText(context, groupKey, Toast.LENGTH_SHORT).show();
-        getGroupRef().child(groupKey).child(mUid).setValue(user);
-//        FirebaseUtil.getGroupMemberRef().child(groupKey).setValue(user);
+//        Toast.makeText(context, mGroupKey, Toast.LENGTH_SHORT).show();
+        getGroupRef().child(mGroupKey).child(mUid).setValue(user);
+//        FirebaseUtil.getGroupMemberRef().child(mGroupKey).setValue(user);
         Intent groupNameIntent = new Intent(context, UserAdapter.class);
-        groupNameIntent.putExtra("groupKey", groupKey);
-        context.sendBroadcast(groupNameIntent,"groupKey");
+        groupNameIntent.putExtra("mGroupKey", mGroupKey);
+        context.sendBroadcast(groupNameIntent,"mGroupKey");
 
         Intent intent = new Intent(context, GroupsActivity.class);
         intent.putExtra("groupName",mEditText.getText().toString());
-        intent.putExtra("groupKey", groupKey);
+        intent.putExtra("mGroupKey", mGroupKey);
         intent.putExtra("groupPhoto", groupPhoto);
         context.startActivity(intent);
     }
@@ -193,6 +194,10 @@ public class GroupFragment extends DialogFragment {
     @Override
     public void dismiss() {
         super.dismiss();
-        getGroupRef().child(groupKey).removeValue();
+        getGroupRef().child(mGroupKey).removeValue();
+    }
+
+    public void show(FragmentManager fragmentManager, String s) {
+        fragmentManager.beginTransaction().commit();
     }
 }
