@@ -31,11 +31,11 @@
             <android.support.design.widget.TabLayout
                 app:tabMode="fixed"
                 app:tabGravity="fill"
+                app:tabSelectedTextColor="@color/fabColor"
+                android:background="@android:drawable/screen_background_light_transparent"
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-
 
             </android.support.design.widget.TabLayout>
             <!--<include-->

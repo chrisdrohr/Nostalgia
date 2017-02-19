@@ -4,11 +4,12 @@
     android:orientation="vertical"
     android:id="@+id/cardView"
     app:cardElevation="2dp"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin=".5dp"
     android:clickable="true"
-    app:cardCornerRadius="1dp">
+    app:cardCornerRadius="1dp"
+    app:cardBackgroundColor="@android:color/transparent">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -17,7 +18,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
             <TextView

@@ -26,11 +26,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.Adapters.ViewPagerAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
+import com.example.rohrlabs.nostalgia.Fragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.Fragments.PostFragment;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.example.rohrlabs.nostalgia.R;
 import com.example.rohrlabs.nostalgia.RecyclerFragments.ChatFragment;
-import com.example.rohrlabs.nostalgia.RecyclerFragments.GroupsItemFragment;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        mViewPagerAdapter.addFragments(new GroupsItemFragment(), "Groups");
+        mViewPagerAdapter.addFragments(new GroupFragment(), "Groups");
         mViewPagerAdapter.addFragments(new PostFragment(), "Posts");
         mViewPagerAdapter.addFragments(new ChatFragment(), "Chat");
         mViewPager.setAdapter(mViewPagerAdapter);

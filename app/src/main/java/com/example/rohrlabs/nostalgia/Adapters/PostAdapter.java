@@ -36,7 +36,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         viewHolder.mUsername.setText("-" + model.getUser());
         Glide.with(context)
                 .load(model.getImageURL())
-                .thumbnail(0.5f)
+                .thumbnail(0.10f)
 //                .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(viewHolder.mImageView);
