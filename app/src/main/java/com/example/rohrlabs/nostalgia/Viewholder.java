@@ -35,7 +35,7 @@ public class Viewholder extends RecyclerView.ViewHolder {
     public FloatingActionButton fabDelete, fabCancel, mFabDeleteChat, mFabCancelChat;
     public CircleImageView navDrawerImageView, mCircleImageViewGroupMember;
     public TextView navDrawerTextView;
-    public RelativeLayout layoutDeletComment, layoutCommentItems, mLayoutDeleteChat;
+    public RelativeLayout layoutDeletComment, layoutCommentItems, mLayoutDeleteChat, mLayoutChatItems;
     public TextView commentTextView, mTextViewCommentUser;
     public TextView commentNameTextView;
     public CircleImageView commentImageView, addedUserImageView, mCircleImageViewChat;
@@ -49,12 +49,12 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mCircleImageViewGroupMember = (CircleImageView) itemView.findViewById(R.id.circleImageViewGroupMember);
 
 
-        mTitle = (TextView) itemView.findViewById(R.id.textView);
-        mUsername = (TextView) itemView.findViewById(R.id.usernameTextView);
-        mImageView = (ImageView) itemView.findViewById(R.id.imageView);
+        mTitle = (TextView) itemView.findViewById(R.id.textViewPost);
+        mUsername = (TextView) itemView.findViewById(R.id.usernameTextViewPost);
+        mImageView = (ImageView) itemView.findViewById(R.id.imageViewPost);
         mImageViewGroup = (ImageView) itemView.findViewById(R.id.imageViewGroup);
         mTextViewGroupName = (TextView) itemView.findViewById(R.id.textViewGroup);
-        mCardView = (CardView) itemView.findViewById(R.id.cardView);
+        mCardView = (CardView) itemView.findViewById(R.id.cardViewPost);
         mContext = itemView.getContext();
         detailImageView = (ImageView) itemView.findViewById(R.id.detialView);
         mEditText = (EditText) itemView.findViewById(R.id.groupEditText);
@@ -87,6 +87,7 @@ public class Viewholder extends RecyclerView.ViewHolder {
 
         layoutDeletComment = (RelativeLayout) itemView.findViewById(R.id.layout_deleteComment);
         layoutCommentItems = (RelativeLayout) itemView.findViewById(R.id.layoutCommentItems);
+        mLayoutChatItems = (RelativeLayout) itemView.findViewById(R.id.layoutChatItems);
 
         mAutoTextViewChatDate = (AutoTypeTextView) itemView.findViewById(R.id.dateAutoTextChat);
         mAutoTextViewChatUser = (AutoTypeTextView) itemView.findViewById(R.id.chatUserAutoText);

@@ -30,128 +30,128 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, Viewholder>{
     protected void populateViewHolder(final Viewholder viewHolder, final Chat model, final int position) {
         mUid = FirebaseUtil.getUid();
         if (mUid.equals(model.getUid())) {
-            viewHolder.mTextViewCommentUser.setText(model.getText());
+            viewHolder.mTextViewChatUser.setText(model.getText());
         } else {
-            viewHolder.commentTextView.setText(model.getText());
-            viewHolder.commentAutoTypeTextView.setTextAutoTyping(model.getUser());
-            viewHolder.commentTimestampAutoTextView.setTextAutoTyping(model.getTimestamp());
-            viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
-            viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
+            viewHolder.mTextViewChat.setText(model.getText());
+            viewHolder.mAutoTextViewChatUser.setTextAutoTyping(model.getUser());
+            viewHolder.mAutoTextViewChatDate.setTextAutoTyping(model.getTimestamp());
+            viewHolder.mAutoTextViewChatDate.setDecryptionSpeed(150);
+            viewHolder.mAutoTextViewChatDate.setTypingSpeed(50);
         }
 
 
-        ViewAnimator.animate(viewHolder.layoutCommentItems)
+        ViewAnimator.animate(viewHolder.mLayoutChatItems)
                 .slideBottom()
                 .descelerate()
                 .duration(300)
                 .start();
-        FontsManager.changeFonts(viewHolder.commentTextView);
-        FontsManager.changeFonts(viewHolder.commentNameTextView);
+        FontsManager.changeFonts(viewHolder.mTextViewChat);
+        FontsManager.changeFonts(viewHolder.mTextViewChatUser);
 
 
-            viewHolder.commentTextView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.mTextViewChat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ViewAnimator.animate(viewHolder.mCardViewComment)
+                    ViewAnimator.animate(viewHolder.mCardViewChat)
                             .slideTop()
                             .duration(200)
-                            .andAnimate(viewHolder.mCardViewCommentDetails)
+                            .andAnimate(viewHolder.mCardViewChatDetail)
                             .slideBottom()
                             .duration(200)
                             .start();
-                    viewHolder.mCardViewCommentDetails.setVisibility(View.VISIBLE);
-                    viewHolder.mCardViewComment.setVisibility(View.GONE);
+                    viewHolder.mCardViewChatDetail.setVisibility(View.VISIBLE);
+                    viewHolder.mCardViewChat.setVisibility(View.GONE);
                 }
             });
 
-        viewHolder.mCardViewCommentDetails.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mCardViewChatDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewAnimator.animate(viewHolder.mCardViewCommentDetails)
+                ViewAnimator.animate(viewHolder.mCardViewChatDetail)
                         .slideTop()
                         .duration(200)
-                        .andAnimate(viewHolder.mCardViewComment)
+                        .andAnimate(viewHolder.mCardViewChat)
                         .slideBottom()
                         .duration(200)
                         .start();
-                viewHolder.mCardViewCommentDetails.setVisibility(View.GONE);
-                viewHolder.mCardViewComment.setVisibility(View.VISIBLE);
+                viewHolder.mCardViewChatDetail.setVisibility(View.GONE);
+                viewHolder.mCardViewChat.setVisibility(View.VISIBLE);
             }
         });
 
         if (mUid.equals(model.getUid())){
-            viewHolder.mCardViewCommentUser.setOnLongClickListener(new View.OnLongClickListener() {
+            viewHolder.mCardViewChatUser.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     mChatKey = model.getKey();
 
-                    ViewAnimator.animate(viewHolder.layoutDeletComment)
+                    ViewAnimator.animate(viewHolder.mLayoutDeleteChat)
                             .slideRight()
                             .descelerate()
                             .duration(300)
                             .start();
 
-                    ViewAnimator.animate(viewHolder.mCardViewComment)
+                    ViewAnimator.animate(viewHolder.mCardViewChat)
                             .slideTop()
                             .duration(200)
                             .start();
-                    viewHolder.mCardViewComment.setVisibility(View.INVISIBLE);
-                    viewHolder.layoutDeletComment.setVisibility(View.VISIBLE);
+                    viewHolder.mCardViewChat.setVisibility(View.INVISIBLE);
+                    viewHolder.mLayoutDeleteChat.setVisibility(View.VISIBLE);
                     return false;
                 }
             });
         }
 
-        viewHolder.fabDelete.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mFabDeleteChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 deleteMessage();
-                viewHolder.mCardViewComment.setVisibility(View.VISIBLE);
-                viewHolder.layoutDeletComment.setVisibility(View.GONE);
+                viewHolder.mCardViewChat.setVisibility(View.VISIBLE);
+                viewHolder.mLayoutDeleteChat.setVisibility(View.GONE);
             }
         });
 
-        viewHolder.fabCancel.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mFabCancelChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewAnimator.animate(viewHolder.layoutDeletComment)
+                ViewAnimator.animate(viewHolder.mLayoutDeleteChat)
                         .slideRight()
                         .descelerate()
                         .duration(300)
                         .start();
 
-                ViewAnimator.animate(viewHolder.mCardViewComment)
+                ViewAnimator.animate(viewHolder.mCardViewChat)
                         .slideBottom()
                         .duration(200)
                         .start();
-                viewHolder.mCardViewComment.setVisibility(View.VISIBLE);
-                viewHolder.layoutDeletComment.setVisibility(View.INVISIBLE);
-                viewHolder.mCardViewComment.setVisibility(View.GONE);
+                viewHolder.mCardViewChat.setVisibility(View.VISIBLE);
+                viewHolder.mLayoutDeleteChat.setVisibility(View.INVISIBLE);
+                viewHolder.mCardViewChat.setVisibility(View.GONE);
             }
         });
 
 
 
         if (model.getPhotoUrl() == null) {
-            viewHolder.commentImageView
+            viewHolder.mCircleImageViewChat
                     .setImageDrawable(ContextCompat
                             .getDrawable(context,
                                     R.drawable.ic_account_circle_black_36dp));
         } else {
             if (mUid.equals(model.getUid())){
-                viewHolder.mCardViewCommentUser.setVisibility(View.VISIBLE);
-                viewHolder.mCardViewComment.setVisibility(View.INVISIBLE);
-                viewHolder.commentImageView.setVisibility(View.INVISIBLE);
+                viewHolder.mCardViewChatUser.setVisibility(View.VISIBLE);
+                viewHolder.mCardViewChat.setVisibility(View.INVISIBLE);
+                viewHolder.mCircleImageViewChat.setVisibility(View.INVISIBLE);
 
             }else
             Glide.with(context)
                     .load(model.getPhotoUrl())
                     .priority(Priority.NORMAL)
-                    .into(viewHolder.commentImageView);
+                    .into(viewHolder.mCircleImageViewChat);
             if (!mUid.equals(model.getUid())){
-                viewHolder.mCardViewCommentUser.setVisibility(View.INVISIBLE);
-                viewHolder.mCardViewComment.setVisibility(View.VISIBLE);
-                viewHolder.commentImageView.setVisibility(View.VISIBLE);
+                viewHolder.mCardViewChatUser.setVisibility(View.INVISIBLE);
+                viewHolder.mCardViewChat.setVisibility(View.VISIBLE);
+                viewHolder.mCircleImageViewChat.setVisibility(View.VISIBLE);
             }
         }
     }

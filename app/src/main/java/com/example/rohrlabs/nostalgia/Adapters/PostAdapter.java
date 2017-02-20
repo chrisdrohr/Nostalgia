@@ -3,6 +3,7 @@ package com.example.rohrlabs.nostalgia.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,15 +32,20 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
 
     @Override
     public void populateViewHolder(final Viewholder viewHolder, final Post model, final int position) {
-        final String post_key = getRef(position).getKey();
-        viewHolder.mTitle.setText(model.getTitle());
-        viewHolder.mUsername.setText("-" + model.getUser());
-        Glide.with(context)
-                .load(model.getImageURL())
-                .thumbnail(0.10f)
+        if (model != null){
+            final String post_key = getRef(position).getKey();
+            viewHolder.mTitle.setText(model.getTitle());
+            viewHolder.mUsername.setText("-" + model.getUser());
+            Glide.with(context)
+                    .load(model.getImageURL())
+                    .thumbnail(0.10f)
 //                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(viewHolder.mImageView);
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(viewHolder.mImageView);
+        } else {
+            Toast.makeText(context, "else adapter", Toast.LENGTH_SHORT).show();
+        }
+
 
 //        FOR ANIMATION
         if (position > previousPosition) {

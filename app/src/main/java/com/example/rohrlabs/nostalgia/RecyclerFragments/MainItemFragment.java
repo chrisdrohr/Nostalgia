@@ -87,6 +87,8 @@ public class MainItemFragment extends Fragment{
                 }
             });
             mLayoutManager.setItemPrefetchEnabled(false);
+        } else {
+            Toast.makeText(getActivity(), "else", Toast.LENGTH_SHORT).show();
         }
 
         return rootView;
