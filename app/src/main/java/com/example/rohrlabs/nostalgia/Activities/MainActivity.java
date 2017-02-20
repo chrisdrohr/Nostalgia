@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
 //
 //        } if (SignInActivity.mGSignIn && SignInActivity.mFbSignIn) {
 //            Toast.makeText(this, "google" + SignInActivity.mGSignIn, Toast.LENGTH_SHORT).show();
-//            mUsername = FirebaseUtil.getUser().getUserName();
+//            mTextViewPostUserName = FirebaseUtil.getUser().getUserName();
 //            mDatabaseUserExists = FirebaseUtil.getUserExistsRef();
 //            mDatabaseUserExists.keepSynced(true);
 //            mDatabaseUserExists = FirebaseUtil.getUserExistsRef();
@@ -186,10 +186,8 @@ public class MainActivity extends AppCompatActivity
         mViewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
 
         mViewPagerAdapter.addFragments(new GroupFragment(), "Groups");
-        if (mGroupKey != null) {
-            mViewPagerAdapter.addFragments(new PostFragment(), "Posts");
-            mViewPagerAdapter.addFragments(new ChatFragment(), "Chat");
-        }
+        mViewPagerAdapter.addFragments(new PostFragment(), "Posts");
+        mViewPagerAdapter.addFragments(new ChatFragment(), "Chat");
 
         mViewPager.setAdapter(mViewPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);

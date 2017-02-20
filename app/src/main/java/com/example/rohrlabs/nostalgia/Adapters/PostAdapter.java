@@ -3,10 +3,7 @@ package com.example.rohrlabs.nostalgia.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rohrlabs.nostalgia.Activities.DetailActivity;
 import com.example.rohrlabs.nostalgia.AnimationUtil;
 import com.example.rohrlabs.nostalgia.Fragments.CommentFragment;
@@ -31,25 +28,19 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     }
 
     @Override
-    public void populateViewHolder(final Viewholder viewHolder, final Post model, final int position) {
-        if (model != null){
+    public void populateViewHolder(Viewholder viewHolder, Post model, int position) {
             final String post_key = getRef(position).getKey();
-            viewHolder.mTitle.setText(model.getTitle());
-            viewHolder.mUsername.setText("-" + model.getUser());
-            Glide.with(context)
-                    .load(model.getImageURL())
-                    .thumbnail(0.10f)
-//                .crossFade()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(viewHolder.mImageView);
-        } else {
-            Toast.makeText(context, "else adapter", Toast.LENGTH_SHORT).show();
-        }
-
+            viewHolder.mTextViewPostTitle.setText(model.getTitle());
+            viewHolder.mTextViewPostUserName.setText("-" + model.getUser());
+//            Glide.with(context)
+//                    .load(model.getImageURL())
+//                    .thumbnail(0.10f)
+//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                    .into(viewHolder.mImageViewPost);
 
 //        FOR ANIMATION
         if (position > previousPosition) {
-            ViewAnimator.animate(viewHolder.mCardView)
+            ViewAnimator.animate(viewHolder.mCardViewPost)
                     .rollIn()
                     .duration(500)
                     .start();
@@ -62,14 +53,14 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         final int center = R.anim.rotate_clockwise;
         int lastPosition = -1;
 
-        ViewAnimator.animate(viewHolder.mCardView)
+        ViewAnimator.animate(viewHolder.mCardViewPost)
                 .newsPaper()
                 .descelerate()
                 .duration(100)
                 .start();
-        AnimationUtil.setAnimation(viewHolder.mCardView, previousPosition);
+        AnimationUtil.setAnimation(viewHolder.mCardViewPost, previousPosition);
 
-        viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mImageViewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent commentIntent = new Intent(context, CommentItemFragment.class);

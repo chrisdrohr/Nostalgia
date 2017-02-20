@@ -21,11 +21,11 @@ public class Viewholder extends RecyclerView.ViewHolder {
 
     private static final String TAG = RecyclerView.ViewHolder.class.getSimpleName();
 
-    public TextView mTitle;
-    public ImageView mImageView;
-    public TextView mUsername, mTextViewGroupName;
+    public TextView mTextViewPostTitle;
+    public ImageView mImageViewPost;
+    public TextView mTextViewPostUserName, mTextViewGroupName;
     public ImageView profilePicture, mImageViewGroup;
-    public CardView mCardView, mCardViewDeleteComment, mCardViewCommentDetails, mCardViewComment ,mCardViewCommentUser, mCardViewChat, mCardViewChatUser, mCardViewDeleteChat, mCardViewChatDetail;
+    public CardView mCardViewPost, mCardViewDeleteComment, mCardViewCommentDetails, mCardViewComment ,mCardViewCommentUser, mCardViewChat, mCardViewChatUser, mCardViewDeleteChat, mCardViewChatDetail;
     public Context mContext;
     public ImageView detailImageView, userProfileImageView, groupsImageView;
     public TextView detailTitle, userProfileTextView, groupsTextView, mTextViewChat, mTextViewChatUser, mTextViewDeleteChat;
@@ -49,12 +49,12 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mCircleImageViewGroupMember = (CircleImageView) itemView.findViewById(R.id.circleImageViewGroupMember);
 
 
-        mTitle = (TextView) itemView.findViewById(R.id.textViewPost);
-        mUsername = (TextView) itemView.findViewById(R.id.usernameTextViewPost);
-        mImageView = (ImageView) itemView.findViewById(R.id.imageViewPost);
+        mTextViewPostTitle = (TextView) itemView.findViewById(R.id.textViewPost);
+        mTextViewPostUserName = (TextView) itemView.findViewById(R.id.usernameTextViewPost);
+        mImageViewPost = (ImageView) itemView.findViewById(R.id.imageViewPost);
         mImageViewGroup = (ImageView) itemView.findViewById(R.id.imageViewGroup);
         mTextViewGroupName = (TextView) itemView.findViewById(R.id.textViewGroup);
-        mCardView = (CardView) itemView.findViewById(R.id.cardViewPost);
+        mCardViewPost = (CardView) itemView.findViewById(R.id.cardViewPost);
         mContext = itemView.getContext();
         detailImageView = (ImageView) itemView.findViewById(R.id.detialView);
         mEditText = (EditText) itemView.findViewById(R.id.groupEditText);
@@ -101,7 +101,7 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mCardViewChatUser = (CardView) itemView.findViewById(R.id.chatCardViewUser);
         mTextViewChat = (TextView) itemView.findViewById(R.id.chatTextView);
         mCardViewChat = (CardView)itemView.findViewById(R.id.chatCardView);
-        mImageView = (ImageView) itemView.findViewById(R.id.chatImageView);
+        mImageViewPost = (ImageView) itemView.findViewById(R.id.chatImageView);
 
     }
 

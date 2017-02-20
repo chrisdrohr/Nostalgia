@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recyclerViewMainList"
-    android:name="com.example.gabekeyner.nostalgia.MainItemFragment"
+    android:name="com.example.rohrlabs.nostalgia.MainItemFragment"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:layoutManager="StaggeredGridLayoutManager"

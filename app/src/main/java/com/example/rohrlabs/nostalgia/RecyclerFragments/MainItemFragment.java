@@ -34,9 +34,9 @@ public class MainItemFragment extends Fragment{
         if (mGroupkey != null) {
             mPostAdapter = new PostAdapter(
                     Post.class,
-                    R.layout.card_view,
+                    R.layout.fragment_main_item,
                     Viewholder.class,
-                    FirebaseUtil.getBaseRef().child("groups").child(mGroupkey).child("posts"),
+                    FirebaseUtil.getPostRef(),
                     getActivity());
         } else {
             Toast.makeText(getActivity(), "Choose a Group", Toast.LENGTH_SHORT).show();
