@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
@@ -26,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 
 public class ChatFragment extends android.app.Fragment implements View.OnClickListener{
 
@@ -34,7 +36,7 @@ public class ChatFragment extends android.app.Fragment implements View.OnClickLi
     private String mPhotoUrl, mUsername, mUid, chatPath, mChatKey;
     private TextView textView;
     private CardView cardView;
-    private ImageView commentBg;
+    private ImageView mChatBg;
     private DatabaseReference databaseReference;
     private AutoTypeTextView autoTypeTextView;
     private EditText mEditText;
@@ -60,6 +62,7 @@ public class ChatFragment extends android.app.Fragment implements View.OnClickLi
         final View view = inflater.inflate(R.layout.layout_chat_tab, container, false);
         mSendFab = (FloatingActionButton) view.findViewById(R.id.fabChatSend);
         mEditText = (EditText) view.findViewById(R.id.chatEditText);
+        mChatBg = (ImageView) view.findViewById(R.id.imageViewChatBg);
         mSendFab.setOnClickListener(this);
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -78,7 +81,15 @@ public class ChatFragment extends android.app.Fragment implements View.OnClickLi
             }
         });
 
-        getChildRecyclerChatFragment();
+        if (mGroupKey != null ) {
+            getChildRecyclerChatFragment();
+            Glide.with(this)
+                    .load(mGroupPhoto)
+                    .thumbnail(0.5f)
+                    .bitmapTransform(new GrayscaleTransformation(getActivity()))
+                    .into(mChatBg);
+        }
+
         return view;
     }
 

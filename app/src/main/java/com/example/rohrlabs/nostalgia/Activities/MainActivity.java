@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity
     private ViewPagerAdapter mViewPagerAdapter;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-
+    private PagerTitleStrip mTitleStrip;
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -184,19 +185,23 @@ public class MainActivity extends AppCompatActivity
 
 //        toggle.syncState();
         mViewPager = (ViewPager) findViewById(R.id.viewPagerContainer);
+//        mTitleStrip = (PagerTitleStrip) findViewById(R.id.tabLayout);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         mViewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
 
         mViewPagerAdapter.addFragments(new GroupFragment(), "Groups");
-        mViewPagerAdapter.addFragments(new PostFragment(), "Posts");
-        mViewPagerAdapter.addFragments(new ChatFragment(), "Chat");
-
+        if (mGroupKey != null) {
+            mViewPagerAdapter.addFragments(new PostFragment(), "Posts");
+            mViewPagerAdapter.addFragments(new ChatFragment(), "Chat");
+        }
         mViewPager.setAdapter(mViewPagerAdapter);
+
         mTabLayout.setupWithViewPager(mViewPager);
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
             }
 
             @Override
@@ -208,22 +213,11 @@ public class MainActivity extends AppCompatActivity
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
-
-
-
-
 //        navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
 
 //        firstOpen();
 //        userInfoDisplay();
-
-
-
-
-
-
 
     }
 

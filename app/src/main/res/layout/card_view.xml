@@ -4,16 +4,14 @@
     android:orientation="vertical"
     android:id="@+id/cardView"
     app:cardElevation="2dp"
+    app:cardUseCompatPadding="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin=".5dp"
-    android:clickable="true"
     app:cardCornerRadius="1dp"
     app:cardBackgroundColor="@android:color/transparent">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:orientation="vertical"
         android:layout_height="wrap_content">
 
     <ImageView
@@ -25,13 +23,13 @@
                 android:id="@+id/textView"
                 android:layout_alignBottom="@+id/imageView"
                 android:layout_alignStart="@+id/imageView"
-                android:fontFamily="monospace"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="10dp"
                 android:textColor="@color/AccentLighter"
                 android:textAllCaps="false"
-                android:textSize="10sp" />
+                android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"

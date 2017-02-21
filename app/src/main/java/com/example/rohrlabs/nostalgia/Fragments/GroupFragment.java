@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.FragmentUtils;
 import com.example.rohrlabs.nostalgia.R;
 
 public class GroupFragment extends android.app.Fragment implements View.OnClickListener{
 
     private static final String TAG = "GroupFragment";
+    private String mGroupKey;
     private FloatingActionButton mFabAddGroup;
 
 
@@ -32,6 +34,11 @@ public class GroupFragment extends android.app.Fragment implements View.OnClickL
         mFabAddGroup.setOnClickListener(this);
 
         getChildGroupsItemFragment();
+        
+        mGroupKey = GroupsAdapter.mGroupKey;
+        if (mGroupKey != null) {
+
+        }
         return view;
     }
 

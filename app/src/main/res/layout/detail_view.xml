@@ -131,22 +131,6 @@
         android:layout_above="@+id/commentFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:background="@android:drawable/screen_background_light_transparent"-->
-        <!--app:srcCompat="@android:drawable/stat_notify_chat"-->
-        <!--android:id="@+id/fabComment"-->
-        <!--app:backgroundTint="@color/fabColor"-->
-        <!--android:tint="@color/AccentLighter"-->
-        <!--android:alpha=".8"-->
-        <!--android:visibility="gone"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--app:elevation="2dp"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
     
    <fragment
        android:name="com.example.rohrlabs.nostalgia.Fragments.CommentFragment"

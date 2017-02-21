@@ -64,7 +64,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private DatabaseReference mDatabaseLike, mDatabaseIntent;
     private TextView imageViewText;
     private ImageView imageView, commentImageView;
-    public static String mPostKey = null;
+    public String mPostKey;
     public static String post_image, post_title;
     private CardView imageCardView;
     private ImageButton mLikeButton;
@@ -255,7 +255,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 post_image = (String) dataSnapshot.child("imageURL").getValue();
                 String post_uid = (String) dataSnapshot.child("uid").getValue();
 
-                Toast.makeText(mContext, mPostKey + "pods", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mPostKey, Toast.LENGTH_SHORT).show();
 
 
                 if (mUid.equals(post_uid)) {

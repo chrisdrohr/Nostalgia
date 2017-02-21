@@ -1,4 +1,4 @@
-//package com.example.gabekeyner.nostalgia.DialogFragments;
+//package com.example.rohrlabs.nostalgia.DialogFragments;
 //
 //import android.app.AlertDialog;
 //import android.app.Dialog;
@@ -19,11 +19,11 @@
 //import com.bumptech.glide.Priority;
 //import com.bumptech.glide.load.engine.DiskCacheStrategy;
 //import com.dragankrstic.autotypetextview.AutoTypeTextView;
-//import com.example.gabekeyner.nostalgia.Activities.DetailActivity;
-//import com.example.gabekeyner.nostalgia.AnimationUtil;
-//import com.example.gabekeyner.nostalgia.Firebase.FirebaseUtil;
-//import com.example.gabekeyner.nostalgia.ObjectClasses.Comment;
-//import com.example.gabekeyner.nostalgia.R;
+//import com.example.rohrlabs.nostalgia.Activities.DetailActivity;
+//import com.example.rohrlabs.nostalgia.AnimationUtil;
+//import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
+//import com.example.rohrlabs.nostalgia.ObjectClasses.Comment;
+//import com.example.rohrlabs.nostalgia.R;
 //import com.github.florent37.viewanimator.ViewAnimator;
 //import com.google.firebase.auth.FirebaseAuth;
 //import com.google.firebase.database.DatabaseReference;

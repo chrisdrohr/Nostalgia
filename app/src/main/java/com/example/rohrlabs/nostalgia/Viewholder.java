@@ -101,7 +101,9 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mCardViewChatUser = (CardView) itemView.findViewById(R.id.chatCardViewUser);
         mTextViewChat = (TextView) itemView.findViewById(R.id.chatTextView);
         mCardViewChat = (CardView)itemView.findViewById(R.id.chatCardView);
-        mImageViewPost = (ImageView) itemView.findViewById(R.id.chatImageView);
+        mImageViewPost = (ImageView) itemView.findViewById(R.id.imageViewPost);
+
+        mCircleImageViewChat = (CircleImageView) itemView.findViewById(R.id.chatImageView);
 
     }
 

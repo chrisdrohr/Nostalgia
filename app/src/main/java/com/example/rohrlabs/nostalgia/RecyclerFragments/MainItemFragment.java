@@ -61,7 +61,6 @@ public class MainItemFragment extends Fragment{
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewMainList);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mPostAdapter);
-//        mRecyclerView.invalidate();
         if (mPostAdapter != null) {
             mPostAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                 @Override
@@ -88,7 +87,7 @@ public class MainItemFragment extends Fragment{
             });
             mLayoutManager.setItemPrefetchEnabled(false);
         } else {
-            Toast.makeText(getActivity(), "else", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "else", Toast.LENGTH_SHORT).show();
         }
 
         return rootView;
