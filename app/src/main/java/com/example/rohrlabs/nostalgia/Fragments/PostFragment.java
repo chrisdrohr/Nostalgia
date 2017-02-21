@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.DialogFragments.UploadFragment;
+import com.example.rohrlabs.nostalgia.FragmentUtils;
 import com.example.rohrlabs.nostalgia.R;
 
 public class PostFragment extends android.app.Fragment implements View.OnClickListener{
@@ -40,6 +41,8 @@ public class PostFragment extends android.app.Fragment implements View.OnClickLi
         mImageViewGroupBg = (ImageView) view.findViewById(R.id.imageViewGroupBg);
         mFabLayout = (RelativeLayout) view.findViewById(R.id.fabLayout);
         groupPhoto = GroupsAdapter.groupPhoto;
+
+        getMainItemFragment();
 
         mFabGroup.setOnClickListener(this);
         mFabPhoto.setOnClickListener(this);
@@ -70,6 +73,13 @@ public class PostFragment extends android.app.Fragment implements View.OnClickLi
                 break;
             default:
         }
+    }
+
+    void getMainItemFragment () {
+        getChildFragmentManager()
+                .beginTransaction()
+                .add(R.id.containerMainItemFragment, FragmentUtils.getMainItemFragment())
+                .commit();
     }
 
     public void openGroupsActivity () {

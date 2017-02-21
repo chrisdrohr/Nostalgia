@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
+import com.example.rohrlabs.nostalgia.FragmentUtils;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Chat;
 import com.example.rohrlabs.nostalgia.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,6 +77,8 @@ public class ChatFragment extends android.app.Fragment implements View.OnClickLi
             public void afterTextChanged(Editable s) {
             }
         });
+
+        getChildRecyclerChatFragment();
         return view;
     }
 
@@ -98,9 +101,13 @@ public class ChatFragment extends android.app.Fragment implements View.OnClickLi
         );
         ref.setValue(chat);
         mEditText.setText("");
+    }
 
-
-//        ((DetailActivity)getActivity()).postComment();
+    void getChildRecyclerChatFragment () {
+        getChildFragmentManager()
+                .beginTransaction()
+                .add(R.id.containerRecyclerChatFragment, FragmentUtils.getRecyclerChatFragment())
+                .commit();
     }
 
 

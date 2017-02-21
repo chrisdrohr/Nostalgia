@@ -6,14 +6,15 @@
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/containerGroupsItemFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <fragment
-            android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupsItemFragment"
-            android:id="@+id/groupsItemFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <!--<fragment-->
+            <!--android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupsItemFragment"-->
+            <!--android:id="@+id/groupsItemFragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
 
     </FrameLayout>
 

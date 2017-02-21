@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity
     public RecyclerView recyclerView;
     private CardView mCardViewGroupMembers;
     private Toolbar toolbar;
-    private String mUsername, mPhotoUrl, mUid, userKey;
+    private String mUsername, mPhotoUrl, mUid, userKey, mGroupName;
     private Boolean mProcessUser = true;
     private DatabaseReference mDatabaseUserExists;
     private ImageView userImageView, mainBg;
@@ -168,13 +168,15 @@ public class MainActivity extends AppCompatActivity
         mFabGroupCancel = (FloatingActionButton) findViewById(R.id.fabCancelGroupDelete);
         mCardViewGroupMembers = (CardView) findViewById(R.id.cardViewGroupMembers);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mGroupName = GroupsAdapter.groupName;
 //        relativeLayout = (RelativeLayout) findViewById(R.id.content_main);
 //        fabLayout = (RelativeLayout) findViewById(R.id.fabLayout);
 //        mainBg = (ImageView) findViewById(R.id.mainBg);
 
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle(NavGroupsAdapter.groupName);
-
+        if (mGroupName != null) {
+            getSupportActionBar().setTitle(GroupsAdapter.groupName);
+        }
 //        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

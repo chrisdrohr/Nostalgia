@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rohrlabs.nostalgia.Activities.DetailActivity;
 import com.example.rohrlabs.nostalgia.AnimationUtil;
 import com.example.rohrlabs.nostalgia.Fragments.CommentFragment;
@@ -32,11 +34,11 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
             final String post_key = getRef(position).getKey();
             viewHolder.mTextViewPostTitle.setText(model.getTitle());
             viewHolder.mTextViewPostUserName.setText("-" + model.getUser());
-//            Glide.with(context)
-//                    .load(model.getImageURL())
-//                    .thumbnail(0.10f)
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .into(viewHolder.mImageViewPost);
+            Glide.with(context)
+                    .load(model.getImageURL())
+                    .thumbnail(0.10f)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(viewHolder.mImageViewPost);
 
 //        FOR ANIMATION
         if (position > previousPosition) {

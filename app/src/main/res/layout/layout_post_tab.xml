@@ -11,15 +11,16 @@
         android:layout_height="match_parent" />
 
     <FrameLayout
+        android:id="@+id/containerMainItemFragment"
         android:layout_above="@+id/fabLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <fragment
-            android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.MainItemFragment"
-            android:id="@+id/mainItemFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <!--<fragment-->
+            <!--android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.MainItemFragment"-->
+            <!--android:id="@+id/mainItemFragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
 
     </FrameLayout>
 

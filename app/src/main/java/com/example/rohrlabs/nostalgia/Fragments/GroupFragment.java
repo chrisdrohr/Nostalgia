@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rohrlabs.nostalgia.FragmentUtils;
 import com.example.rohrlabs.nostalgia.R;
 
 public class GroupFragment extends android.app.Fragment implements View.OnClickListener{
@@ -29,6 +30,8 @@ public class GroupFragment extends android.app.Fragment implements View.OnClickL
         mFabAddGroup = (FloatingActionButton) view.findViewById(R.id.fabAddGroup);
 
         mFabAddGroup.setOnClickListener(this);
+
+        getChildGroupsItemFragment();
         return view;
     }
 
@@ -44,6 +47,13 @@ public class GroupFragment extends android.app.Fragment implements View.OnClickL
         }
     }
 
+    void getChildGroupsItemFragment () {
+        getChildFragmentManager()
+                .beginTransaction()
+                .add(R.id.containerGroupsItemFragment, FragmentUtils.getGroupsItemFragment())
+                .commit();
+    }
+
     public void openGroupsActivity () {
         com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment groupFragment = new com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment();
         groupFragment.show(getFragmentManager(), "Group Fragment");
@@ -52,9 +62,6 @@ public class GroupFragment extends android.app.Fragment implements View.OnClickL
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        Fragment fragment = (fragmentManager.findFragmentByTag(TAG));
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.remove(fragment).commit();
+
     }
 }
