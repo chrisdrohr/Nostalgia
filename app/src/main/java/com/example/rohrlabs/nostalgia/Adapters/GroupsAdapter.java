@@ -46,15 +46,11 @@ public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
                 intent.putExtra(mGroupKey, "mGroupKey");
                 context.sendBroadcast(intent);
                 notifyDataSetChanged();
-
-//                Intent intentPost = new Intent(context, MainItemFragment.class);
-//                intentPost.putExtra(mGroupKey, "mGroupKey");
-//                context.sendBroadcast(intentPost);
-//                notifyDataSetChanged();
-//
-//                Toast.makeText(context, mGroupKey + " adapter", Toast.LENGTH_SHORT).show();
-
+//                MainActivity mainActivity = new MainActivity().getPostTab();
+//                mainActivity.getPostTab();
                 context.startActivity(new Intent(context, MainActivity.class));
+
+
             }
         });
     }

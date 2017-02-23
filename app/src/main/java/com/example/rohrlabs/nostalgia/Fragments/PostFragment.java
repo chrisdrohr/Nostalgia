@@ -90,19 +90,11 @@ public class PostFragment extends android.app.Fragment implements View.OnClickLi
     public void openUploadFragment () {
         UploadFragment uploadFragment = new UploadFragment();
         uploadFragment.show(getFragmentManager(),"Upload Fragment");
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        UploadFragment uploadFragment = new UploadFragment();
-//        uploadFragment.show(fragmentManager, "Upload Fragment");
-
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        Fragment fragment = (fragmentManager.findFragmentByTag(TAG));
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.remove(fragment).commit();
     }
 
 }

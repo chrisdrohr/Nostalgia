@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainActivityLayout"
@@ -20,6 +23,7 @@
         app:popupTheme="@style/AppTheme.PopupOverlay"
         android:titleTextColor="@color/AccentLighter"
         app:titleTextColor="@android:color/white" />
+
 
         <android.support.v4.view.ViewPager
             android:background="@drawable/splash"
@@ -48,11 +52,18 @@
 
             </android.support.design.widget.TabLayout>
 
-            <!--<include-->
-                <!--layout="@layout/content_main"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:id="@+id/include"-->
-                <!--android:layout_width="match_parent" />-->
+            <FrameLayout
+                android:id="@+id/layout_groupMembers"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <include
+                    layout="@layout/group_members_layout"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent" />
+            </FrameLayout>
+
+
 
         </android.support.v4.view.ViewPager>
 

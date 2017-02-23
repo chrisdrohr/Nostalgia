@@ -2,19 +2,16 @@ package com.example.rohrlabs.nostalgia.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,7 +41,6 @@ import com.sloop.fonts.FontsManager;
 
 import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 
-import static com.example.rohrlabs.nostalgia.Adapters.NavGroupsAdapter.groupPhoto;
 import static com.example.rohrlabs.nostalgia.R.menu.detail;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener{
@@ -71,9 +67,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private Boolean mProcessLike = false;
     private ImageButton mShareButton;
     private ShareButton mFbShareButton;
-    private Bitmap mBitmap;
-    private ShareActionProvider mShareActionProvider;
-    private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,11 +202,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    public void setShareIntent(Intent shareIntent) {
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
-    }
+//    public void setShareIntent(Intent shareIntent) {
+//        if (mShareActionProvider != null) {
+//            mShareActionProvider.setShareIntent(shareIntent);
+//        }
+//    }
     public void likeFuntion() {
         mProcessLike = true;
         FirebaseUtil.getLikesRef().addValueEventListener(new ValueEventListener() {
@@ -254,9 +247,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 post_title = (String) dataSnapshot.child("title").getValue();
                 post_image = (String) dataSnapshot.child("imageURL").getValue();
                 String post_uid = (String) dataSnapshot.child("uid").getValue();
-
-                Toast.makeText(mContext, mPostKey, Toast.LENGTH_SHORT).show();
-
 
                 if (mUid.equals(post_uid)) {
                     //Open Dialog Fragment
@@ -300,7 +290,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                         .into(imageView);
 
                 Glide.with(DetailActivity.this)
-                        .load(groupPhoto)
+                        .load(post_image)
                         .thumbnail(0.5f)
                         .crossFade()
                         .bitmapTransform(new GrayscaleTransformation(DetailActivity.this))

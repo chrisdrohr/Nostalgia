@@ -165,8 +165,7 @@ public class GroupFragment extends DialogFragment {
                 mUid,
                 mGroupKey,
                 null);
-//        Toast.makeText(context, mGroupKey, Toast.LENGTH_SHORT).show();
-        getGroupRef().child(mGroupKey).child(mUid).setValue(user);
+        getGroupRef().child(mGroupKey).child(mUid).setValue("true");
 //        FirebaseUtil.getGroupMemberRef().child(mGroupKey).setValue(user);
         Intent groupNameIntent = new Intent(context, UserAdapter.class);
         groupNameIntent.putExtra("mGroupKey", mGroupKey);

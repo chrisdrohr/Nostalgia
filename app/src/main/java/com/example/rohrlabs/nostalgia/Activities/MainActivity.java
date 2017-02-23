@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +16,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,8 +54,7 @@ import com.sloop.fonts.FontsManager;
 import static com.example.rohrlabs.nostalgia.R.id.textView;
 import static com.example.rohrlabs.nostalgia.R.menu.main;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity {
 
 //    private static final int RC_SIGN_IN = 0;
 
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity
     private RelativeLayout relativeLayout, fabLayout;
 //    private ConstraintLayout constraintLayout;
 //    private SharedPreferences sharedPreferences;
-    private static String mGroupKey = "mGroupKey";
+    private String mGroupKey;
 //    private Uri mMediaUri;
 //    private ProgressBar progressBar;
 //    private final static int SELECT_PHOTO = 0;
@@ -86,7 +85,6 @@ public class MainActivity extends AppCompatActivity
     private ViewPagerAdapter mViewPagerAdapter;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private PagerTitleStrip mTitleStrip;
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -97,6 +95,7 @@ public class MainActivity extends AppCompatActivity
     private Profile mProfile;
     private ProfileTracker mProfileTracker;
     boolean isOpen = true;
+    private FrameLayout mLayoutGroupMembers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +110,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.app_bar_main);
 
 //        mProfile.getCurrentProfile();
-//        Toast.makeText(this, mProfile.toString(), Toast.LENGTH_LONG).show();
-
-//        recyclerView = (RecyclerView)findViewById(R.id.recyclerViewMainList);
-
         FontsManager.initFormAssets(this, "fonts/Roboto-Regular.ttf");
         mTitle = (TextView) findViewById(textView);
         FontsManager.changeFonts(mTitle);
@@ -159,8 +154,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         System.out.println("MainActivity.onCreate: " + FirebaseInstanceId.getInstance().getToken());
-//        initializeViews();
-//        fabClickable();
+
         checkUser();
 
         mFabGroupMembers = (FloatingActionButton) findViewById(R.id.fabExit);
@@ -170,7 +164,8 @@ public class MainActivity extends AppCompatActivity
         mCardViewGroupMembers = (CardView) findViewById(R.id.cardViewGroupMembers);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mGroupName = GroupsAdapter.groupName;
-//        relativeLayout = (RelativeLayout) findViewById(R.id.content_main);
+        mGroupKey = GroupsAdapter.mGroupKey;
+        mLayoutGroupMembers = (FrameLayout) findViewById(R.id.layout_groupMembers);
 //        fabLayout = (RelativeLayout) findViewById(R.id.fabLayout);
 //        mainBg = (ImageView) findViewById(R.id.mainBg);
 
@@ -189,10 +184,14 @@ public class MainActivity extends AppCompatActivity
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         mViewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
 
+        Toast.makeText(this, mGroupKey, Toast.LENGTH_LONG).show();
+
         mViewPagerAdapter.addFragments(new GroupFragment(), "Groups");
         if (mGroupKey != null) {
             mViewPagerAdapter.addFragments(new PostFragment(), "Posts");
             mViewPagerAdapter.addFragments(new ChatFragment(), "Chat");
+            getPostTab();
+            invalidateOptionsMenu();
         }
         mViewPager.setAdapter(mViewPagerAdapter);
 
@@ -201,7 +200,7 @@ public class MainActivity extends AppCompatActivity
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
+                mViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -322,6 +321,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (mGroupKey != null) {
+            menu.setGroupVisible(0, true);
+            menu.setGroupVisible(1, true);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         //LAYOUTS & ORIENTATIONS
@@ -345,8 +353,17 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public void getPostTab () {
+        mViewPager.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mViewPager.setCurrentItem(1, true);
+            }
+        },1000);
+    }
+
     public void groupMembers () {
-        Toast.makeText(this, "hi", Toast.LENGTH_SHORT).show();
+        mLayoutGroupMembers.setVisibility(View.VISIBLE);
         mFabGroupMembers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -380,6 +397,7 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void run() {
                     mCardViewGroupMembers.setVisibility(View.GONE);
+                    mLayoutGroupMembers.setVisibility(View.GONE);
                 }
             },300);
 
@@ -440,30 +458,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-         if (id == R.id.nav_create_group) {
-            // Handle the New Grouup action  action
-//             openGroupsActivity();
-        }
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-//    public void openGroupsActivity () {
-//        GroupFragment groupFragment = new GroupFragment();
-//        groupFragment.show(getFragmentManager(), "Group Fragment");
-//    }
-//
-//    public void openUploadFragment () {
-//        UploadFragment uploadFragment = new UploadFragment();
-//        uploadFragment.show(getFragmentManager(), "Upload Fragment");
-//    }
-
         public void checkUser () {
             mProcessUserExists = true;
         FirebaseUtil.getBaseRef().child("users/exists").addValueEventListener(new ValueEventListener() {
@@ -494,7 +488,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (mProcessUser) {
-//                    if new user
                     mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
                     mUsername = FirebaseUtil.getUser().getUserName();
                     mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -507,18 +500,6 @@ public class MainActivity extends AppCompatActivity
                     );
                     FirebaseUtil.getUserRef().push().setValue(user);
                     FirebaseUtil.getUserRef().removeEventListener(this);
-//                    snackbar = Snackbar.make(constraintLayout, "Create a group to get started!", Snackbar.LENGTH_LONG);
-//                    View snackBarView = snackbar.getView();
-//                    snackBarView.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.DarkColor));
-//                    snackbar.show();
-
-                    drawer.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            drawer.openDrawer(Gravity.LEFT);
-                        }
-                    },1000);
-
                     mProcessUser = false;
                 }
             }
