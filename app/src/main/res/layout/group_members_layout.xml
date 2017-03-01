@@ -15,11 +15,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <fragment
-                android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupMembersFragment"
+            <FrameLayout
                 android:id="@+id/groupMemberFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </FrameLayout>
+            <!--<fragment-->
+                <!--android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupMembersFragment"-->
+                <!--android:id="@+id/groupMemberFragment"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"/>-->
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"
@@ -35,51 +41,51 @@
                 android:elevation="6dp"
                 app:backgroundTint="@color/fabColor" />
 
-            <RelativeLayout
-                android:id="@+id/layout_deleteGroup"
-                android:visibility="gone"
-                android:layout_below="@+id/groupMemberFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                
-                <TextView
-                    android:text="Delete group?"
-                    android:textColor="@color/AccentLighter"
-                    android:paddingRight="10dp"
-                    android:layout_margin="5dp"
-                    android:layout_toLeftOf="@+id/fabCancelGroupDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textStyle="normal|bold" />
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/layout_deleteGroup"-->
+                <!--android:visibility="gone"-->
+                <!--android:layout_below="@+id/groupMemberFragment"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
+                <!---->
+                <!--<TextView-->
+                    <!--android:text="Delete group?"-->
+                    <!--android:textColor="@color/AccentLighter"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:layout_toLeftOf="@+id/fabCancelGroupDelete"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="24sp"-->
+                    <!--android:textStyle="normal|bold" />-->
 
-                <android.support.design.widget.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/fabDelete"
-                    app:fabSize="mini"
-                    android:layout_margin="5dp"
-                    app:srcCompat="@drawable/close"
-                    android:id="@+id/fabCancelGroupDelete"
-                    android:tint="@color/AccentLighter"
-                    android:adjustViewBounds="true"
-                    android:elevation="6dp"
-                    app:backgroundTint="@color/fabColor" />
+                <!--<android.support.design.widget.FloatingActionButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_toLeftOf="@+id/fabDelete"-->
+                    <!--app:fabSize="mini"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--app:srcCompat="@drawable/close"-->
+                    <!--android:id="@+id/fabCancelGroupDelete"-->
+                    <!--android:tint="@color/AccentLighter"-->
+                    <!--android:adjustViewBounds="true"-->
+                    <!--android:elevation="6dp"-->
+                    <!--app:backgroundTint="@color/fabColor" />-->
 
-                <android.support.design.widget.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    app:fabSize="mini"
-                    android:layout_margin="5dp"
-                    app:srcCompat="@drawable/delete_vector"
-                    android:id="@+id/fabDelete"
-                    android:tint="@color/AccentLighter"
-                    android:adjustViewBounds="true"
-                    android:elevation="6dp"
-                    app:backgroundTint="@color/fabColor" />
+                <!--<android.support.design.widget.FloatingActionButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--app:fabSize="mini"-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--app:srcCompat="@drawable/delete_vector"-->
+                    <!--android:id="@+id/fabDelete"-->
+                    <!--android:tint="@color/AccentLighter"-->
+                    <!--android:adjustViewBounds="true"-->
+                    <!--android:elevation="6dp"-->
+                    <!--app:backgroundTint="@color/fabColor" />-->
 
-            </RelativeLayout>
+            <!--</RelativeLayout>-->
 
         </RelativeLayout>
 

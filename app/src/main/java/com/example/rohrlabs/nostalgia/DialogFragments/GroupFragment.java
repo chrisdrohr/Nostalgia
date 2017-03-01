@@ -10,18 +10,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rohrlabs.nostalgia.Activities.GroupsActivity;
-import com.example.rohrlabs.nostalgia.Adapters.UserAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Group;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
@@ -34,19 +31,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import static android.app.Activity.RESULT_OK;
 import static com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil.getGroupRef;
+import static com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil.getMemberGroupRef;
 
 public class GroupFragment extends DialogFragment {
 
     private final static int SELECT_PHOTO = 0;
-    private String mUsername, mPhotoUrl, mUid, groupName, groupPhoto;
+    private String mUsername, mPhotoUrl, mUid;
     private Context context;
-    private TextView textView;
-    private CardView cardView;
-    private CircleImageView circleUserImageView;
     private ProgressBar progressBar;
     private ImageButton imageButton;
     private EditText mEditText;
@@ -54,9 +47,8 @@ public class GroupFragment extends DialogFragment {
     private StorageReference mStorageReference;
     private FloatingActionButton fabCancelGroup, fabCreateGroup;
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
-    public static String mGroupKey = "mGroupKey";
+    public static String mGroupKey, mGroupName, mGroupPhoto, mGroupTimestamp, mGroupCreator;
     private ImageView groupBg;
-    private Dialog dialog;
     private Uri mMediaUri;
     private Boolean mGroupProcess = false;
 
@@ -67,10 +59,10 @@ public class GroupFragment extends DialogFragment {
         final View view = inflater.inflate(R.layout.fragment_group, null);
         builder.setView(view);
 
-        cardView = (CardView) view.findViewById(R.id.cardViewprofile);
+//        cardView = (CardView) view.findViewById(R.id.cardViewprofile);
         imageButton = (ImageButton) view.findViewById(R.id.addGroupImage);
-        circleUserImageView = (CircleImageView) view.findViewById(R.id.dialogUserImageView);
-        textView = (TextView) view.findViewById(R.id.dialogTextView);
+//        circleUserImageView = (CircleImageView) view.findViewById(R.id.dialogUserImageView);
+//        textView = (TextView) view.findViewById(R.id.dialogTextView);
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -78,7 +70,6 @@ public class GroupFragment extends DialogFragment {
         mEditText = (EditText) view.findViewById(R.id.groupEditText);
         fabCancelGroup = (FloatingActionButton) view.findViewById(R.id.fabCancelGroup);
         fabCreateGroup = (FloatingActionButton) view.findViewById(R.id.fabCreateGroup);
-
         mStorageReference = mFirebaseStorage.getReference().child("posts");
 
         context = getActivity();
@@ -132,7 +123,7 @@ public class GroupFragment extends DialogFragment {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(context, "Group photo uploaded!", Toast.LENGTH_SHORT).show();
-                    groupPhoto = taskSnapshot.getDownloadUrl().toString();
+                    mGroupPhoto = taskSnapshot.getDownloadUrl().toString();
                     progressBar.setVisibility(View.INVISIBLE);
                     mGroupProcess = true;
                     showEditText();
@@ -142,18 +133,20 @@ public class GroupFragment extends DialogFragment {
     }
 
     public void getKey () {
-        databaseReference = getGroupRef();
+//        databaseReference = getGroupRef();
+        databaseReference = getMemberGroupRef();
         ref = databaseReference.push();
         mGroupKey = ref.getKey();
         intent();
     }
 
     public void intent () {
-        groupName = mEditText.getText().toString();
+        mGroupCreator = FirebaseUtil.getUserName();
+        mGroupName = mEditText.getText().toString();
         final Group group = new Group(
-                mUsername,
-                groupName,
-                groupPhoto,
+                mGroupCreator,
+                mGroupName,
+                mGroupPhoto,
                 mGroupKey);
         ref.setValue(group);
 
@@ -165,16 +158,21 @@ public class GroupFragment extends DialogFragment {
                 mUid,
                 mGroupKey,
                 null);
-        getGroupRef().child(mGroupKey).child(mUid).setValue("true");
-//        FirebaseUtil.getGroupMemberRef().child(mGroupKey).setValue(user);
-        Intent groupNameIntent = new Intent(context, UserAdapter.class);
-        groupNameIntent.putExtra("mGroupKey", mGroupKey);
-        context.sendBroadcast(groupNameIntent,"mGroupKey");
+        getGroupRef().child(mGroupKey).setValue(group);
+        getGroupRef().child(mGroupKey).child("members").child(mUid).setValue(user);
+//        getBaseRef().child("members").child(mUid).child("groups").child(mGroupKey).setValue("true");
+//        ref.child("members").child(mUid).setValue("true");
+//        ref.child("members").child(mUid).setValue(user);
+//        Intent groupNameIntent = new Intent(context, UserAdapter.class);
+//        groupNameIntent.putExtra("groupName",mEditText.getText().toString());
+//        groupNameIntent.putExtra("mGroupKey", mGroupKey);
+//        groupNameIntent.putExtra("groupPhoto", groupPhoto);
+//        context.sendBroadcast(groupNameIntent,"mGroupKey");
 
         Intent intent = new Intent(context, GroupsActivity.class);
         intent.putExtra("groupName",mEditText.getText().toString());
         intent.putExtra("mGroupKey", mGroupKey);
-        intent.putExtra("groupPhoto", groupPhoto);
+        intent.putExtra("groupPhoto", mGroupPhoto);
         context.startActivity(intent);
     }
     public void showEditText () {
@@ -193,7 +191,7 @@ public class GroupFragment extends DialogFragment {
     @Override
     public void dismiss() {
         super.dismiss();
-        getGroupRef().child(mGroupKey).removeValue();
+//        getGroupRef().child(mGroupKey).removeValue();
     }
 
     public void show(FragmentManager fragmentManager, String s) {

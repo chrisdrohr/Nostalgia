@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.rohrlabs.nostalgia.Adapters.GroupMembersAdapter;
+import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
+import com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.example.rohrlabs.nostalgia.R;
@@ -22,19 +24,23 @@ public class GroupMembersFragment extends Fragment {
     private GroupMembersAdapter mGroupMembersAdapter;
     private StaggeredGridLayoutManager mLayoutManager;
     private ImageView userProfileImageView;
-    private String mUsername, mPhotoUrl, mUid, groupName, groupId, groupKey;
+    private String mUsername, mPhotoUrl, mUid, groupName, groupId, mGroupKey;
 
     public GroupMembersFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mGroupMembersAdapter = new GroupMembersAdapter(
-                User.class,
-                R.layout.fragment_group_member_item,
-                Viewholder.class,
-                getActivity(),
-                FirebaseUtil.getGroupMemberRef());
+        mGroupKey = GroupsAdapter.mGroupKey;
+        mGroupKey = GroupFragment.mGroupKey;
+        if (mGroupKey != null) {
+            mGroupMembersAdapter = new GroupMembersAdapter(
+                    User.class,
+                    R.layout.fragment_group_member_item,
+                    Viewholder.class,
+                    getActivity(),
+                    FirebaseUtil.getGroupRef().child(mGroupKey).child("members"));
+        }
         mLayoutManager = new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL);
         super.onCreate(savedInstanceState);
     }
@@ -50,5 +56,11 @@ public class GroupMembersFragment extends Fragment {
         return rootView;
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mGroupMembersAdapter != null) {
+            mGroupMembersAdapter.cleanup();
+        }
+    }
 }

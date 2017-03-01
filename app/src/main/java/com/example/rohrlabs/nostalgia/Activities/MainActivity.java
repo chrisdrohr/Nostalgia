@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.Adapters.ViewPagerAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
@@ -64,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private String mUsername, mPhotoUrl, mUid, userKey, mGroupName;
     private Boolean mProcessUser = true;
     private DatabaseReference mDatabaseUserExists;
-    private ImageView userImageView, mainBg;
+    private ImageView userImageView, mImageViewMainBg;
     private TextView userTextView, mTitle, mTextViewLabel;
     private GoogleApiClient mGoogleApiClient;
     private NavigationView navigationView;
@@ -157,39 +154,29 @@ public class MainActivity extends AppCompatActivity {
 
         checkUser();
 
-        mFabGroupMembers = (FloatingActionButton) findViewById(R.id.fabExit);
-        mLayoutDeleteGroup = (RelativeLayout) findViewById(R.id.layout_deleteGroup);
-        mFabGroupDelete = (FloatingActionButton) findViewById(R.id.fabDelete);
-        mFabGroupCancel = (FloatingActionButton) findViewById(R.id.fabCancelGroupDelete);
-        mCardViewGroupMembers = (CardView) findViewById(R.id.cardViewGroupMembers);
+//        mFabGroupMembers = (FloatingActionButton) findViewById(R.id.fabExit);
+//        mLayoutDeleteGroup = (RelativeLayout) findViewById(R.id.layout_deleteGroup);
+//        mFabGroupDelete = (FloatingActionButton) findViewById(R.id.fabDelete);
+//        mFabGroupCancel = (FloatingActionButton) findViewById(R.id.fabCancelGroupDelete);
+//        mCardViewGroupMembers = (CardView) findViewById(R.id.cardViewGroupMembers);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mGroupName = GroupsAdapter.groupName;
         mGroupKey = GroupsAdapter.mGroupKey;
-        mLayoutGroupMembers = (FrameLayout) findViewById(R.id.layout_groupMembers);
-//        fabLayout = (RelativeLayout) findViewById(R.id.fabLayout);
-//        mainBg = (ImageView) findViewById(R.id.mainBg);
+//        mLayoutGroupMembers = (FrameLayout) findViewById(R.id.layout_groupMembers);
 
         setSupportActionBar(toolbar);
         if (mGroupName != null) {
             getSupportActionBar().setTitle(GroupsAdapter.groupName);
         }
-//        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
 
-//        toggle.syncState();
         mViewPager = (ViewPager) findViewById(R.id.viewPagerContainer);
-//        mTitleStrip = (PagerTitleStrip) findViewById(R.id.tabLayout);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        mViewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
+        mViewPagerAdapter = new ViewPagerAdapter(getFragmentManager(), this);
+        mViewPagerAdapter.addFragments(new GroupFragment(), "");
 
-        Toast.makeText(this, mGroupKey, Toast.LENGTH_LONG).show();
-
-        mViewPagerAdapter.addFragments(new GroupFragment(), "Groups");
         if (mGroupKey != null) {
-            mViewPagerAdapter.addFragments(new PostFragment(), "Posts");
-            mViewPagerAdapter.addFragments(new ChatFragment(), "Chat");
+            mViewPagerAdapter.addFragments(new PostFragment(), "");
+            mViewPagerAdapter.addFragments(new ChatFragment(), "");
             getPostTab();
             invalidateOptionsMenu();
         }
@@ -205,117 +192,36 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-//                Toast.makeText(MainActivity.this, "u", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-//        navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-
-//        firstOpen();
-//        userInfoDisplay();
-
-    }
-
-    private void userInfoDisplay () {
-        final View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        userImageView = (ImageView)headerLayout.findViewById(R.id.drawerImageView);
-        userTextView = (TextView) headerLayout.findViewById(R.id.drawerNameTextView);
-        userTextView.setText(mUsername);
-        FontsManager.changeFonts(userTextView);
-        Glide.with(this)
-                .load(mPhotoUrl)
-                .centerCrop()
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(userImageView);
-
-//        Glide.with(this)
-//                .load(groupPhoto)
-//                .centerCrop()
-//                .thumbnail(0.5f)
-//                .crossFade()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(mainBg);
-    }
-    private void firstOpen() {
-//        Toast.makeText(this, NavGroupsAdapter.mGroupKey, Toast.LENGTH_SHORT).show();
-//        if (NavGroupsAdapter.mGroupKey.equals(mGroupKey)){
-//            drawer.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                drawer.openDrawer(Gravity.LEFT);
-//            }
-//        },1000);
-//        } else {
-            ViewAnimator.animate(fabLayout)
-                    .slideBottom()
-                    .duration(600)
-                    .start();
-            fabLayout.setVisibility(View.VISIBLE);
-            ViewAnimator.animate(fabGroup, fabPhoto, fabVideo)
-                    .alpha(0,0)
-                    .duration(500)
-                    .thenAnimate(fabGroup)
-                    .newsPaper()
-                    .descelerate()
-                    .duration(150)
-                    .thenAnimate(fabPhoto)
-                    .newsPaper()
-                    .descelerate()
-                    .duration(150)
-                    .thenAnimate(fabVideo)
-                    .newsPaper()
-                    .descelerate()
-                    .duration(150)
-                    .start();
-//        }
     }
 
     @Override
     public void onBackPressed() {
-        // Handles the Navigation Drawer Opening / Closing
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-//            super.onBackPressed();
-        }
+            super.onBackPressed();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ViewAnimator.animate(fabLayout)
-                .slideBottom()
-                .duration(500)
-                .start();
     }
 
     @Override
     protected void onPause() {
-        ViewAnimator.animate(toolbar, recyclerView)
-                .alpha(1,1)
-                .duration(1000)
-                .start();
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        ViewAnimator.animate(fabLayout)
-                .fadeOut()
-                .duration(100)
-                .start();
         super.onStop();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(main, menu);
         return true;
     }
@@ -363,45 +269,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void groupMembers () {
-        mLayoutGroupMembers.setVisibility(View.VISIBLE);
-        mFabGroupMembers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ViewAnimator.animate(mCardViewGroupMembers)
-                        .fadeOut()
-                        .descelerate()
-                        .duration(300)
-                        .start();
-                mCardViewGroupMembers.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mCardViewGroupMembers.setVisibility(View.GONE);
-                    }
-                },300);
-            }
-        });
-        if (!mCardViewGroupMembers.isShown()){
-            ViewAnimator.animate(mCardViewGroupMembers)
-                    .newsPaper()
-                    .descelerate()
-                    .duration(300)
-                    .start();
-            mCardViewGroupMembers.setVisibility(View.VISIBLE);
-        } else {
-            ViewAnimator.animate(mCardViewGroupMembers)
-                    .fadeOut()
-                    .descelerate()
-                    .duration(300)
-                    .start();
-            mCardViewGroupMembers.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mCardViewGroupMembers.setVisibility(View.GONE);
-                    mLayoutGroupMembers.setVisibility(View.GONE);
-                }
-            },300);
+//        getFragmentManager()
+//                .beginTransaction()
+//                .add(R.id.containerMain, FragmentUtils.getGroupMembersFragment())
+//                .commit();
 
-        }
     }
 
     public void deleteGroup () {

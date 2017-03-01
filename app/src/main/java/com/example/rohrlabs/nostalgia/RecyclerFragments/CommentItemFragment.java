@@ -36,7 +36,7 @@ public class CommentItemFragment extends Fragment {
                 R.layout.fragment_comment_item,
                 Viewholder.class,
                 FirebaseUtil.getCommentsRef().child(mPostKey),
-                getContext());
+                getActivity());
         mLayoutManager = new LinearLayoutManager(context);
         mLayoutManager.setStackFromEnd(true);
         super.onCreate(savedInstanceState);
@@ -69,5 +69,11 @@ public class CommentItemFragment extends Fragment {
         return rootView;
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCommentAdapter != null) {
+            mCommentAdapter.cleanup();
+        }
+    }
 }

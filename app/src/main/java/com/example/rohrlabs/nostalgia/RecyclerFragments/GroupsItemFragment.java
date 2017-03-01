@@ -29,7 +29,7 @@ public class GroupsItemFragment extends Fragment {
                 Group.class,
                 R.layout.group_card_view,
                 Viewholder.class,
-                FirebaseUtil.getGroupRef(),
+                FirebaseUtil.getMemberProfile().child("groups"),
                 getActivity());
         mLayoutManager = new GridLayoutManager(getActivity(),1);
         super.onCreate(savedInstanceState);
@@ -46,5 +46,11 @@ public class GroupsItemFragment extends Fragment {
         mRecyclerView.setAdapter(mGroupsAdapter);
         return rootView;
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mGroupsAdapter != null) {
+            mGroupsAdapter.cleanup();
+        }
+    }
 }

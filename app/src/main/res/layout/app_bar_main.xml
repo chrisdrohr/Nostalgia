@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainActivityLayout"
@@ -32,41 +29,31 @@
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <!--<android.support.v4.view.PagerTitleStrip-->
-                <!--android:background="@android:drawable/screen_background_light_transparent"-->
-                <!--android:id="@+id/tabLayout"-->
-                <!--android:layout_margin="2dp"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-            <!--</android.support.v4.view.PagerTitleStrip>-->
-
             <android.support.design.widget.TabLayout
+                style="@style/MyCustomTabLayout"
                 app:tabMode="fixed"
                 app:tabGravity="fill"
                 app:tabSelectedTextColor="@color/fabColor"
                 android:background="@android:drawable/screen_background_light_transparent"
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="40dp">
             </android.support.design.widget.TabLayout>
-
-            <FrameLayout
-                android:id="@+id/layout_groupMembers"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <include
-                    layout="@layout/group_members_layout"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent" />
-            </FrameLayout>
 
 
 
         </android.support.v4.view.ViewPager>
 
-    </android.support.design.widget.AppBarLayout>
 
+
+    </android.support.design.widget.AppBarLayout>
+    <FrameLayout
+        android:id="@+id/containerMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--<include-->
+        <!--layout="@layout/group_members_layout"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_width="match_parent" />-->
+    </FrameLayout>
 </RelativeLayout>

@@ -88,4 +88,5 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
         });
     }
 
+
 }

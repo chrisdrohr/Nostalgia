@@ -4,17 +4,13 @@ import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Comment;
 import com.example.rohrlabs.nostalgia.R;
@@ -24,20 +20,18 @@ import com.google.firebase.database.DatabaseReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class CommentFragment extends Fragment implements View.OnClickListener{
 
-    private CircleImageView userImageView;
+//    private CircleImageView userImageView;
     private String mPhotoUrl, mUsername, mUid, commentPath, mCommentKey;
-    private TextView textView;
-    private CardView cardView;
-    private ImageView commentBg;
+//    private TextView textView;
+//    private CardView cardView;
+//    private ImageView commentBg;
     private DatabaseReference databaseReference;
-    private AutoTypeTextView autoTypeTextView;
+//    private AutoTypeTextView autoTypeTextView;
     private EditText mEditText;
     private String mPostKey;
-    public static String post_image;
+//    public static String post_image;
     private FloatingActionButton mSendFab;
 
     public CommentFragment() {

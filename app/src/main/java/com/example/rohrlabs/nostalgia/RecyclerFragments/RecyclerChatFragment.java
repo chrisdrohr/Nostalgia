@@ -71,5 +71,11 @@ public class RecyclerChatFragment extends Fragment {
         return rootView;
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mAdapter != null) {
+            mAdapter.cleanup();
+        }
+    }
 }

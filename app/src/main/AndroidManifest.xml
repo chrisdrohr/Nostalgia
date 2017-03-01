@@ -68,10 +68,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities.CameraActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustPan" />
+        <!--<activity-->
+            <!--android:name=".Activities.CameraActivity"-->
+            <!--android:exported="true"-->
+            <!--android:windowSoftInputMode="adjustPan" />-->
         <activity
             android:name=".SplashScreen"
             android:theme="@style/SplashTheme">
@@ -130,10 +130,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities.Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

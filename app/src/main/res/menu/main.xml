@@ -17,7 +17,7 @@
         android:visible="false"
         android:id="@+id/group_member_menu"
         android:title="@string/group_members"
-        android:icon="@drawable/account_multiple"
+        android:icon="@drawable/face"
         app:showAsAction="ifRoom"/>
 
     <!--<item-->

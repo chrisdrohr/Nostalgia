@@ -3,7 +3,6 @@ package com.example.rohrlabs.nostalgia.Fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -11,10 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.dragankrstic.autotypetextview.AutoTypeTextView;
 import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.FragmentUtils;
@@ -26,19 +23,18 @@ import com.google.firebase.database.DatabaseReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 
 public class ChatFragment extends android.app.Fragment implements View.OnClickListener{
 
     private static final String TAG = "ChatFragment";
-    private CircleImageView userImageView;
+//    private CircleImageView userImageView;
     private String mPhotoUrl, mUsername, mUid, chatPath, mChatKey;
-    private TextView textView;
-    private CardView cardView;
+//    private TextView textView;
+//    private CardView cardView;
     private ImageView mChatBg;
     private DatabaseReference databaseReference;
-    private AutoTypeTextView autoTypeTextView;
+//    private AutoTypeTextView autoTypeTextView;
     private EditText mEditText;
     public static String mGroupKey, mGroupPhoto;
     private FloatingActionButton mSendFab;

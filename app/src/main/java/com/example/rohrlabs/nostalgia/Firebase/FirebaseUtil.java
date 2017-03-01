@@ -74,9 +74,27 @@ public class FirebaseUtil {
         return getBaseRef().child("groups");
     }
 
+    public static DatabaseReference getMemberGroupRef () {
+        mUid = getUid();
+        return getBaseRef().child("members").child(mUid).child("groups");
+    }
+
     public static DatabaseReference getGroupMemberRef () {
         mGroupKey = GroupFragment.mGroupKey;
         mGroupKey = GroupsAdapter.mGroupKey;
+        mUid = FirebaseUtil.getUid();
+        if (mGroupKey != null) {
+            return getGroupRef().child(mGroupKey).child("members").child(mUid);
+        }
+        return null;
+    }
+
+    public static DatabaseReference getMemberProfile() {
+        mUid = FirebaseUtil.getUid();
+        return getBaseRef().child("members").child(mUid);
+    }
+
+    public static DatabaseReference getAddUserRef() {
         return getBaseRef().child("members");
     }
 }

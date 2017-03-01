@@ -25,7 +25,7 @@ public class Viewholder extends RecyclerView.ViewHolder {
     public ImageView mImageViewPost;
     public TextView mTextViewPostUserName, mTextViewGroupName;
     public ImageView profilePicture, mImageViewGroup;
-    public CardView mCardViewPost, mCardViewDeleteComment, mCardViewCommentDetails, mCardViewComment ,mCardViewCommentUser, mCardViewChat, mCardViewChatUser, mCardViewDeleteChat, mCardViewChatDetail;
+    public CardView mCardViewPost, mCardViewDeleteComment, mCardViewCommentDetails, mCardViewComment ,mCardViewCommentUser, mCardViewChat, mCardViewChatUser, mCardViewDeleteChat, mCardViewChatDetail, mCardViewGroup;
     public Context mContext;
     public ImageView detailImageView, userProfileImageView, groupsImageView;
     public TextView detailTitle, userProfileTextView, groupsTextView, mTextViewChat, mTextViewChatUser, mTextViewDeleteChat;
@@ -81,6 +81,7 @@ public class Viewholder extends RecyclerView.ViewHolder {
         mCardViewCommentDetails = (CardView) itemView.findViewById(R.id.commentDetailCardView);
         mCardViewComment = (CardView) itemView.findViewById(R.id.commentCardView);
         mCardViewCommentUser = (CardView) itemView.findViewById(R.id.commentCardViewUser);
+        mCardViewGroup = (CardView) itemView.findViewById(R.id.cardViewGroup);
 
         mTextViewCommentUser = (TextView) itemView.findViewById(R.id.commentTextViewUser);
 

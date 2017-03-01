@@ -50,5 +50,11 @@ public class UserItemFragment extends Fragment {
         return rootView;
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mUserAdapter != null) {
+            mUserAdapter.cleanup();
+        }
+    }
 }

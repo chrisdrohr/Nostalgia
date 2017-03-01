@@ -19,7 +19,7 @@ public class AddedUserItemFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private AddedUserAdapter mAddedUserAdapter;
     private LinearLayoutManager mLayoutManager;
-    private String groupKey, groupName;
+    private String groupKey, mUid;
 
     public AddedUserItemFragment() {
     }
@@ -27,12 +27,14 @@ public class AddedUserItemFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         groupKey = getActivity().getIntent().getStringExtra("mGroupKey");
+        mUid = FirebaseUtil.getUid();
 
         mAddedUserAdapter = new AddedUserAdapter(
                 User.class,
                 R.layout.fragment_added_user_item,
                 Viewholder.class,
-                FirebaseUtil.getGroupMemberRef(), getActivity());
+                FirebaseUtil.getGroupRef().child(groupKey).child("members"),
+                getActivity());
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         super.onCreate(savedInstanceState);
     }
@@ -47,5 +49,11 @@ public class AddedUserItemFragment extends Fragment {
         mRecyclerView.setAdapter(mAddedUserAdapter);
         return rootView;
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mAddedUserAdapter != null) {
+            mAddedUserAdapter.cleanup();
+        }
+    }
 }

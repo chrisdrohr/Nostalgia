@@ -19,7 +19,7 @@ import com.google.firebase.database.Query;
 public class AddedUserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> {
 
     private Context context;
-    public static String groupKey = "mGroupKey";
+    public static String groupKey;
     public static String userKey = "userKey";
 
     public AddedUserAdapter(Class<User> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
@@ -56,7 +56,7 @@ public class AddedUserAdapter extends FirebaseRecyclerAdapter<User, Viewholder> 
         viewHolder.addedUserImageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) throws IndexOutOfBoundsException {
-                if (v != null) {
+                if (v != null && groupKey != null) {
                     groupKey = GroupFragment.mGroupKey;
                     userKey = getRef(position).getKey();
                     FirebaseUtil.getGroupRef().child(groupKey).child(userKey).removeValue();
