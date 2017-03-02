@@ -1,7 +1,6 @@
 package com.example.rohrlabs.nostalgia.RecyclerFragments;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,28 +12,24 @@ import com.example.rohrlabs.nostalgia.Adapters.ChatAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Chat;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderChat;
 
-public class RecyclerChatFragment extends Fragment {
+public class ChatListFragment extends Fragment {
 
-    private static final String TAG = "RecyclerChatFragment";
+    private static final String TAG = "ChatListFragment";
     private RecyclerView mRecyclerView;
-    private Context context;
-    private String mKey;
     private ChatAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
-    public RecyclerChatFragment() {
+    public ChatListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-//        mPostKey = getActivity().getIntent().getStringExtra("post_key");
-//        Toast.makeText(getContext(), mPostKey, Toast.LENGTH_SHORT).show();
         mAdapter = new ChatAdapter(
                 Chat.class,
                 R.layout.fragment_chat_item,
-                Viewholder.class,
+                ViewholderChat.class,
                 FirebaseUtil.getChatRef(),
                 getActivity());
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -49,9 +44,7 @@ public class RecyclerChatFragment extends Fragment {
         rootView.setTag(TAG);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewChatList);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
         mRecyclerView.setAdapter(mAdapter);
-
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {

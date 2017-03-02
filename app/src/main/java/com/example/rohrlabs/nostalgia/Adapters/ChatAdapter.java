@@ -9,25 +9,25 @@ import com.bumptech.glide.Priority;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Chat;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderChat;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.database.Query;
 import com.sloop.fonts.FontsManager;
 
 
-public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, Viewholder>{
+public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, ViewholderChat>{
 
-    private Context context;
+    private Context mContext;
     private String mUid, mChatKey;
 
-    public ChatAdapter(Class<Chat> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
+    public ChatAdapter(Class<Chat> modelClass, int modelLayout, Class<ViewholderChat> viewHolderClass, Query ref, Context mContext) {
         super(modelClass, modelLayout, viewHolderClass, ref);
-        this.context = context;
+        this.mContext = mContext;
     }
 
     @Override
-    protected void populateViewHolder(final Viewholder viewHolder, final Chat model, final int position) {
+    protected void populateViewHolder(final ViewholderChat viewHolder, final Chat model, final int position) {
         mUid = FirebaseUtil.getUid();
         if (mUid.equals(model.getUid())) {
             viewHolder.mTextViewChatUser.setText(model.getText());
@@ -39,15 +39,14 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, Viewholder>{
             viewHolder.mAutoTextViewChatDate.setTypingSpeed(50);
         }
 
-
         ViewAnimator.animate(viewHolder.mLayoutChatItems)
                 .slideBottom()
                 .descelerate()
                 .duration(300)
                 .start();
+
         FontsManager.changeFonts(viewHolder.mTextViewChat);
         FontsManager.changeFonts(viewHolder.mTextViewChatUser);
-
 
             viewHolder.mTextViewChat.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,6 +73,7 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, Viewholder>{
                         .slideBottom()
                         .duration(200)
                         .start();
+
                 viewHolder.mCardViewChatDetail.setVisibility(View.GONE);
                 viewHolder.mCardViewChat.setVisibility(View.VISIBLE);
             }
@@ -85,7 +85,7 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, Viewholder>{
                 public boolean onLongClick(View view) {
                     mChatKey = model.getKey();
 
-                    ViewAnimator.animate(viewHolder.mLayoutDeleteChat)
+                    ViewAnimator.animate(viewHolder.mLayoutChatDelete)
                             .slideRight()
                             .descelerate()
                             .duration(300)
@@ -95,26 +95,27 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, Viewholder>{
                             .slideTop()
                             .duration(200)
                             .start();
+
                     viewHolder.mCardViewChat.setVisibility(View.INVISIBLE);
-                    viewHolder.mLayoutDeleteChat.setVisibility(View.VISIBLE);
+                    viewHolder.mLayoutChatDelete.setVisibility(View.VISIBLE);
                     return false;
                 }
             });
         }
 
-        viewHolder.mFabDeleteChat.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mFabChatDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 deleteMessage();
                 viewHolder.mCardViewChat.setVisibility(View.VISIBLE);
-                viewHolder.mLayoutDeleteChat.setVisibility(View.GONE);
+                viewHolder.mLayoutChatDelete.setVisibility(View.GONE);
             }
         });
 
-        viewHolder.mFabCancelChat.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mFabChatCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewAnimator.animate(viewHolder.mLayoutDeleteChat)
+                ViewAnimator.animate(viewHolder.mLayoutChatDelete)
                         .slideRight()
                         .descelerate()
                         .duration(300)
@@ -124,18 +125,17 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, Viewholder>{
                         .slideBottom()
                         .duration(200)
                         .start();
+
                 viewHolder.mCardViewChat.setVisibility(View.VISIBLE);
-                viewHolder.mLayoutDeleteChat.setVisibility(View.INVISIBLE);
+                viewHolder.mLayoutChatDelete.setVisibility(View.INVISIBLE);
                 viewHolder.mCardViewChat.setVisibility(View.GONE);
             }
         });
 
-
-
         if (model.getPhotoUrl() == null) {
             viewHolder.mCircleImageViewChat
                     .setImageDrawable(ContextCompat
-                            .getDrawable(context,
+                            .getDrawable(mContext,
                                     R.drawable.ic_account_circle_black_36dp));
         } else {
             if (mUid.equals(model.getUid())){
@@ -144,7 +144,7 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Chat, Viewholder>{
                 viewHolder.mCircleImageViewChat.setVisibility(View.INVISIBLE);
 
             }else
-            Glide.with(context)
+            Glide.with(mContext)
                     .load(model.getPhotoUrl())
                     .priority(Priority.NORMAL)
                     .into(viewHolder.mCircleImageViewChat);

@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
-import com.example.rohrlabs.nostalgia.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.Query;
 

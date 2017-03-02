@@ -9,47 +9,47 @@ import com.bumptech.glide.Priority;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Comment;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewHolderComment;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.database.Query;
 import com.sloop.fonts.FontsManager;
 
 
-public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>{
+public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, ViewHolderComment>{
 
     private Context context;
     private String mUid, mPostKey, mCommentKey;
 
-    public CommentAdapter(Class<Comment> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
+    public CommentAdapter(Class<Comment> modelClass, int modelLayout, Class<ViewHolderComment> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         this.context = context;
     }
 
     @Override
-    protected void populateViewHolder(final Viewholder viewHolder, final Comment model, final int position) {
+    protected void populateViewHolder(final ViewHolderComment viewHolder, final Comment model, final int position) {
+
         mUid = FirebaseUtil.getUid();
         if (mUid.equals(model.getUid())) {
             viewHolder.mTextViewCommentUser.setText(model.getText());
         } else {
-            viewHolder.commentTextView.setText(model.getText());
-            viewHolder.commentAutoTypeTextView.setTextAutoTyping(model.getUser());
-            viewHolder.commentTimestampAutoTextView.setTextAutoTyping(model.getTimestamp());
-            viewHolder.commentTimestampAutoTextView.setDecryptionSpeed(150);
-            viewHolder.commentAutoTypeTextView.setTypingSpeed(50);
+            viewHolder.mTextViewComment.setText(model.getText());
+            viewHolder.mAutoTextViewComment.setTextAutoTyping(model.getUser());
+            viewHolder.mAutoTextViewCommentTimestamp.setTextAutoTyping(model.getTimestamp());
+            viewHolder.mAutoTextViewCommentTimestamp.setDecryptionSpeed(150);
+            viewHolder.mAutoTextViewCommentTimestamp.setTypingSpeed(50);
         }
 
-
-        ViewAnimator.animate(viewHolder.layoutCommentItems)
+        ViewAnimator.animate(viewHolder.mLayoutCommentItems)
                 .slideBottom()
                 .descelerate()
                 .duration(300)
                 .start();
-        FontsManager.changeFonts(viewHolder.commentTextView);
-        FontsManager.changeFonts(viewHolder.commentNameTextView);
 
+        FontsManager.changeFonts(viewHolder.mTextViewComment);
+        FontsManager.changeFonts(viewHolder.mTextViewCommentUser);
 
-            viewHolder.commentTextView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.mTextViewComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ViewAnimator.animate(viewHolder.mCardViewComment)
@@ -59,6 +59,7 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
                             .slideBottom()
                             .duration(200)
                             .start();
+
                     viewHolder.mCardViewCommentDetails.setVisibility(View.VISIBLE);
                     viewHolder.mCardViewComment.setVisibility(View.GONE);
                 }
@@ -74,6 +75,7 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
                         .slideBottom()
                         .duration(200)
                         .start();
+
                 viewHolder.mCardViewCommentDetails.setVisibility(View.GONE);
                 viewHolder.mCardViewComment.setVisibility(View.VISIBLE);
             }
@@ -86,7 +88,7 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
                     mPostKey = model.getPostKey();
                     mCommentKey = model.getCommentKey();
 
-                    ViewAnimator.animate(viewHolder.layoutDeletComment)
+                    ViewAnimator.animate(viewHolder.mLayoutCommentDelete)
                             .slideRight()
                             .descelerate()
                             .duration(300)
@@ -96,26 +98,27 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
                             .slideTop()
                             .duration(200)
                             .start();
+
                     viewHolder.mCardViewComment.setVisibility(View.INVISIBLE);
-                    viewHolder.layoutDeletComment.setVisibility(View.VISIBLE);
+                    viewHolder.mLayoutCommentDelete.setVisibility(View.VISIBLE);
                     return false;
                 }
             });
         }
 
-        viewHolder.fabDelete.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mFabDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 deleteComment();
                 viewHolder.mCardViewComment.setVisibility(View.VISIBLE);
-                viewHolder.layoutDeletComment.setVisibility(View.GONE);
+                viewHolder.mLayoutCommentDelete.setVisibility(View.GONE);
             }
         });
 
-        viewHolder.fabCancel.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mFabCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewAnimator.animate(viewHolder.layoutDeletComment)
+                ViewAnimator.animate(viewHolder.mLayoutCommentDelete)
                         .slideRight()
                         .descelerate()
                         .duration(300)
@@ -125,16 +128,15 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
                         .slideBottom()
                         .duration(200)
                         .start();
+
                 viewHolder.mCardViewComment.setVisibility(View.VISIBLE);
-                viewHolder.layoutDeletComment.setVisibility(View.INVISIBLE);
+                viewHolder.mLayoutCommentDelete.setVisibility(View.INVISIBLE);
                 viewHolder.mCardViewComment.setVisibility(View.GONE);
             }
         });
 
-
-
         if (model.getPhotoUrl() == null) {
-            viewHolder.commentImageView
+            viewHolder.mCircleImageViewComment
                     .setImageDrawable(ContextCompat
                             .getDrawable(context,
                                     R.drawable.ic_account_circle_black_36dp));
@@ -142,17 +144,17 @@ public class CommentAdapter extends FirebaseRecyclerAdapter<Comment, Viewholder>
             if (mUid.equals(model.getUid())){
                 viewHolder.mCardViewCommentUser.setVisibility(View.VISIBLE);
                 viewHolder.mCardViewComment.setVisibility(View.INVISIBLE);
-                viewHolder.commentImageView.setVisibility(View.INVISIBLE);
+                viewHolder.mCircleImageViewComment.setVisibility(View.INVISIBLE);
 
             }else
             Glide.with(context)
                     .load(model.getPhotoUrl())
                     .priority(Priority.NORMAL)
-                    .into(viewHolder.commentImageView);
+                    .into(viewHolder.mCircleImageViewComment);
             if (!mUid.equals(model.getUid())){
                 viewHolder.mCardViewCommentUser.setVisibility(View.INVISIBLE);
                 viewHolder.mCardViewComment.setVisibility(View.VISIBLE);
-                viewHolder.commentImageView.setVisibility(View.VISIBLE);
+                viewHolder.mCircleImageViewComment.setVisibility(View.VISIBLE);
             }
         }
     }

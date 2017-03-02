@@ -11,7 +11,7 @@ import com.example.rohrlabs.nostalgia.Fragments.CommentFragment;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Post;
 import com.example.rohrlabs.nostalgia.R;
 import com.example.rohrlabs.nostalgia.RecyclerFragments.CommentItemFragment;
-import com.example.rohrlabs.nostalgia.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.database.Query;

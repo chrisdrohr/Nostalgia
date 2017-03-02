@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.rohrlabs.nostalgia.Fragments.ChatFragment">
+    tools:mContext="com.example.rohrlabs.nostalgia.Fragments.ChatFragment">
 
     <ImageView
         android:id="@+id/imageViewChatBg"
@@ -16,11 +16,7 @@
         android:layout_above="@+id/cardViewEditText"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!--<fragment-->
-            <!--android:id="@+id/recyclerChatFragment"-->
-            <!--android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.RecyclerChatFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
+
     </FrameLayout>
 
 

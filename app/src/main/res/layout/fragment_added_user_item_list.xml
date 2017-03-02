@@ -8,5 +8,5 @@
     android:layout_height="wrap_content"
     app:layoutManager="LinearLayoutManager"
     android:background="@android:drawable/screen_background_light_transparent"
-    tools:context="com.example.rohrlabs.nostalgia.RecyclerFragments.AddedUserItemFragment"
+    tools:mContext="com.example.rohrlabs.nostalgia.RecyclerFragments.AddedUserItemFragment"
     tools:listitem="@layout/fragment_added_user_item" />

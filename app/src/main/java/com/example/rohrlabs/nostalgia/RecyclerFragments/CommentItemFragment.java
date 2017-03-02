@@ -13,7 +13,7 @@ import com.example.rohrlabs.nostalgia.Adapters.CommentAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Comment;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewHolderComment;
 
 public class CommentItemFragment extends Fragment {
 
@@ -30,11 +30,10 @@ public class CommentItemFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mPostKey = getActivity().getIntent().getStringExtra("post_key");
-//        Toast.makeText(getContext(), mPostKey, Toast.LENGTH_SHORT).show();
         mCommentAdapter = new CommentAdapter(
                 Comment.class,
                 R.layout.fragment_comment_item,
-                Viewholder.class,
+                ViewHolderComment.class,
                 FirebaseUtil.getCommentsRef().child(mPostKey),
                 getActivity());
         mLayoutManager = new LinearLayoutManager(context);

@@ -15,7 +15,7 @@ import com.example.rohrlabs.nostalgia.Adapters.PostAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Post;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
 
 public class MainItemFragment extends Fragment{
 

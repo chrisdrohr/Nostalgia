@@ -61,6 +61,7 @@ public class GroupFragment extends DialogFragment {
 
 //        cardView = (CardView) view.findViewById(R.id.cardViewprofile);
         imageButton = (ImageButton) view.findViewById(R.id.addGroupImage);
+
 //        circleUserImageView = (CircleImageView) view.findViewById(R.id.dialogUserImageView);
 //        textView = (TextView) view.findViewById(R.id.dialogTextView);
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
@@ -70,23 +71,24 @@ public class GroupFragment extends DialogFragment {
         mEditText = (EditText) view.findViewById(R.id.groupEditText);
         fabCancelGroup = (FloatingActionButton) view.findViewById(R.id.fabCancelGroup);
         fabCreateGroup = (FloatingActionButton) view.findViewById(R.id.fabCreateGroup);
-        mStorageReference = mFirebaseStorage.getReference().child("posts");
+        mStorageReference = mFirebaseStorage.getReference().child("groups");
 
         context = getActivity();
 
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-            }
-        });
+//        imageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//                photoPickerIntent.setType("image/*");
+//                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+//            }
+//        });
 
         hideEditText();
+        pickPhoto();
 
         fabCreateGroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +96,6 @@ public class GroupFragment extends DialogFragment {
                 if (mEditText.getText().toString().matches("") || !mGroupProcess){
                     Toast.makeText(context, "Upload a group photo and name your group to continue", Toast.LENGTH_SHORT).show();
                 } else {
-//                    intent();
                     getKey();
                 }
             }
@@ -108,6 +109,12 @@ public class GroupFragment extends DialogFragment {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         return alertDialog;
+    }
+
+    public void pickPhoto() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
 
     @Override

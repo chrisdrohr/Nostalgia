@@ -9,7 +9,7 @@ import com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Group;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
-import com.example.rohrlabs.nostalgia.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;

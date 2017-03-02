@@ -7,5 +7,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupsItemFragment"
+    tools:mContext="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupsItemFragment"
     tools:listitem="@layout/group_card_view" />

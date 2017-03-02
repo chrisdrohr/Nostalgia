@@ -15,7 +15,7 @@ import com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
 
 public class GroupMembersFragment extends Fragment {
 
