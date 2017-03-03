@@ -12,7 +12,7 @@ import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Group;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderGroup;
 
 public class GroupsItemFragment extends Fragment {
     private static final String TAG = "GroupsItemFragment";
@@ -28,7 +28,7 @@ public class GroupsItemFragment extends Fragment {
         mGroupsAdapter = new GroupsAdapter(
                 Group.class,
                 R.layout.group_card_view,
-                Viewholder.class,
+                ViewholderGroup.class,
                 FirebaseUtil.getMemberProfile().child("groups"),
                 getActivity());
         mLayoutManager = new GridLayoutManager(getActivity(),1);

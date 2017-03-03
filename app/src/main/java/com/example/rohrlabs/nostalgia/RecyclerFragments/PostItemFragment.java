@@ -15,11 +15,11 @@ import com.example.rohrlabs.nostalgia.Adapters.PostAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Post;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderPost;
 
-public class MainItemFragment extends Fragment{
+public class PostItemFragment extends Fragment{
 
-    private static final String TAG = "MainItemFragment";
+    private static final String TAG = "PostItemFragment";
     private RecyclerView mRecyclerView;
     private PostAdapter mPostAdapter;
     private Context mContext;
@@ -33,7 +33,7 @@ public class MainItemFragment extends Fragment{
             mPostAdapter = new PostAdapter(
                     Post.class,
                     R.layout.fragment_main_item,
-                    Viewholder.class,
+                    ViewholderPost.class,
                     FirebaseUtil.getPostRef(),
                     getActivity());
         } else {

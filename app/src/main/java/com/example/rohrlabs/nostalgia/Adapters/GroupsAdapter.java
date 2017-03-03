@@ -11,12 +11,12 @@ import com.bumptech.glide.Priority;
 import com.example.rohrlabs.nostalgia.Activities.MainActivity;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Group;
-import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderGroup;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
-public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
+public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,ViewholderGroup> {
     private Context context;
     private BroadcastReceiver broadcastReceiver;
     private Query mQuery;
@@ -26,14 +26,14 @@ public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,Viewholder> {
     public static String groupPhoto;
     private String mKey;
 
-    public GroupsAdapter(Class<Group> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
+    public GroupsAdapter(Class<Group> modelClass, int modelLayout, Class<ViewholderGroup> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         this.context = context;
         this.mQuery = ref.orderByKey();
     }
 
     @Override
-    protected void populateViewHolder(final Viewholder viewHolder, final Group model, final int position) {
+    protected void populateViewHolder(final ViewholderGroup viewHolder, final Group model, final int position) {
         mKey = getRef(position).getKey();
                     viewHolder.mCardViewGroup.setVisibility(View.VISIBLE);
                     viewHolder.mTextViewGroupName.setText(model.getGroupName());

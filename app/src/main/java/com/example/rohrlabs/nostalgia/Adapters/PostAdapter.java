@@ -11,12 +11,12 @@ import com.example.rohrlabs.nostalgia.Fragments.CommentFragment;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Post;
 import com.example.rohrlabs.nostalgia.R;
 import com.example.rohrlabs.nostalgia.RecyclerFragments.CommentItemFragment;
-import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderPost;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.firebase.database.Query;
 
-public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
+public class PostAdapter extends FirebaseRecyclerAdapter<Post, ViewholderPost> {
 
     private static final String TAG = PostAdapter.class.getSimpleName();
     private Context context;
@@ -24,7 +24,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     int previousPosition = 0;
     public static String post_key = "post_key";
 
-    public PostAdapter(Class<Post> modelClass, int modelLayout, Class<Viewholder> viewHolderClass, Query ref, Context context) {
+    public PostAdapter(Class<Post> modelClass, int modelLayout, Class<ViewholderPost> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         this.context = context;
         this.mRef = ref;
@@ -32,7 +32,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, Viewholder> {
     }
 
     @Override
-    public void populateViewHolder(final Viewholder viewHolder, final Post model, final int position) {
+    public void populateViewHolder(final ViewholderPost viewHolder, final Post model, final int position) {
             final String post_key = getRef(position).getKey();
             viewHolder.mTextViewPostTitle.setText(model.getTitle());
             viewHolder.mTextViewPostUserName.setText("-" + model.getUser());

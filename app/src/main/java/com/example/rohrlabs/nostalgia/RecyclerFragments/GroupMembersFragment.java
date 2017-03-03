@@ -7,7 +7,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.example.rohrlabs.nostalgia.Adapters.GroupMembersAdapter;
 import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
@@ -15,7 +14,7 @@ import com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderGroupMembers;
 
 public class GroupMembersFragment extends Fragment {
 
@@ -23,8 +22,7 @@ public class GroupMembersFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private GroupMembersAdapter mGroupMembersAdapter;
     private StaggeredGridLayoutManager mLayoutManager;
-    private ImageView userProfileImageView;
-    private String mUsername, mPhotoUrl, mUid, groupName, groupId, mGroupKey;
+    private String mGroupKey;
 
     public GroupMembersFragment() {
     }
@@ -37,7 +35,7 @@ public class GroupMembersFragment extends Fragment {
             mGroupMembersAdapter = new GroupMembersAdapter(
                     User.class,
                     R.layout.fragment_group_member_item,
-                    Viewholder.class,
+                    ViewholderGroupMembers.class,
                     getActivity(),
                     FirebaseUtil.getGroupRef().child(mGroupKey).child("members"));
         }

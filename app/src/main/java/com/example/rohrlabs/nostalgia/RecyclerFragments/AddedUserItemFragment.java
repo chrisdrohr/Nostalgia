@@ -12,7 +12,7 @@ import com.example.rohrlabs.nostalgia.Adapters.AddedUserAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.example.rohrlabs.nostalgia.R;
-import com.example.rohrlabs.nostalgia.ViewHolders.Viewholder;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderAddedUser;
 
 public class AddedUserItemFragment extends Fragment {
     private static final String TAG = "AddedUserItemFragment";
@@ -32,7 +32,7 @@ public class AddedUserItemFragment extends Fragment {
         mAddedUserAdapter = new AddedUserAdapter(
                 User.class,
                 R.layout.fragment_added_user_item,
-                Viewholder.class,
+                ViewholderAddedUser.class,
                 FirebaseUtil.getGroupRef().child(groupKey).child("members"),
                 getActivity());
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
