@@ -1,7 +1,6 @@
 package com.example.rohrlabs.nostalgia.Activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -60,8 +59,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     private DatabaseReference mDatabaseLike, mDatabaseIntent;
     private TextView imageViewText;
     private ImageView imageView, commentImageView;
-    public String mPostKey;
-    public static String post_image, post_title;
+//    public String mPostKey;
+    public static String post_image, post_title, mPostKey;
     private CardView imageCardView;
     private ImageButton mLikeButton;
     private Boolean mProcessLike = false;
@@ -86,7 +85,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         mDatabaseLike = FirebaseUtil.getLikesRef();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mDatabaseIntent = FirebaseUtil.getPostRef();
-        mPostKey = getIntent().getExtras().getString("post_key");
+        mPostKey = getIntent().getExtras().getString("mPostKey");
         mDatabaseLike.keepSynced(true);
         imageViewText = (TextView) findViewById(R.id.titleTextView);
         imageView = (ImageView) findViewById(R.id.detialView);
@@ -106,8 +105,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onResume() {
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMainList);
-
         ViewAnimator.animate(toolbar)
                 .alpha(1,1)
                 .start();
@@ -130,12 +127,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         deleteDialogFragment.show(getFragmentManager(), "Delete Dialog Fragment");
     }
 
-    public void doPositiveClick() {
-        Intent intent = new Intent(DetailActivity.this, MainActivity.class);
-        startActivity(intent);
-        FirebaseUtil.getDeletePostRef().child(mPostKey).removeValue();
-        finish();
-    }
+//    public void doPositiveClick() {
+//        Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+//        startActivity(intent);
+//        FirebaseUtil.getDeletePostRef().child(mPostKey).removeValue();
+//        finish();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

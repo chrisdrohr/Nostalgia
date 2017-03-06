@@ -7,6 +7,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.example.rohrlabs.nostalgia.Activities.DetailActivity;
 import com.example.rohrlabs.nostalgia.AnimationUtil;
+import com.example.rohrlabs.nostalgia.DialogFragments.DeleteDialogFragment;
 import com.example.rohrlabs.nostalgia.Fragments.CommentFragment;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Post;
 import com.example.rohrlabs.nostalgia.R;
@@ -22,7 +23,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, ViewholderPost> {
     private Context context;
     private Query mRef;
     int previousPosition = 0;
-    public static String post_key = "post_key";
+    public static String mPostKey;
 
     public PostAdapter(Class<Post> modelClass, int modelLayout, Class<ViewholderPost> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
@@ -39,7 +40,7 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, ViewholderPost> {
             Glide.with(context)
                     .load(model.getImageURL())
                     .crossFade()
-                    .centerCrop()
+//                    .centerCrop()
 //                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(viewHolder.mImageViewPost);
 
@@ -68,20 +69,25 @@ public class PostAdapter extends FirebaseRecyclerAdapter<Post, ViewholderPost> {
         viewHolder.mImageViewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent commentIntent = new Intent(context, CommentItemFragment.class);
-                commentIntent.putExtra("post_key", post_key);
-                context.sendBroadcast(commentIntent,"post_key");
+                commentIntent.putExtra("mPostKey", post_key);
+                context.sendBroadcast(commentIntent,"mPostKey");
 
                 Intent postKeyIntent = new Intent(context, CommentAdapter.class);
-                commentIntent.putExtra("post_key", post_key);
-                context.sendBroadcast(postKeyIntent,"post_key");
+                commentIntent.putExtra("mPostKey", post_key);
+                context.sendBroadcast(postKeyIntent,"mPostKey");
 
                 Intent postKey = new Intent(context, CommentFragment.class);
-                postKey.putExtra("post_key", post_key);
-                context.sendBroadcast(postKey,"post_key");
+                postKey.putExtra("mPostKey", post_key);
+                context.sendBroadcast(postKey,"mPostKey");
+
+                Intent postKeyDelete = new Intent(context, DeleteDialogFragment.class);
+                postKeyDelete.putExtra("mPostKey", post_key);
+                context.sendBroadcast(postKeyDelete,"mPostKey");
 
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("post_key", post_key);
+                intent.putExtra("mPostKey", post_key);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

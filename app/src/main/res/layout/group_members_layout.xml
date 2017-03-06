@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView android:id="@+id/cardViewGroupMembers"
-    android:layout_centerInParent="true"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="4dp"
-    app:cardBackgroundColor="@android:drawable/screen_background_dark_transparent"
-    app:contentPadding="@dimen/cardview_compat_inset_shadow"
-    app:cardElevation="2dp"
+<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="200dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/imageViewGroupMembersBg"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 
             <FrameLayout
+                android:elevation="2dp"
+                android:layout_centerInParent="true"
                 android:id="@+id/groupMemberFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="200dp">
+
+                <fragment
+                    android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupMembersListFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </FrameLayout>
-            <!--<fragment-->
-                <!--android:name="com.example.rohrlabs.nostalgia.RecyclerFragments.GroupMembersFragment"-->
-                <!--android:id="@+id/groupMemberFragment"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"/>-->
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/groupMemberFragment"
+                android:layout_alignBottom="@+id/imageViewGroupMembersBg"
                 android:layout_alignParentEnd="true"
                 app:fabSize="mini"
                 android:layout_margin="5dp"
@@ -41,54 +38,4 @@
                 android:elevation="6dp"
                 app:backgroundTint="@color/fabColor" />
 
-            <!--<RelativeLayout-->
-                <!--android:id="@+id/layout_deleteGroup"-->
-                <!--android:visibility="gone"-->
-                <!--android:layout_below="@+id/groupMemberFragment"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content">-->
-                <!---->
-                <!--<TextView-->
-                    <!--android:text="Delete group?"-->
-                    <!--android:textColor="@color/AccentLighter"-->
-                    <!--android:paddingRight="10dp"-->
-                    <!--android:layout_margin="5dp"-->
-                    <!--android:layout_toLeftOf="@+id/fabCancelGroupDelete"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:textSize="24sp"-->
-                    <!--android:textStyle="normal|bold" />-->
-
-                <!--<android.support.design.widget.FloatingActionButton-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_toLeftOf="@+id/fabDelete"-->
-                    <!--app:fabSize="mini"-->
-                    <!--android:layout_margin="5dp"-->
-                    <!--app:srcCompat="@drawable/close"-->
-                    <!--android:id="@+id/fabCancelGroupDelete"-->
-                    <!--android:tint="@color/AccentLighter"-->
-                    <!--android:adjustViewBounds="true"-->
-                    <!--android:elevation="6dp"-->
-                    <!--app:backgroundTint="@color/fabColor" />-->
-
-                <!--<android.support.design.widget.FloatingActionButton-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentEnd="true"-->
-                    <!--app:fabSize="mini"-->
-                    <!--android:layout_margin="5dp"-->
-                    <!--app:srcCompat="@drawable/delete_vector"-->
-                    <!--android:id="@+id/fabDelete"-->
-                    <!--android:tint="@color/AccentLighter"-->
-                    <!--android:adjustViewBounds="true"-->
-                    <!--android:elevation="6dp"-->
-                    <!--app:backgroundTint="@color/fabColor" />-->
-
-            <!--</RelativeLayout>-->
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
-
-<!--</RelativeLayout>-->
+    </RelativeLayout>

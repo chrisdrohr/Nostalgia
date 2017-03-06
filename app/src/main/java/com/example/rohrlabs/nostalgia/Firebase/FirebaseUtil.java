@@ -26,14 +26,17 @@ public class FirebaseUtil {
     public static DatabaseReference getGroupKeyRef() {
         mGroupKey = GroupFragment.mGroupKey;
         mGroupKey = GroupsAdapter.mGroupKey;
-//        mGroupKey = NavGroupsAdapter.mGroupKey;
         if (mGroupKey != null) {
             return FirebaseDatabase.getInstance().getReference().child("groups").child(mGroupKey);
-
-        }else {
-            return null;
         }
+        return FirebaseUtil.getGroupRef();
     }
+
+//    public static DatabaseReference getGroupKeyRef() {
+//        mGroupKey = GroupFragment.mGroupKey;
+//        mGroupKey = GroupsAdapter.mGroupKey;
+//        return FirebaseDatabase.getInstance().getReference().child("groups").child(mGroupKey);
+//    }
 
     public static User getUser () {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -48,7 +51,7 @@ public class FirebaseUtil {
     }
 
     public static DatabaseReference getDeletePostRef() {
-        return FirebaseDatabase.getInstance().getReference().child("posts");
+        return getPostRef();
     }
 
     public static DatabaseReference getPostRef () {

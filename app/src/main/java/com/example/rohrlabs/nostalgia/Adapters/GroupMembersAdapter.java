@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderGroupMembers;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -25,11 +24,13 @@ public class GroupMembersAdapter extends FirebaseRecyclerAdapter<User,Viewholder
 
     @Override
     protected void populateViewHolder(ViewholderGroupMembers viewHolder, User model, int position) {
-        viewHolder.mAutoTypeTextViewGroupMember.setText(model.getUserName());
+//        viewHolder.mAutoTypeTextViewGroupMember.setText(model.getUserName());
         Glide.with(context)
                 .load(model.getProfilePicture())
+                .thumbnail(0.1f)
+                .centerCrop()
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)
                 .into(viewHolder.mCircleImageViewGroupMember);
     }

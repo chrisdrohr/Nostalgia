@@ -9,14 +9,14 @@ import com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
 import com.example.rohrlabs.nostalgia.ObjectClasses.Group;
 import com.example.rohrlabs.nostalgia.ObjectClasses.User;
-import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderAddedUser;
+import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderUser;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
 import static com.example.rohrlabs.nostalgia.DialogFragments.GroupFragment.mGroupKey;
 
-public class UserAdapter extends FirebaseRecyclerAdapter<User, ViewholderAddedUser> {
+public class UserAdapter extends FirebaseRecyclerAdapter<User, ViewholderUser> {
 
     private Context context;
     public static String groupKey = "mGroupKey";
@@ -25,22 +25,22 @@ public class UserAdapter extends FirebaseRecyclerAdapter<User, ViewholderAddedUs
     private DatabaseReference databaseReference, mRef;
 
 
-    public UserAdapter(Class<User> modelClass, int modelLayout, Class<ViewholderAddedUser> viewHolderClass, Query ref, Context context) {
+    public UserAdapter(Class<User> modelClass, int modelLayout, Class<ViewholderUser> viewHolderClass, Query ref, Context context) {
         super(modelClass, modelLayout, viewHolderClass, ref);
         this.context = context;
     }
 
     @Override
-    protected void populateViewHolder(ViewholderAddedUser viewHolder, final User model, int position) {
+    protected void populateViewHolder(ViewholderUser viewHolder, final User model, int position) {
 
-            viewHolder.mAutoTextViewAddedUser.setText(model.getUserName());
+            viewHolder.mTextViewUser.setText(model.getUserName());
         Glide.with(context)
                 .load(model.getProfilePicture())
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(viewHolder.mCircleImageViewAddedUser);
+                .into(viewHolder.mImageViewUser);
 
-        viewHolder.mAutoTextViewAddedUser.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mImageViewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mUid = model.getUid();

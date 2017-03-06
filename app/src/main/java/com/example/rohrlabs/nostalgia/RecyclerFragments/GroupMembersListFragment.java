@@ -16,22 +16,22 @@ import com.example.rohrlabs.nostalgia.ObjectClasses.User;
 import com.example.rohrlabs.nostalgia.R;
 import com.example.rohrlabs.nostalgia.ViewHolders.ViewholderGroupMembers;
 
-public class GroupMembersFragment extends Fragment {
+public class GroupMembersListFragment extends Fragment {
 
-    private static final String TAG = "UserItemFragment";
+    private static final String TAG = "GroupMembersListFragment";
     private RecyclerView mRecyclerView;
     private GroupMembersAdapter mGroupMembersAdapter;
     private StaggeredGridLayoutManager mLayoutManager;
     private String mGroupKey;
 
-    public GroupMembersFragment() {
+    public GroupMembersListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mGroupKey = GroupsAdapter.mGroupKey;
         mGroupKey = GroupFragment.mGroupKey;
-        if (mGroupKey != null) {
+        if (mGroupKey != null && mGroupKey != "mGroupKey") {
             mGroupMembersAdapter = new GroupMembersAdapter(
                     User.class,
                     R.layout.fragment_group_member_item,
@@ -39,7 +39,7 @@ public class GroupMembersFragment extends Fragment {
                     getActivity(),
                     FirebaseUtil.getGroupRef().child(mGroupKey).child("members"));
         }
-        mLayoutManager = new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL);
+        mLayoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
         super.onCreate(savedInstanceState);
     }
 

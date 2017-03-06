@@ -44,7 +44,7 @@ public class CommentFragment extends Fragment implements View.OnClickListener{
         mPhotoUrl = FirebaseUtil.getUser().getProfilePicture();
         mUsername = FirebaseUtil.getUser().getUserName();
         mUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mPostKey = getActivity().getIntent().getExtras().getString("post_key");
+        mPostKey = getActivity().getIntent().getExtras().getString("mPostKey");
     }
 
     @Override

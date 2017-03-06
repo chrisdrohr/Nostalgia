@@ -21,7 +21,7 @@ public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,ViewholderGroup
     private BroadcastReceiver broadcastReceiver;
     private Query mQuery;
     private DatabaseReference mDatabaseRef, mRef;
-    public static String mGroupKey;
+    public static String mGroupKey = "mGroupKey";
     public static String groupName;
     public static String groupPhoto;
     private String mKey;
@@ -35,6 +35,7 @@ public class GroupsAdapter extends FirebaseRecyclerAdapter<Group,ViewholderGroup
     @Override
     protected void populateViewHolder(final ViewholderGroup viewHolder, final Group model, final int position) {
         mKey = getRef(position).getKey();
+
                     viewHolder.mCardViewGroup.setVisibility(View.VISIBLE);
                     viewHolder.mTextViewGroupName.setText(model.getGroupName());
                     Glide.with(context)

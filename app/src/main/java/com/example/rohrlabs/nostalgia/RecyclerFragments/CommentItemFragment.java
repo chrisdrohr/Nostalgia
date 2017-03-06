@@ -29,7 +29,7 @@ public class CommentItemFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        mPostKey = getActivity().getIntent().getStringExtra("post_key");
+        mPostKey = getActivity().getIntent().getStringExtra("mPostKey");
         mCommentAdapter = new CommentAdapter(
                 Comment.class,
                 R.layout.fragment_comment_item,

@@ -11,19 +11,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.Adapters.ViewPagerAdapter;
 import com.example.rohrlabs.nostalgia.Firebase.FirebaseUtil;
+import com.example.rohrlabs.nostalgia.FragmentUtils;
 import com.example.rohrlabs.nostalgia.Fragments.ChatFragment;
 import com.example.rohrlabs.nostalgia.Fragments.GroupFragment;
 import com.example.rohrlabs.nostalgia.Fragments.PostFragment;
@@ -34,7 +32,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
-import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -72,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout, fabLayout;
 //    private ConstraintLayout constraintLayout;
 //    private SharedPreferences sharedPreferences;
-    private String mGroupKey;
+    private String mGroupKey = null, mGroupRef, mGroupUserRef;
 //    private Uri mMediaUri;
 //    private ProgressBar progressBar;
 //    private final static int SELECT_PHOTO = 0;
@@ -85,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private DatabaseReference mGroupExistsRef;
     private StorageReference mStorageReference;
     private FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
     private FloatingActionButton fabPhoto, fabVideo,fabGroup, mFabGroupMembers, mFabGroupDelete, mFabGroupCancel;
@@ -93,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private ProfileTracker mProfileTracker;
     boolean isOpen = true;
     private FrameLayout mLayoutGroupMembers;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,19 +153,16 @@ public class MainActivity extends AppCompatActivity {
 
         checkUser();
 
-//        mFabGroupMembers = (FloatingActionButton) findViewById(R.id.fabExit);
-//        mLayoutDeleteGroup = (RelativeLayout) findViewById(R.id.layout_deleteGroup);
-//        mFabGroupDelete = (FloatingActionButton) findViewById(R.id.fabDelete);
-//        mFabGroupCancel = (FloatingActionButton) findViewById(R.id.fabCancelGroupDelete);
-//        mCardViewGroupMembers = (CardView) findViewById(R.id.cardViewGroupMembers);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mGroupName = GroupsAdapter.groupName;
         mGroupKey = GroupsAdapter.mGroupKey;
-//        mLayoutGroupMembers = (FrameLayout) findViewById(R.id.layout_groupMembers);
+//        mCheckGroupDeleteKey = DeleteGroupDialogFragment.mCheckGroupDeleteKey;
 
         setSupportActionBar(toolbar);
         if (mGroupName != null) {
             getSupportActionBar().setTitle(GroupsAdapter.groupName);
+        }else {
+            getSupportActionBar().setTitle("Nostalgia");
         }
 
         mViewPager = (ViewPager) findViewById(R.id.viewPagerContainer);
@@ -174,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPagerAdapter = new ViewPagerAdapter(getFragmentManager(), this);
         mViewPagerAdapter.addFragments(new GroupFragment(), "");
 
-        if (mGroupKey != null) {
+        if (mGroupKey != null && mGroupKey != "mGroupKey") {
             mViewPagerAdapter.addFragments(new PostFragment(), "");
             mViewPagerAdapter.addFragments(new ChatFragment(), "");
             getPostTab();
@@ -228,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (mGroupKey != null) {
+        if (mGroupKey != null && mGroupKey != "mGroupKey") {
             menu.setGroupVisible(0, true);
             menu.setGroupVisible(1, true);
         }
@@ -269,68 +265,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void groupMembers () {
-//        getFragmentManager()
-//                .beginTransaction()
-//                .add(R.id.containerMain, FragmentUtils.getGroupMembersFragment())
-//                .commit();
-
+        FragmentUtils.getGroupMembersFragment()
+                .show(getFragmentManager(), "GroupMembersFragment");
     }
 
     public void deleteGroup () {
-        mGroupKey = GroupsAdapter.mGroupKey;
-        mFabGroupMembers.setVisibility(View.GONE);
-        mFabGroupDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Group Deleted", Toast.LENGTH_SHORT).show();
-                FirebaseUtil.getGroupRef().child(mGroupKey).removeValue();
-                drawer.openDrawer(Gravity.LEFT);
-                mCardViewGroupMembers.setVisibility(View.GONE);
-            }
-        });
-        mFabGroupCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ViewAnimator.animate(mCardViewGroupMembers)
-                        .fadeOut()
-                        .descelerate()
-                        .duration(300)
-                        .start();
-                mCardViewGroupMembers.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mCardViewGroupMembers.setVisibility(View.GONE);
-                        mLayoutDeleteGroup.setVisibility(View.GONE);
-                    }
-                },300);
-            }
-        });
-        if (!mCardViewGroupMembers.isShown()){
-            ViewAnimator.animate(mCardViewGroupMembers)
-                    .newsPaper()
-                    .descelerate()
-                    .duration(300)
-                    .start();
-            mCardViewGroupMembers.setVisibility(View.VISIBLE);
-            mLayoutDeleteGroup.setVisibility(View.VISIBLE);
-        } else {
-            ViewAnimator.animate(mCardViewGroupMembers)
-                    .fadeOut()
-                    .descelerate()
-                    .duration(300)
-                    .start();
-            mCardViewGroupMembers.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mCardViewGroupMembers.setVisibility(View.GONE);
-                    mLayoutDeleteGroup.setVisibility(View.GONE);
-                }
-            },300);
-
-        }
+        FragmentUtils.getDeleteGroupDialogFragment()
+                .show(getFragmentManager(), "DeleteGroupDialogFragment");
     }
 
-        public void checkUser () {
+    public void checkUser () {
             mProcessUserExists = true;
         FirebaseUtil.getBaseRef().child("users/exists").addValueEventListener(new ValueEventListener() {
             @Override
@@ -342,7 +286,6 @@ public class MainActivity extends AppCompatActivity {
                     addUser();
                         FirebaseUtil.getUserExistsRef().push().setValue(mUid);
                     mProcessUserExists = false;
-
                 }
             }
             }

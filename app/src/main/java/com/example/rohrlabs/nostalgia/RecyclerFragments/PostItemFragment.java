@@ -4,8 +4,8 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +24,12 @@ public class PostItemFragment extends Fragment{
     private PostAdapter mPostAdapter;
     private Context mContext;
     public static String mGroupkey;
-//    private StaggeredGridLayoutManager mLayoutManager;
-    private GridLayoutManager mLayoutManager;
+    private StaggeredGridLayoutManager mLayoutManager;
+//    private GridLayoutManager mLayoutManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mGroupkey = GroupsAdapter.mGroupKey;
-        if (mGroupkey != null) {
+        if (mGroupkey != null && mGroupkey != "mGroupKey") {
             mPostAdapter = new PostAdapter(
                     Post.class,
                     R.layout.fragment_main_item,
@@ -39,8 +39,8 @@ public class PostItemFragment extends Fragment{
         } else {
 
         }
-//        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mLayoutManager = new GridLayoutManager(getActivity(), 1);
+        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//        mLayoutManager = new GridLayoutManager(getActivity(), 2);
         super.onCreate(savedInstanceState);
     }
 
@@ -70,22 +70,22 @@ public class PostItemFragment extends Fragment{
                     super.onItemRangeInserted(positionStart, itemCount);
                     int mCount = mPostAdapter.getItemCount();
                     if (mCount > 4 && mCount < 12){
-//                        mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-                        mLayoutManager = new GridLayoutManager(getActivity(), 2);
+                        mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+//                        mLayoutManager = new GridLayoutManager(getActivity(), 2);
 
                         mLayoutManager.setAutoMeasureEnabled(true);
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setAdapter(mPostAdapter);
                     }else if (mCount < 4){
-//                        mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-                        mLayoutManager = new GridLayoutManager(getActivity(), 1);
+                        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//                        mLayoutManager = new GridLayoutManager(getActivity(), 2);
 
                         mLayoutManager.setAutoMeasureEnabled(true);
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setAdapter(mPostAdapter);
                     } else if (mCount > 12) {
-//                        mLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-                        mLayoutManager = new GridLayoutManager(getActivity(), 3);
+                        mLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+//                        mLayoutManager = new GridLayoutManager(getActivity(), 3);
 
                         mLayoutManager.setAutoMeasureEnabled(true);
                         mRecyclerView.setLayoutManager(mLayoutManager);

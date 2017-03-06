@@ -50,7 +50,7 @@ public class GroupsActivity extends AppCompatActivity{
         groupKey = bundle.getString("mGroupKey");
         groupPhoto = bundle.getString("groupPhoto");
 
-        imageView = (ImageView) findViewById(R.id.userProfileImageView);
+//        imageView = (ImageView) findViewById(R.id.userProfileImageView);
         groupBg = (ImageView) findViewById(R.id.groupBg);
         autoTypeTextViewGroupName = (AutoTypeTextView) findViewById(R.id.autoTypeTextViewGroupName);
         autoTypeTextViewGroupName.setTextAutoTyping(groupName);

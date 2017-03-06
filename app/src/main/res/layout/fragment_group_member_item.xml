@@ -16,8 +16,8 @@
         app:border_color="@color/AccentLight"
         android:elevation="6dp"
         android:layout_margin="4dp"
-        android:layout_width="70dp"
-        android:layout_height="70dp" />
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
 
     <com.dragankrstic.autotypetextview.AutoTypeTextView
         android:id="@+id/autoTypeTextViewGroupMember"

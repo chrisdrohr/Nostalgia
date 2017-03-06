@@ -1,36 +1,60 @@
 package com.example.rohrlabs.nostalgia.Fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.example.rohrlabs.nostalgia.FragmentUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.rohrlabs.nostalgia.Adapters.GroupsAdapter;
 import com.example.rohrlabs.nostalgia.R;
 
-public class GroupMembersFragment extends android.app.Fragment implements View.OnClickListener{
+public class GroupMembersFragment extends android.app.DialogFragment implements View.OnClickListener{
 
     private static final String TAG = "GroupMembersFragment";
     private FloatingActionButton mFabExit;
+    private String mGroupKey, mGroupImage, mGroupName;
+    private ImageView mImageViewGroupMembers;
 
     public GroupMembersFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View view = inflater.inflate(R.layout.group_members_layout, null);
+        builder.setView(view);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.group_members_layout, container, false);
+        mGroupKey = GroupsAdapter.mGroupKey;
+        mGroupImage = GroupsAdapter.groupPhoto;
+        mGroupName = GroupsAdapter.groupName;
+
+        mImageViewGroupMembers = (ImageView) view.findViewById(R.id.imageViewGroupMembersBg);
+
+        Glide.with(GroupMembersFragment.this)
+                .load(mGroupImage)
+                .priority(Priority.IMMEDIATE)
+                .thumbnail(0.1f)
+                .crossFade()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(mImageViewGroupMembers);
 
         mFabExit = (FloatingActionButton) view.findViewById(R.id.fabExit);
+        mFabExit.setOnClickListener(this);
 
-        getMembersFragment();
-        return view;
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        return alertDialog;
+
     }
 
     @Override
@@ -38,19 +62,20 @@ public class GroupMembersFragment extends android.app.Fragment implements View.O
         int id = view.getId();
         switch (id) {
             case R.id.fabExit:
-
+                dismiss();
+//                getGroupMembersList();
                 break;
 
             default:
         }
     }
 
-    void getMembersFragment () {
-        getChildFragmentManager()
-                .beginTransaction()
-                .add(R.id.groupMemberFragment, FragmentUtils.getGroupMembersList())
-                .commit();
-    }
+//        void getGroupMembersList() {
+//        getFragmentManager()
+//                .beginTransaction()
+//                .add(R.id.groupMemberFragment, FragmentUtils.getGroupMembersList())
+//                .commit();
+//    }
 
     @Override
     public void onDestroyView() {
